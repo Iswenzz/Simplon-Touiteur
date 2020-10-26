@@ -1,0 +1,21 @@
+{
+	"extends": "react-app",
+	"rules": {
+		"explicit-function-return-type": "off",
+		"no-unused-vars": "warn",
+		"no-var-requires": "off",
+		"no-explicit-any": "off",
+		"indent": [
+			"error",
+			"tab"
+		],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+	}
+}
