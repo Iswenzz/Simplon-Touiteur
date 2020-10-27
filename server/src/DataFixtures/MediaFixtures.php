@@ -13,15 +13,15 @@ class MediaFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-		$faker = Factory::create("en_US");
-        $media = new Media();
-        $media->setTweet(null);
-        $media->setDate($faker->dateTime);
-        $media->setAuthor(null);
-        $media->setUrl($faker->imageUrl());
-
-		$manager->persist($media);
-		$manager->flush();
-		$this->addReference(self::MEDIA_REFERENCE, $media);
+//		$faker = Factory::create("en_US");
+//        $media = new Media();
+//        $media->setTweet(null);
+//        $media->setDate($faker->dateTime);
+//        $media->setAuthor(null);
+//        $media->setUrl($faker->imageUrl());
+//
+//		$manager->persist($media);
+//		$manager->flush();
+//		$this->addReference(self::MEDIA_REFERENCE, $media);
     }
 }

@@ -16,20 +16,23 @@ class TweetFixtures extends Fixture
     {
 		$faker = Factory::create("en_US");
 
-		// Hashtag
-		$hashtag = new Hashtag();
-		$hashtag->setDate($faker->dateTime);
-		$hashtag->setTweet(null);
-		$hashtag->setName($faker->name);
-
 		// Tweet
 		$tweet = new Tweet();
 		$tweet->setAuthor(null);
 		$tweet->setCreatedAt($faker->dateTime);
-		$tweet->setContent($faker->text);
-		$tweet->addHashtag($hashtag);
+		$tweet->setContent($faker->text(100));
 
-		$manager->persist($hashtag);
+		// Hashtag
+//		for ($i = 0; $i < 3; $i++)
+//		{
+//			$hashtag = new Hashtag();
+//			$hashtag->setDate($faker->dateTime);
+//			$hashtag->setTweet(null);
+//			$hashtag->setName($faker->name);
+//			$manager->persist($hashtag);
+//			$tweet->addHashtag($hashtag);
+//		}
+
 		$manager->persist($tweet);
         $manager->flush();
         $this->addReference(self::TWEET_REFERENCE, $tweet);

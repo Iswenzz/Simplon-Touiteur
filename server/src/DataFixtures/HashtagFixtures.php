@@ -13,14 +13,14 @@ class HashtagFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-		$faker = Factory::create("en_US");
-		$hashtag = new Hashtag();
-		$hashtag->setDate($faker->dateTime);
-		$hashtag->setTweet(null);
-		$hashtag->setName($faker->name);
-
-		$manager->persist($hashtag);
-		$manager->flush();
-		$this->addReference(self::HASHTAG_REFERENCE, $hashtag);
+//		$faker = Factory::create("en_US");
+//		$hashtag = new Hashtag();
+//		$hashtag->setDate($faker->dateTime);
+//		$hashtag->setTweet(null);
+//		$hashtag->setName($faker->name);
+//
+//		$manager->persist($hashtag);
+//		$manager->flush();
+//		$this->addReference(self::HASHTAG_REFERENCE, $hashtag);
     }
 }

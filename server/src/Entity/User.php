@@ -25,29 +25,14 @@ class User
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $bio;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $birthdate;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Country::class, cascade={"persist", "remove"})
-     */
-    private $location;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -55,14 +40,19 @@ class User
     private $email;
 
     /**
-     * @ORM\OneToOne(targetEntity=Media::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Country::class, cascade={"persist", "remove"})
      */
-    private $avatar;
+    private $location;
 
     /**
-     * @ORM\OneToOne(targetEntity=Media::class, cascade={"persist", "remove"})
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $banner;
+    private $birthdate;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Tweet::class, mappedBy="author")
@@ -96,7 +86,7 @@ class User
         return $this->bio;
     }
 
-    public function setBio(string $bio): self
+    public function setBio(?string $bio): self
     {
         $this->bio = $bio;
 
@@ -108,45 +98,9 @@ class User
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getBirthdate(): ?\DateTimeInterface
-    {
-        return $this->birthdate;
-    }
-
-    public function setBirthdate(\DateTimeInterface $birthdate): self
-    {
-        $this->birthdate = $birthdate;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getLocation(): ?Country
-    {
-        return $this->location;
-    }
-
-    public function setLocation(?Country $location): self
-    {
-        $this->location = $location;
 
         return $this;
     }
@@ -163,26 +117,38 @@ class User
         return $this;
     }
 
-    public function getAvatar(): ?Media
+    public function getLocation(): ?Country
     {
-        return $this->avatar;
+        return $this->location;
     }
 
-    public function setAvatar(?Media $avatar): self
+    public function setLocation(?Country $location): self
     {
-        $this->avatar = $avatar;
+        $this->location = $location;
 
         return $this;
     }
 
-    public function getBanner(): ?Media
+    public function getBirthdate(): ?\DateTimeInterface
     {
-        return $this->banner;
+        return $this->birthdate;
     }
 
-    public function setBanner(?Media $banner): self
+    public function setBirthdate(?\DateTimeInterface $birthdate): self
     {
-        $this->banner = $banner;
+        $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
