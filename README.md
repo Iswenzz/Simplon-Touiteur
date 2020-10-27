@@ -32,37 +32,37 @@ Le projet est à rendre sur Gitlab ainsi que sur Simplonline. La deadline finale
 
 ## Installation
 
-Clone the repo
-git clone https://github.com/Iswenzz/Simplon-Touiteur.git
-npm install
-composer install
-lancer le serveur de développement de Symfony: symfony serve
-git init
-Pull the code from the repository
+Clone the repo.
+git clone https://github.com/Iswenzz/Simplon-Touiteur.git .
+npm install.
+composer install.
+lancer le serveur de développement de Symfony: symfony serve.
+git init.
+Pull the code from the repository.
 
 ## Contributing
 
-Fork the Project
-Create your Feature Branch (git checkout -b feature/AmazingFeature)
-Commit your Changes (git commit -m 'Add some AmazingFeature')
-Push to the Branch (git push origin feature/AmazingFeature)
-Open a Pull Request
+Fork the Project.
+Create your Feature Branch (git checkout -b feature/AmazingFeature).
+Commit your Changes (git commit -m 'Add some AmazingFeature').
+Push to the Branch (git push origin feature/AmazingFeature).
+Open a Pull Request.
 
 
 ## Built With
 
-PHP7
-Symfony
-REACT
-Javascript
-Webpack-Encore
-MariaDB10
+* PHP7
+* Symfony
+* REACT
+* Javascript
+* Webpack-Encore
+* MariaDB10
 
 
 ## Authors
 
-Déborrah Brunier
-Estefania Vila
-Majdeddine ALHAFEZ
-Alexis Nardiello
-Hayette Lachhab
+Déborrah Brunier.
+Estefania Vila.
+Majdeddine ALHAFEZ.
+Alexis Nardiello.
+Hayette Lachhab.
