@@ -4,7 +4,7 @@ body {
 }
 
 
-.Logo {
+.Header {
   min-height: 10vh;
   min-width: 80vw;
   display: flex;
@@ -14,6 +14,11 @@ body {
 .Touiteur{
   height: 32px;
   width: 32px;
+}
+
+.Thread {
+  display: flex;
+  justify-content: center;
 }
 
 .App-header {

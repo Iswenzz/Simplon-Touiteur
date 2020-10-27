@@ -12,13 +12,28 @@ const App = () =>
 {
 	return (
 		<Container>
-			<Row>
-				<div className="Logo"><img src="./assets/bird.png" className="Touiteur"></img></div>
+			{/* HEADER LOGO */}
+			<Row className="Header mt-4">
+				<div>
+					<img src="./assets/bird.png" className="Touiteur" role="presentation"></img>
+				</div>
 
 			</Row>
-			<Row>
-				<div>2 of 3</div>
+
+			{/* THREAD */}
+			<Row className="Thread">
+				<Col>
+					<div><img src="./assets/avatar.png" height="100" width="100" title=""></img></div>
+				</Col>
+
+				<Col>
+					<div>NOM</div>
+					<div>Description</div>
+				</Col>
+
 			</Row>
+
+			{/* NAVBAR */}
 			<Row>
 				<div>3 of 3</div>
 			</Row>
