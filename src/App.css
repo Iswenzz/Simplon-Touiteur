@@ -1,16 +1,19 @@
-.App {
-  text-align: center;
+body {
+  background-color: #282c34;
+  color: white;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+.Logo {
+  min-height: 10vh;
+  min-width: 80vw;
+  display: flex;
+  justify-content: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.Touiteur{
+  height: 32px;
+  width: 32px;
 }
 
 .App-header {
@@ -26,13 +29,4 @@
 
 .App-link {
   color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
