@@ -29,3 +29,40 @@ Ce projet sera réalisé en groupe de 4 personnes. Vous devez suivre la méthodo
 Les formateurs jouent le rôle de client / Product Owner. Ils pourront vous demandez d’ajouter des fonctionnalités ou d’en accélérer d’autres. C’est à eux que vous devez poser des questions sur les fonctionnalités demandées.
 Ce projet sera celui que vous allez présenter lors de votre certification Agilité. Veuillez à bien conserver tous les documents concernant la mise en place d’une telle organisation (qui, quand, comment, pourquoi)
 Le projet est à rendre sur Gitlab ainsi que sur Simplonline. La deadline finale est fixée au vendredi 6 novembre 2020 à 17h30. Vous aurez toutes les journées (matin ET après-midi) pour travailler sur ce projet. Une présentation complète de ce projet sera fait à l’ensemble de la promo.
+
+## Installation
+
+Clone the repo
+git clone https://github.com/Iswenzz/Simplon-Touiteur.git
+npm install
+composer install
+lancer le serveur de développement de Symfony: symfony serve
+git init
+Pull the code from the repository
+
+## Contributing
+
+Fork the Project
+Create your Feature Branch (git checkout -b feature/AmazingFeature)
+Commit your Changes (git commit -m 'Add some AmazingFeature')
+Push to the Branch (git push origin feature/AmazingFeature)
+Open a Pull Request
+
+
+## Built With
+
+PHP7
+Symfony
+REACT
+Javascript
+Webpack-Encore
+MariaDB10
+
+
+## Authors
+
+Déborrah Brunier
+Estefania Vila
+Majdeddine ALHAFEZ
+Alexis Nardiello
+Hayette Lachhab
