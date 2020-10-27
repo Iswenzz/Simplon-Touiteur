@@ -1,3 +1,9 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+
+// import des composants bootstrap
+import { Container, Row, Col, Form } from "react-bootstrap";
+// import de jquery
+import $ from "jquery";
 import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
@@ -5,17 +11,20 @@ import React from "react";
 const App = () =>
 {
 	return (
-		<div className="App">
-			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<p>
-					Edit <code>src/App.js</code> and save to reload.
-				</p>
-				<a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-					Learn React
-				</a>
-			</header>
-		</div>
+		<Container>
+			<Row>
+				<div>1 of 3</div>
+
+
+			</Row>
+			<Row>
+				<div>2 of 3</div>
+			</Row>
+			<Row>
+				<div>3 of 3</div>
+			</Row>
+		</Container>
+
 	);
 };
 
