@@ -29,10 +29,11 @@ class HashtagFixtures extends Fixture implements DependentFixtureInterface
 			$hashtag->setName($faker->name);
 			$tweet->addHashtag($hashtag);
 			$manager->persist($hashtag);
+			if (!$this->hasReference(self::HASHTAG_REFERENCE))
+				$this->addReference(self::HASHTAG_REFERENCE, $hashtag);
 		}
 
 		$manager->flush();
-		$this->addReference(self::HASHTAG_REFERENCE, $hashtag);
     }
 
 	public function getDependencies(): array
