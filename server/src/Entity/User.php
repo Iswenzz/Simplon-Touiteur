@@ -74,12 +74,24 @@ class User
      */
     private $retweets;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Following::class, mappedBy="user")
+     */
+    private $followings;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Follower::class, mappedBy="user")
+     */
+    private $followers;
+
     public function __construct()
     {
         $this->tweets = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->retweets = new ArrayCollection();
+        $this->followings = new ArrayCollection();
+        $this->followers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -285,6 +297,66 @@ class User
             // set the owning side to null (unless already changed)
             if ($retweet->getUser() === $this) {
                 $retweet->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Following[]
+     */
+    public function getFollowings(): Collection
+    {
+        return $this->followings;
+    }
+
+    public function addFollowing(Following $following): self
+    {
+        if (!$this->followings->contains($following)) {
+            $this->followings[] = $following;
+            $following->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollowing(Following $following): self
+    {
+        if ($this->followings->removeElement($following)) {
+            // set the owning side to null (unless already changed)
+            if ($following->getUser() === $this) {
+                $following->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Follower[]
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    public function addFollower(Follower $follower): self
+    {
+        if (!$this->followers->contains($follower)) {
+            $this->followers[] = $follower;
+            $follower->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollower(Follower $follower): self
+    {
+        if ($this->followers->removeElement($follower)) {
+            // set the owning side to null (unless already changed)
+            if ($follower->getUser() === $this) {
+                $follower->setUser(null);
             }
         }
 
