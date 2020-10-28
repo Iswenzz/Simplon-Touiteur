@@ -27,7 +27,6 @@ class HashtagFixtures extends Fixture implements DependentFixtureInterface
 			$hashtag->setDate($faker->dateTime);
 			$hashtag->setTweet($tweet);
 			$hashtag->setName($faker->name);
-			$tweet->addHashtag($hashtag);
 			$manager->persist($hashtag);
 			if (!$this->hasReference(self::HASHTAG_REFERENCE))
 				$this->addReference(self::HASHTAG_REFERENCE, $hashtag);
