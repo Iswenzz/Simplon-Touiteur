@@ -4,37 +4,39 @@ namespace App\DataFixtures;
 
 use App\Entity\Hashtag;
 use App\Entity\Tweet;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class TweetFixtures extends Fixture
+class TweetFixtures extends Fixture implements DependentFixtureInterface
 {
 	public const TWEET_REFERENCE = "tweet-ref";
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
+		/**
+		 * @var User $user
+		 */
 		$faker = Factory::create("en_US");
+		$user = $this->getReference(UserFixtures::USER_REFERENCE);
 
 		// Tweet
 		$tweet = new Tweet();
-		$tweet->setAuthor(null);
+		$tweet->setAuthor($user);
 		$tweet->setCreatedAt($faker->dateTime);
 		$tweet->setContent($faker->text(100));
-
-		// Hashtag
-//		for ($i = 0; $i < 3; $i++)
-//		{
-//			$hashtag = new Hashtag();
-//			$hashtag->setDate($faker->dateTime);
-//			$hashtag->setTweet(null);
-//			$hashtag->setName($faker->name);
-//			$manager->persist($hashtag);
-//			$tweet->addHashtag($hashtag);
-//		}
 
 		$manager->persist($tweet);
         $manager->flush();
         $this->addReference(self::TWEET_REFERENCE, $tweet);
     }
+
+	public function getDependencies(): array
+	{
+		return [
+			UserFixtures::class
+		];
+	}
 }

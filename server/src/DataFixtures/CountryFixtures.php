@@ -11,7 +11,7 @@ class CountryFixtures extends Fixture
 {
 	public const COUNTRY_REFERENCE = "country-ref";
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
 		$faker = Factory::create("en_US");
 		$country = new Country();

@@ -11,7 +11,7 @@ class MediaFixtures extends Fixture
 {
 	public const MEDIA_REFERENCE = "media-ref";
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
 //		$faker = Factory::create("en_US");
 //        $media = new Media();
