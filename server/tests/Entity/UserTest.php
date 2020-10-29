@@ -2,6 +2,8 @@
 
 namespace App\Tests\Entity;
 
+use App\Entity\Country;
+use App\Entity\Like;
 use App\Entity\User;
 use App\Entity\Tweet;
 use App\Entity\Retweet;
@@ -19,6 +21,12 @@ class UserTest extends TestCase
 	{
 		parent::__construct($name, $data, $dataName);
 		$this->user = new User();
+	}
+
+	public function testCtor()
+	{
+		$user = new User();
+		$this->assertTrue(true);
 	}
     
     public function testId()
@@ -48,17 +56,26 @@ class UserTest extends TestCase
         $this->assertEquals(false, count($this->user->getTweets()) > 0);
     }
 
+	public function testEmail()
+	{
+		$this->user->setEmail("alexis.nardiello.simplon@gmail.com");
+		$this->assertEquals($this->user->getEmail(), filter_var($this->user->getEmail(), FILTER_VALIDATE_EMAIL));
+		$this->user->setEmail("alexis.nardiello.simplon@@gmail.com");
+		$this->assertEquals(false, filter_var($this->user->getEmail(), FILTER_VALIDATE_EMAIL));
+    }
+
     public function testName()
 	{
-		$this->assertTrue(true, $this->user->getName() >= 0);
+		$this->user->setName("Test");
+		$this->assertTrue(true, strlen($this->user->getName()) >= 0);
     }
 
     public function testUsername()
 	{
+		$this->user->setUsername("Test");
 		$this->assertTrue(true, $this->user->getUsername() >= 0);
     }
 
-    
     public function testRetweet()
     {
         $retweet = new Retweet();
@@ -69,14 +86,27 @@ class UserTest extends TestCase
         $this->assertEquals(false, count($this->user->getRetweets()) > 0);
     }
 
+	public function testLike()
+	{
+		$like = new Like();
+
+		$this->user->addLike($like);
+		$this->assertEquals(true, count($this->user->getLikes()) > 0);
+		$this->user->removeLike($like);
+		$this->assertEquals(false, count($this->user->getLikes()) > 0);
+	}
+
     public function testBio()
 	{
-		$this->assertTrue(true, $this->user->getBio() >= 0);
+		$this->user->setBio("Test");
+		$this->assertTrue(true, strlen($this->user->getBio()) >= 0);
     }
 
     public function testLocation()
 	{
-		$this->assertTrue(true, $this->user->getLocation() >= 0);
+		$country = new Country();
+		$this->user->setLocation($country);
+		$this->assertNotNull($this->user->getLocation());
     }
 
     public function testComments()

@@ -34,6 +34,7 @@ class CommentTest extends TestCase
 
     public function testContent()
 	{
+		$this->comment->setContent("Test");
 		$this->assertTrue(true, $this->comment->getContent() >= 0);
     }
 }
