@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Entity;
 
 use App\Entity\Country;
-use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class CountryTest extends TestCase
