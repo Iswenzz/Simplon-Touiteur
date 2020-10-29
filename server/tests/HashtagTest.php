@@ -20,6 +20,8 @@ class HashtagTest extends TestCase
     {
     	$this->hashtag->setName("Test");
 		$this->assertEquals(true, preg_match("/^[a-zA-Z0-9]*$/", $this->hashtag->getName()));
+		$this->hashtag->setName("Téést_");
+		$this->assertEquals(false, preg_match("/^[a-zA-Z0-9]*$/", $this->hashtag->getName()));
     }
 
 	public function testDate()
