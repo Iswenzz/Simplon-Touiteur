@@ -2,8 +2,14 @@ import React from "react";
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import {ThemeProvider, CssBaseline} from "@material-ui/core";
 import Home from "./containers/Home/Home";
+import {BrowserRouter as Router} from "react-router-dom";
+import {Switch, Route} from "react-router";
 import "./Common.scss";
 
+/**
+ * Custom material theme + responsive font.
+ * @type {Theme}
+ */
 const theme = responsiveFontSizes(createMuiTheme({
 	typography: {
 		subtitle1: {
@@ -91,12 +97,23 @@ const theme = responsiveFontSizes(createMuiTheme({
 	},
 }));
 
+/**
+ * The touiteur application.
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export const App = () =>
 {
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<Home />
+			<Router>
+				<Switch>
+					<Route path="/">
+						<Home />
+					</Route>
+				</Switch>
+			</Router>
 		</ThemeProvider>
 	);
 };
