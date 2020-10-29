@@ -66,6 +66,7 @@ The first step in our app is to register and log in with an active email and pas
 * PHP7
 * Symfony
 * React
+* Material-UI
 * Javascript
 * SASS
 * MariaDB
