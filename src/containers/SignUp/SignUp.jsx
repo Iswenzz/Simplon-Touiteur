@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import TouiteurLogo from "../../assets/images/bird.png";
 import "./SignUp.scss";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,9 +42,7 @@ export function SignUp() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+      <img width={64} height={64} src={TouiteurLogo} alt={"Touiteur Logo"} className="touiteur--style"/>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
@@ -113,7 +112,7 @@ export function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" className="link--style">
                 Already have an account? Sign in
               </Link>
             </Grid>
