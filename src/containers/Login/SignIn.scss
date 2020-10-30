@@ -1,0 +1,24 @@
+.btn {
+    margin-bottom: 5px!important;
+    background-color: #1DA2F1!important;
+    &:hover{
+        color: #fff !important;
+        background-color: #0078ff!important;
+        text-decoration: none!important;
+    }
+}
+
+
+.input {
+    border-color: #1DA2F1!important;
+    
+}
+
+.link--style {
+    color: #fff!important;
+    text-decoration: none!important;
+    &:hover{
+        color: #1DA2F1 !important;
+        text-decoration: underline!important;
+    }
+}

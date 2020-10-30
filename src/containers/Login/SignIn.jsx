@@ -1,11 +1,9 @@
 import React from "react";
-import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 // import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -41,7 +39,7 @@ export function SignIn() {
 			<Grid container direction={"column"} justify={"center"} alignItems={"center"}>
 				<img width={64} height={64} src={TouiteurLogo} alt={"Touiteur Logo"} />
 				<Typography variant={"h3"} component={"h1"}>
-			Log In
+			LOGIN
 				</Typography>
 			</Grid>
 			<div className={classes.paper}>
@@ -67,24 +65,26 @@ export function SignIn() {
 						type="password"
 						id="password"
 						autoComplete="current-password"
+						className="input"
 					/>
 					<Button
 						type="submit"
 						fullWidth
 						variant="contained"
 						color="primary"
-						className={classes.submit}
+						className= "btn"
+						// className= {classes.submit}
 					>
 						Log in
 					</Button>
 					<Grid container>
 						<Grid item xs>
-							<Link href="#" variant="body2">
+							<Link href="#" variant="body2" className="link--style">
 								Forgot password?
 							</Link>
 						</Grid>
 						<Grid item>
-							<Link href="#" variant="body2">
+							<Link href="#" variant="body2" className="link--style">
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>
