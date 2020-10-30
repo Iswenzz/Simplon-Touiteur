@@ -5,6 +5,7 @@ import Home from "./containers/Home/Home";
 import {BrowserRouter as Router} from "react-router-dom";
 import {Switch, Route} from "react-router";
 import "./Common.scss";
+import Feed from "./containers/Feed/Feed";
 
 /**
  * Custom material theme + responsive font.
@@ -109,9 +110,8 @@ export const App = () =>
 			<CssBaseline />
 			<Router>
 				<Switch>
-					<Route path="/">
-						<Home />
-					</Route>
+					<Route path="/feed" children={<Feed />} />
+					<Route path="/" children={<Home />} />
 				</Switch>
 			</Router>
 		</ThemeProvider>
