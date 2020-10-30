@@ -1,0 +1,40 @@
+.tweetBox {
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+.tweetBox > form {
+    display: flex;
+    flex-direction: column;
+}
+
+.tweetBox__input {
+    padding: 20px;
+    display: flex;
+}
+
+#row
+{
+    width:100%;
+    text-align: center;
+}
+.col
+{
+    margin-left: 2px;
+    display: inline-block;
+    background-color: rgb(83, 83, 243);
+    border-radius: 3px;
+    border: black;
+}
+
+.margin {
+    margin: 1em;
+}
+
+.btnAdd {
+    margin-right: 5px;
+    display: inline-block;
+    background-color: rgb(83, 83, 243);
+    border-radius: 3px;
+    border: black;
+}

@@ -32,6 +32,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setBirthdate($faker->dateTime);
         $user->setEmail($faker->email);
         $user->setUsername($faker->userName);
+        $user->setPassword($faker->password);
 
 		$manager->persist($user);
         $manager->flush();
