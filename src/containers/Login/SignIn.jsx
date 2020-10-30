@@ -17,10 +17,6 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		alignItems: "center",
 	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
-	},
 	form: {
 		width: "100%", // Fix IE 11 issue.
 		marginTop: theme.spacing(1),
@@ -37,7 +33,7 @@ export function SignIn() {
 
 		<Container className={"signin"} component="main" maxWidth="xs">
 			<Grid container direction={"column"} justify={"center"} alignItems={"center"}>
-				<img width={64} height={64} src={TouiteurLogo} alt={"Touiteur Logo"} />
+				<img width={64} height={64} src={TouiteurLogo} alt={"Touiteur Logo"} className="touiteur--style"/>
 				<Typography variant={"h3"} component={"h1"}>
 			LOGIN
 				</Typography>
