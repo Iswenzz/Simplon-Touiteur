@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
+// import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import "./SignIn.scss";
+import TouiteurLogo from "../../assets/images/bird.png";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -35,14 +36,15 @@ export function SignIn() {
 	const classes = useStyles();
 
 	return (
+
 		<Container className={"signin"} component="main" maxWidth="xs">
-			<div className={classes.paper}>
-				<Avatar className={classes.avatar}>
-					<LockOutlinedIcon />
-				</Avatar>
-				<Typography component="h1" variant="h5">
-					LOG IN
+			<Grid container direction={"column"} justify={"center"} alignItems={"center"}>
+				<img width={64} height={64} src={TouiteurLogo} alt={"Touiteur Logo"} />
+				<Typography variant={"h3"} component={"h1"}>
+			Log In
 				</Typography>
+			</Grid>
+			<div className={classes.paper}>
 				<form className={classes.form} noValidate>
 					<TextField
 						variant="outlined"
