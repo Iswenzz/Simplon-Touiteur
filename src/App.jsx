@@ -6,12 +6,19 @@ import {BrowserRouter as Router} from "react-router-dom";
 import {Switch, Route} from "react-router";
 import "./Common.scss";
 import Feed from "./containers/Feed/Feed";
+import SignIn from "./containers/Login/SignIn";
 
 /**
  * Custom material theme + responsive font.
  * @type {Theme}
  */
 const theme = responsiveFontSizes(createMuiTheme({
+	palette: {
+		text: {
+			primary: "#DCDCDC",
+			secondary: "#DCDCDC",
+		}
+	},
 	typography: {
 		subtitle1: {
 			fontFamily: "Roboto",
@@ -106,15 +113,18 @@ const theme = responsiveFontSizes(createMuiTheme({
 export const App = () =>
 {
 	return (
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			<Router>
-				<Switch>
-					<Route path="/feed" children={<Feed />} />
-					<Route path="/" children={<Home />} />
-				</Switch>
-			</Router>
-		</ThemeProvider>
+		<React.StrictMode>
+			<ThemeProvider theme={theme}>
+				<CssBaseline />
+				<Router>
+					<Switch>
+						<Route path="/signin" children={<SignIn />} />
+						<Route path="/feed" children={<Feed />} />
+						<Route path="/" children={<Home />} />
+					</Switch>
+				</Router>
+			</ThemeProvider>
+		</React.StrictMode>
 	);
 };
 
