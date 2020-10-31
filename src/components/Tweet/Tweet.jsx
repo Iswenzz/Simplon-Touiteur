@@ -28,11 +28,14 @@ export const Tweet = (props) =>
 					</Grid>
 					<Grid item xs={9}>
 						<Grid container direction={"column"}>
-							<Typography variant={"h5"} component={"h5"}>
-								<Link to={`/profile/${props.user.id || 0}`}>
-									{props.user.name} @{props.user.username}
-								</Link>
-							</Typography>
+							<Link to={`/profile/${props.user.id || 0}`}>
+								<Typography className={"tweet-card-name"} variant={"h5"} component={"span"}>
+									{props.user.name}
+								</Typography>
+								<Typography className={"tweet-card-username"} variant={"h5"} component={"span"}>
+									@{props.user.username}
+								</Typography>
+							</Link>
 							<Typography variant={"subtitle1"} component={"p"} paragraph>
 								{props.tweet.content}
 							</Typography>

@@ -12,4 +12,22 @@
 			background-color: #2d323b;
 		}
 	}
+
+	#{&}-card-name {
+		color: whitesmoke;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	#{&}-card-username {
+		margin: 0 0.5em;
+		color: #8097b0;
+		font-size: 1.2em;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 }
