@@ -1,5 +1,6 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
+import Link from "../Link/Link";
 
 export class Media extends PureComponent
 {
@@ -10,10 +11,15 @@ export class Media extends PureComponent
 
 	render()
 	{
-		return (
+		return !this.props?.noredirect ? (
+			<Link to={`/media/${this.props.id || 0}`} component={"picture"} className={this.props.className}>
+				<img width={this.props.width || "100%"} height={this.props.height || "auto"}
+					 alt={"Profile"} src={this.props.media} />
+			</Link>
+		) : (
 			<picture className={this.props.className}>
-				<img width={this.props.width} height={this.props.height} alt={"Profile"}
-					 src={this.props.media} />
+				<img width={this.props.width || "100%"} height={this.props.height || "auto"}
+					 alt={"Profile"} src={this.props.media} />
 			</picture>
 		);
 	}
@@ -27,7 +33,8 @@ Media.propTypes = {
 	]),
 	id: PropTypes.number,
 	width: PropTypes.number,
-	height: PropTypes.number
+	height: PropTypes.number,
+	noredirect: PropTypes.bool
 };
 
 export default Media;

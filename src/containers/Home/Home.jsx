@@ -23,7 +23,7 @@ export const Home = () =>
 			<TouiteurLogo />
 			<Tweet user={{ name: "Red", username: "redred", date: "26/10/2020"}}
 				   tweet={{ content: "I love you more than pizza 🍕" }}
-				   medias={[ <Media media={TestImage} width={"100%"} height={150} /> ]} />
+				   medias={[ <Media media={TestImage} /> ]} />
 			<Tweet user={{ name: "Yellow", username: "yellowyellow", date: "26/10/2020"}}
 				   tweet={{ content: "Symfony is my fav framework !!" }} />
 			<Tweet user={{ name: "Green", username: "greengreen", date: "26/10/2020"}}
