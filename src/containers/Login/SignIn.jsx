@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -23,6 +24,25 @@ const useStyles = makeStyles((theme) => ({
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
+
+	cssLabel: {
+		color : "white"
+	  },
+	
+	  cssOutlinedInput: {
+		"&$cssFocused $notchedOutline": {
+		  borderColor: "${theme.palette.primary.main} !important",
+		}
+	  },
+	
+	  cssFocused: {},
+	
+	  notchedOutline: {
+		borderWidth: "1px",
+		borderColor: "white !important"
+	  },
+
+
 }));
 
 export function SignIn() {
@@ -49,6 +69,21 @@ export function SignIn() {
 						name="email"
 						autoComplete="email"
 						autoFocus
+						InputLabelProps={{
+							classes: {
+							  root: classes.cssLabel,
+							  focused: classes.cssFocused,
+							},
+						  }}
+
+						  InputProps={{
+							classes: {
+							  root: classes.cssOutlinedInput,
+							  focused: classes.cssFocused,
+							  notchedOutline: classes.notchedOutline,
+							},
+							inputMode: "numeric"
+						  }}
 					/>
 					<TextField
 						variant="outlined"
@@ -60,7 +95,21 @@ export function SignIn() {
 						type="password"
 						id="password"
 						autoComplete="current-password"
-						className="input"
+						InputLabelProps={{
+							classes: {
+							  root: classes.cssLabel,
+							  focused: classes.cssFocused,
+							},
+						  }}
+
+						  InputProps={{
+							classes: {
+							  root: classes.cssOutlinedInput,
+							  focused: classes.cssFocused,
+							  notchedOutline: classes.notchedOutline,
+							},
+							inputMode: "numeric"
+						  }}
 					/>
 					<Button
 						type="submit"
