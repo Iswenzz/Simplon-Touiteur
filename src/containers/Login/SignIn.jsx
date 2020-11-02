@@ -1,14 +1,13 @@
+/* eslint-disable no-template-curly-in-string */
 import React from "react";
-import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import TouiteurLogo from "../../assets/images/bird.png";
 import "./SignIn.scss";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,31 +17,47 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		alignItems: "center",
 	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
-	},
 	form: {
 		width: "100%", // Fix IE 11 issue.
-		marginTop: theme.spacing(1),
+		marginTop: theme.spacing(1)
 	},
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
+
+	cssLabel: {
+		color : "white"
+	  },
+	
+	  cssOutlinedInput: {
+		"&$cssFocused $notchedOutline": {
+		  borderColor: "${theme.palette.primary.main} !important",
+		}
+	  },
+	
+	  cssFocused: {},
+	
+	  notchedOutline: {
+		borderWidth: "1px",
+		borderColor: "white !important"
+	  },
+
+
 }));
 
 export function SignIn() {
 	const classes = useStyles();
 
 	return (
+
 		<Container className={"signin"} component="main" maxWidth="xs">
-			<div className={classes.paper}>
-				<Avatar className={classes.avatar}>
-					<LockOutlinedIcon />
-				</Avatar>
-				<Typography component="h1" variant="h5">
-					LOG IN
+			<Grid container direction={"column"} justify={"center"} alignItems={"center"}>
+				<img width={64} height={64} src={TouiteurLogo} alt={"Touiteur Logo"} className="touiteur--style"/>
+				<Typography variant={"h3"} component={"h1"}>
+					LOGIN
 				</Typography>
+			</Grid>
+			<div className={classes.paper}>
 				<form className={classes.form} noValidate>
 					<TextField
 						variant="outlined"
@@ -54,6 +69,21 @@ export function SignIn() {
 						name="email"
 						autoComplete="email"
 						autoFocus
+						InputLabelProps={{
+							classes: {
+							  root: classes.cssLabel,
+							  focused: classes.cssFocused,
+							},
+						  }}
+
+						  InputProps={{
+							classes: {
+							  root: classes.cssOutlinedInput,
+							  focused: classes.cssFocused,
+							  notchedOutline: classes.notchedOutline,
+							},
+							inputMode: "numeric"
+						  }}
 					/>
 					<TextField
 						variant="outlined"
@@ -65,24 +95,40 @@ export function SignIn() {
 						type="password"
 						id="password"
 						autoComplete="current-password"
+						InputLabelProps={{
+							classes: {
+							  root: classes.cssLabel,
+							  focused: classes.cssFocused,
+							},
+						  }}
+
+						  InputProps={{
+							classes: {
+							  root: classes.cssOutlinedInput,
+							  focused: classes.cssFocused,
+							  notchedOutline: classes.notchedOutline,
+							},
+							inputMode: "numeric"
+						  }}
 					/>
 					<Button
 						type="submit"
 						fullWidth
 						variant="contained"
 						color="primary"
-						className={classes.submit}
+						className= "btn"
+						// className= {classes.submit}
 					>
 						Log in
 					</Button>
 					<Grid container>
 						<Grid item xs>
-							<Link href="#" variant="body2">
+							<Link href="#" variant="body2" className="link--style">
 								Forgot password?
 							</Link>
 						</Grid>
 						<Grid item>
-							<Link href="#" variant="body2">
+							<Link href="#" variant="body2" className="link--style">
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>

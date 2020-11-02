@@ -14,6 +14,9 @@ import SignIn from "./containers/Login/SignIn";
  */
 const theme = responsiveFontSizes(createMuiTheme({
 	palette: {
+		primary: {
+			main: "#1DA2F1"
+		},
 		text: {
 			primary: "#DCDCDC",
 			secondary: "#DCDCDC",
