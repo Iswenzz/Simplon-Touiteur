@@ -1,5 +1,10 @@
+@import "../../Responsive";
+
 .touiteur-logo {
 	margin-top: 1em;
-	//margin-bottom: 6em;
 	cursor: pointer;
+
+	@include media(tablet_mobile, portrait) {
+		margin-top: 0;
+	}
 }

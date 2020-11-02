@@ -35,7 +35,8 @@ class RegistrationController extends AbstractController
         $user = new User();
 		$data = json_decode($request->getContent(), true);
 
-        if (isset($data["name"]) && isset($data["username"]) && isset($data["password"]) && isset($data["email"]))
+        if (isset($data["firstname"]) && isset($data["lastname"]) && isset($data["username"])
+			&& isset($data["password"]) && isset($data["email"]))
         {
             // encode the plain password
             $user->setPassword(
@@ -45,7 +46,7 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $user->setName($data["name"]);
+            $user->setName($data["firstname"] . " " . $data["lastname"]);
             $user->setBirthdate($data["birthdate"] ?? null);
             $user->setCreatedAt(new DateTime("NOW"));
             $user->setEmail($data["email"]);
@@ -64,6 +65,6 @@ class RegistrationController extends AbstractController
         }
         return $this->json([
         	"success" => false
-		], );
+		], 400);
     }
 }

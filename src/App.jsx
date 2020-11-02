@@ -15,6 +15,7 @@ import SignUp from "./containers/SignUp/SignUp";
  */
 const theme = responsiveFontSizes(createMuiTheme({
 	palette: {
+		type: "dark",
 		primary: {
 			main: "#1DA2F1"
 		},
@@ -108,12 +109,10 @@ const theme = responsiveFontSizes(createMuiTheme({
 		},
 		MuiOutlinedInput: {
 			root: {
-				"&$focused": {
-					borderColor: "whitesmoke"
-				}
+				borderColor: "whitesmoke !important",
 			},
 			notchedOutline: {
-				borderColor: "whitesmoke"
+				borderColor: "whitesmoke !important",
 			}
 		}
 	},

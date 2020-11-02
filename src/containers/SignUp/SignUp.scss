@@ -1,23 +1,9 @@
-.touiteur--style{
-    margin-top: 1em;
-}
+@import "../../Responsive";
 
-.btn {
-    margin-bottom: 5px!important;
-    background-color: #1DA2F1!important;
-    &:hover{
-        color: #fff !important;
-        background-color: #0078ff!important;
-        text-decoration: none!important;
-    }
-}
+.signup {
+	margin-top: 3em;
 
-
-.link--style {
-    color: #fff!important;
-    text-decoration: none!important;
-    &:hover{
-        color: #1DA2F1 !important;
-        text-decoration: underline!important;
-    }
+	@include media(tablet_mobile, portrait) {
+		margin-top: 1em;
+	}
 }

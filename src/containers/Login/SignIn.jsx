@@ -1,18 +1,19 @@
 /* eslint-disable no-template-curly-in-string */
 import React from "react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+import { Formik, Field, Form } from "formik";
+import { TextField } from "formik-material-ui";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Link from "../../components/Link/Link";
-import "./SignIn.scss";
 import TouiteurLogo from "../../components/TouiteurLogo/TouiteurLogo";
+import "./SignIn.scss";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
-		marginTop: theme.spacing(8),
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
@@ -26,71 +27,98 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
+export const signInFormInitial = {
+	email: "",
+	password: ""
+};
+
 export const SignIn = () =>
 {
 	const classes = useStyles();
 
 	/**
-	 * On form submit callback.
-	 * @param e - The form event.
+	 * Log the user.
 	 */
-	const onSubmit = (e) =>
+	const onSubmit = async (values, { setSubmitting }) =>
 	{
-		e.preventDefault();
+		// if the form as valid information send a post req
+		if (Object.values(values).every(item => item !== undefined && item !== null))
+		{
+			try
+			{
+				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/login`, {
+					...values
+				});
+				console.log(response);
+			}
+			catch (err)
+			{
+				console.log(err);
+			}
+		}
 	};
-
 	return (
 		<Container className={"signin"} component="main" maxWidth="xs">
 			<div className={classes.paper}>
 				<TouiteurLogo />
-				<Typography variant={"h3"} component={"h1"}>
+				<Typography className={"page-header"} variant={"h3"} component={"h1"}>
 					LOGIN
 				</Typography>
-				<form className={classes.form} onSubmit={onSubmit}>
-					<TextField
-						variant="outlined"
-						margin="normal"
-						required
-						fullWidth
-						id="email"
-						label="Email Address"
-						name="email"
-						autoComplete="email"
-						autoFocus
-					/>
-					<TextField
-						variant="outlined"
-						margin="normal"
-						required
-						fullWidth
-						name="password"
-						label="Password"
-						type="password"
-						id="password"
-						autoComplete="current-password"
-					/>
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className= "btn"
-					>
-						Log in
-					</Button>
-					<Grid container>
-						<Grid item xs>
-							<Link to={"/forgot"}>
-								Forgot password?
-							</Link>
+				<Formik initialValues={signInFormInitial} onSubmit={onSubmit}>
+					<Form className={classes.form}>
+						<Grid container spacing={2}>
+							<Grid item xs={12}>
+								<Field
+									component={TextField}
+									variant="outlined"
+									required
+									fullWidth
+									id="email"
+									label="Email Address"
+									name="email"
+									autoComplete="email"
+									autoFocus
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<Field
+									component={TextField}
+									variant="outlined"
+									required
+									fullWidth
+									name="password"
+									label="Password"
+									type="password"
+									id="password"
+									autoComplete="current-password"
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<Button
+									type="submit"
+									fullWidth
+									variant="contained"
+									color="primary"
+									className="btn"
+								>
+									Log in
+								</Button>
+							</Grid>
 						</Grid>
-						<Grid item>
-							<Link to={"/signup"}>
-								Don't have an account? Sign Up
-							</Link>
+						<Grid container>
+							<Grid item xs>
+								<Link to={"/forgot"}>
+									Forgot password?
+								</Link>
+							</Grid>
+							<Grid item>
+								<Link to={"/signup"}>
+									Don't have an account? Sign Up
+								</Link>
+							</Grid>
 						</Grid>
-					</Grid>
-				</form>
+					</Form>
+				</Formik>
 			</div>
 		</Container>
 	);
