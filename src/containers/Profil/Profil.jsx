@@ -19,7 +19,6 @@ export const Profil = () => {
 	);
 };
 
-export default Profil;
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -44,3 +43,4 @@ export function LetterAvatars() {
 	);
 }
 
+export default Profil;

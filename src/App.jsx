@@ -8,6 +8,7 @@ import "./Common.scss";
 import Feed from "./containers/Feed/Feed";
 import SignUp from "./containers/SignUp/SignUp";
 import SignIn from "./containers/Login/SignIn";
+import Profil from "./containers/Profil/Profil";
 
 
 /**
@@ -123,6 +124,7 @@ export const App = () =>
 						<Route path="/signin" children={<SignIn />} />
 						<Route path="/signup" children={<SignUp />} />
 						<Route path="/feed" children={<Feed />} />
+						<Route path="/profil" children={<Profil/>} />
 						<Route path="/" children={<Home />} />
 					</Switch>
 				</Router>
