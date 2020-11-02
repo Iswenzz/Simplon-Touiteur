@@ -2,13 +2,13 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import TouiteurLogo from "../../assets/images/bird.png";
 import "./SignIn.scss";
+import Link from "../../components/Link/Link";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -117,7 +117,6 @@ export function SignIn() {
 						variant="contained"
 						color="primary"
 						className= "btn"
-						// className= {classes.submit}
 					>
 						Log in
 					</Button>
@@ -128,8 +127,8 @@ export function SignIn() {
 							</Link>
 						</Grid>
 						<Grid item>
-							<Link href="#" variant="body2" className="link--style">
-								{"Don't have an account? Sign Up"}
+							<Link to={"/signup"}>
+								Don't have an account? Sign Up
 							</Link>
 						</Grid>
 					</Grid>

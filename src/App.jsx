@@ -7,6 +7,7 @@ import {Switch, Route} from "react-router";
 import "./Common.scss";
 import Feed from "./containers/Feed/Feed";
 import SignIn from "./containers/Login/SignIn";
+import SignUp from "./containers/SignUp/SignUp";
 
 /**
  * Custom material theme + responsive font.
@@ -121,6 +122,7 @@ export const App = () =>
 				<CssBaseline />
 				<Router>
 					<Switch>
+						<Route path="/signup" children={<SignUp />} />
 						<Route path="/signin" children={<SignIn />} />
 						<Route path="/feed" children={<Feed />} />
 						<Route path="/" children={<Home />} />
