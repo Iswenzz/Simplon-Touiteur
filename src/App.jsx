@@ -105,6 +105,14 @@ const theme = responsiveFontSizes(createMuiTheme({
 			root: {
 				backgroundColor: "#282C34"
 			}
+		},
+		MuiOutlinedInput: {
+			focused: {
+				borderColor: "whitesmoke"
+			},
+			notchedOutline: {
+				borderColor: "whitesmoke"
+			}
 		}
 	},
 }));
