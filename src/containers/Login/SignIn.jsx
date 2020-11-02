@@ -1,14 +1,13 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-// import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import "./SignIn.scss";
 import TouiteurLogo from "../../assets/images/bird.png";
+import "./SignIn.scss";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	form: {
 		width: "100%", // Fix IE 11 issue.
-		marginTop: theme.spacing(1),
+		marginTop: theme.spacing(1)
 	},
 	submit: {
 		margin: theme.spacing(3, 0, 2),
@@ -35,7 +34,7 @@ export function SignIn() {
 			<Grid container direction={"column"} justify={"center"} alignItems={"center"}>
 				<img width={64} height={64} src={TouiteurLogo} alt={"Touiteur Logo"} className="touiteur--style"/>
 				<Typography variant={"h3"} component={"h1"}>
-			LOGIN
+					LOGIN
 				</Typography>
 			</Grid>
 			<div className={classes.paper}>
