@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFromAuthenticator;
+use App\Security\TokenAuthenticator;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,11 +27,11 @@ class RegistrationController extends AbstractController
 	 * @param Request $request
 	 * @param UserPasswordEncoderInterface $passwordEncoder
 	 * @param GuardAuthenticatorHandler $guardHandler
-	 * @param LoginFromAuthenticator $authenticator
+	 * @param TokenAuthenticator $authenticator
 	 * @return Response
 	 */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,
-		GuardAuthenticatorHandler $guardHandler, LoginFromAuthenticator $authenticator): Response
+		GuardAuthenticatorHandler $guardHandler, TokenAuthenticator $authenticator): Response
     {
         $user = new User();
 		$data = json_decode($request->getContent(), true);

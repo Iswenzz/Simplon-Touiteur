@@ -21,6 +21,11 @@ class User implements UserInterface
      */
     private $id;
 
+	/**
+	* @ORM\Column(type="string", unique=true, nullable=true)
+	*/
+	private $apiToken;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -37,7 +42,7 @@ class User implements UserInterface
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", unique=true, length=255)
      */
     private $email;
 
@@ -106,6 +111,22 @@ class User implements UserInterface
         $this->followings = new ArrayCollection();
         $this->followers = new ArrayCollection();
     }
+
+	/**
+	 * @return mixed
+	 */
+	public function getApiToken()
+	{
+		return $this->apiToken;
+	}
+
+	/**
+	 * @param mixed $apiToken
+	 */
+	public function setApiToken($apiToken): void
+	{
+		$this->apiToken = $apiToken;
+	}
 
 	/**
 	 * @see UserInterface
