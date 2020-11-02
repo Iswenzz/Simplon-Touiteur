@@ -5,13 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import TouiteurLogo from "../../assets/images/bird.png";
 import "./SignUp.scss";
 import Link from "../../components/Link/Link";
+import TouiteurLogo from "../../components/TouiteurLogo/TouiteurLogo";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,11 +33,10 @@ export function SignUp() {
 
   return (
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <div className={classes.paper}>
-          <img width={64} height={64} src={TouiteurLogo} alt={"Touiteur Logo"} className="touiteur--style"/>
-          <Typography component="h1" variant="h5">
-            Sign up
+          <TouiteurLogo />
+          <Typography component="h1" variant="h3">
+            SIGN UP
           </Typography>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
@@ -113,9 +111,6 @@ export function SignUp() {
             </Grid>
           </form>
         </div>
-        <Box mt={5}>
-
-        </Box>
       </Container>
   );
 }

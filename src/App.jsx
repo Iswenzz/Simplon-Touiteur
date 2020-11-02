@@ -107,8 +107,10 @@ const theme = responsiveFontSizes(createMuiTheme({
 			}
 		},
 		MuiOutlinedInput: {
-			focused: {
-				borderColor: "whitesmoke"
+			root: {
+				"&$focused": {
+					borderColor: "whitesmoke"
+				}
 			},
 			notchedOutline: {
 				borderColor: "whitesmoke"

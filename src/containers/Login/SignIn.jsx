@@ -6,9 +6,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import TouiteurLogo from "../../assets/images/bird.png";
-import "./SignIn.scss";
 import Link from "../../components/Link/Link";
+import "./SignIn.scss";
+import TouiteurLogo from "../../components/TouiteurLogo/TouiteurLogo";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -26,20 +26,27 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export function SignIn() {
+export const SignIn = () =>
+{
 	const classes = useStyles();
 
-	return (
+	/**
+	 * On form submit callback.
+	 * @param e - The form event.
+	 */
+	const onSubmit = (e) =>
+	{
+		e.preventDefault();
+	};
 
+	return (
 		<Container className={"signin"} component="main" maxWidth="xs">
-			<Grid container direction={"column"} justify={"center"} alignItems={"center"}>
-				<img width={64} height={64} src={TouiteurLogo} alt={"Touiteur Logo"} className="touiteur--style"/>
+			<div className={classes.paper}>
+				<TouiteurLogo />
 				<Typography variant={"h3"} component={"h1"}>
 					LOGIN
 				</Typography>
-			</Grid>
-			<div className={classes.paper}>
-				<form className={classes.form} noValidate>
+				<form className={classes.form} onSubmit={onSubmit}>
 					<TextField
 						variant="outlined"
 						margin="normal"
@@ -87,6 +94,6 @@ export function SignIn() {
 			</div>
 		</Container>
 	);
-}
+};
 
 export default SignIn;
