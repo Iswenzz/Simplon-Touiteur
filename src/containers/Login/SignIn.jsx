@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const signInFormInitial = {
-	email: "",
+	username: "",
 	password: ""
 };
 
@@ -49,7 +49,8 @@ export const SignIn = () =>
 				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/login`, {
 					...values
 				});
-				console.log(response);
+				if (response.status === 200)
+					localStorage.setItem("auth", response.data.token);
 			}
 			catch (err)
 			{
@@ -73,10 +74,11 @@ export const SignIn = () =>
 									variant="outlined"
 									required
 									fullWidth
-									id="email"
-									label="Email Address"
-									name="email"
-									autoComplete="email"
+									id="username"
+									label="Username"
+									name="username"
+									autoComplete="username"
+									type="text"
 									autoFocus
 								/>
 							</Grid>

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -21,23 +22,21 @@ class User implements UserInterface
      */
     private $id;
 
-	/**
-	* @ORM\Column(type="string", unique=true, nullable=true)
-	*/
-	private $apiToken;
-
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", unique=true, length=255)
+	 * @Groups("user")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+	 * @Groups("user")
      */
     private $bio;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+	 * @Groups("user")
      */
     private $name;
 
@@ -48,11 +47,13 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity=Country::class, cascade={"persist", "remove"})
+	 * @Groups("user")
      */
     private $location;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+	 * @Groups("user")
      */
     private $birthdate;
 
@@ -113,22 +114,6 @@ class User implements UserInterface
     }
 
 	/**
-	 * @return mixed
-	 */
-	public function getApiToken()
-	{
-		return $this->apiToken;
-	}
-
-	/**
-	 * @param mixed $apiToken
-	 */
-	public function setApiToken($apiToken): void
-	{
-		$this->apiToken = $apiToken;
-	}
-
-	/**
 	 * @see UserInterface
 	 */
 	public function getRoles(): array
@@ -167,7 +152,7 @@ class User implements UserInterface
 	 */
 	public function getSalt()
 	{
-		// not needed when using the "bcrypt" algorithm in security.yaml
+		return null;
 	}
 
 	/**

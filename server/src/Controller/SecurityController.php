@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
-use LogicException;
+use App\Entity\User;
+use DateTime;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class SecurityController
@@ -15,21 +19,51 @@ use Symfony\Component\Routing\Annotation\Route;
 class SecurityController extends AbstractController
 {
 	/**
-	 * @Route("/login", name="login")
-	 * @return Response
+	 * @Route("/register", name="register")
+	 * @param Request $request
+	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 * @return JsonResponse
 	 */
-    public function login(): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): JsonResponse
     {
+        $user = new User();
+		$data = json_decode($request->getContent(), true);
+
+        if (isset($data["firstname"]) && isset($data["lastname"]) && isset($data["username"])
+			&& isset($data["password"]) && isset($data["email"]))
+        {
+            // encode the plain password
+            $user->setPassword($passwordEncoder->encodePassword($user, $data["password"]));
+            $user->setName($data["firstname"] . " " . $data["lastname"]);
+            $user->setBirthdate($data["birthdate"] ?? null);
+            $user->setCreatedAt(new DateTime("NOW"));
+            $user->setEmail($data["email"]);
+            $user->setUsername($data["username"]);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->json([
+            	"success" => true
+			]);
+        }
         return $this->json([
-        	"success" => true
-		]);
+        	"success" => false
+		], 400);
     }
 
-    /**
-     * @Route("/logout", name="logout")
-     */
-    public function logout()
-    {
-        throw new LogicException("This method can be blank - it will be intercepted by the logout key on your firewall.");
-    }
+
+	/**
+	 * @Route("/login", name="login")
+	 * @param User $user
+	 * @param JWTTokenManagerInterface $JWTManager
+	 * @return JsonResponse
+	 */
+	public function login(User $user, JWTTokenManagerInterface $JWTManager): JsonResponse
+	{
+		return $this->json([
+			"token" => $JWTManager->create($user)
+		]);
+	}
 }
