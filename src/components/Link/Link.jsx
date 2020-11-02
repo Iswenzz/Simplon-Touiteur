@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
+import "./Link.scss";
 
 /**
  * RRD Link wrapper.
@@ -11,12 +12,12 @@ import { useHistory } from "react-router-dom";
  * @returns {JSX.Element}
  * @constructor
  */
-export const Link = ({ to, onClick, component: Tag, ...props }) =>
+export const Link = ({ to, onClick, className, component: Tag, ...props }) =>
 {
 	const history = useHistory();
 
 	return (
-		<Tag {...props} onClick={(event) => {
+		<Tag {...props} className={`link ${className}`} onClick={(event) => {
 			event.stopPropagation();
 			onclick && onClick(event);
 			history.push(to);

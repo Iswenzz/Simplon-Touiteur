@@ -1,12 +1,10 @@
-a {
+.link {
 	text-decoration: none;
 	color: white;
 	cursor: pointer;
 
 	&:hover, &:active, &:visited {
-		a {
-			color: #1DA2F1;
-			text-decoration: underline;
-		}
+		color: #1DA2F1;
+		text-decoration: underline;
 	}
 }
