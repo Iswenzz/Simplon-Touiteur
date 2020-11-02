@@ -5,48 +5,65 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFromAuthenticator;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Component\Validator\Constraints\Date;
 
+/**
+ * Class RegistrationController
+ * @package App\Controller
+ * @Route("/api")
+ */
 class RegistrationController extends AbstractController
 {
-    /**
-     * @Route("/register", name="app_register")
-     */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFromAuthenticator $authenticator): Response
+	/**
+	 * @Route("/register", name="register")
+	 * @param Request $request
+	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 * @param GuardAuthenticatorHandler $guardHandler
+	 * @param LoginFromAuthenticator $authenticator
+	 * @return Response
+	 */
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,
+		GuardAuthenticatorHandler $guardHandler, LoginFromAuthenticator $authenticator): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+		$data = json_decode($request->getContent(), true);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (isset($data["name"]) && isset($data["username"]) && isset($data["password"]) && isset($data["email"]))
+        {
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $data["password"]
                 )
             );
+
+            $user->setName($data["name"]);
+            $user->setBirthdate($data["birthdate"] ?? null);
+            $user->setCreatedAt(new DateTime("NOW"));
+            $user->setEmail($data["email"]);
+            $user->setUsername($data["username"]);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
                 $authenticator,
-                'main' // firewall name in security.yaml
+                "main" // firewall name in security.yaml
             );
         }
-
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        return $this->json([
+        	"success" => false
+		], );
     }
 }
