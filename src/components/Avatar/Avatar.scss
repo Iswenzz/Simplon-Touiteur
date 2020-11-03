@@ -3,5 +3,10 @@
 		width: 6em;
 		height: 6em;
 		clip-path: circle(100%);
+		transition: filter ease-in-out .25s;
+
+		&:hover {
+			filter: brightness(50%);
+		}
 	}
 }

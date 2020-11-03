@@ -1,9 +1,8 @@
 import React, {useEffect} from "react";
 import {Container, Grid, Typography} from "@material-ui/core";
-import Avatar from "../Avatar/Avatar";
+import Avatar from "../../../components/Avatar/Avatar";
 import PropTypes from "prop-types";
-import Media from "../Media/Media";
-import Link from "../Link/Link";
+import Link from "../../../components/Link/Link";
 import * as uuid from "uuid";
 import "./Tweet.scss";
 
@@ -63,7 +62,7 @@ Tweet.propTypes = {
 		id: PropTypes.number,
 		content: PropTypes.string
 	}),
-	medias: PropTypes.arrayOf(PropTypes.instanceOf(Media))
+	medias: PropTypes.arrayOf(PropTypes.instanceOf(Object))
 };
 
 export default Tweet;
