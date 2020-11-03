@@ -20,3 +20,28 @@
 		}
 	}
 }
+
+.navbar-mobile {
+	display: flex;
+	position: fixed;
+	bottom: 0;
+	z-index: 1800;
+	width: 100%;
+
+	section {
+		width: 100%;
+	}
+
+	svg {
+		fill: white;
+	}
+
+	a, span {
+		color: white !important;
+
+		&:focus {
+			color: white !important;
+			text-decoration: none !important;
+		}
+	}
+}

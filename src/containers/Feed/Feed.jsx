@@ -1,7 +1,6 @@
 import React from "react";
 import "./Feed.scss";
 import TweetBox from "./TweetBox/TweetBox";
-import Footer from "./Footer/Footer";
 import Touiteur from "../../assets/images/bird.png";
 
 function Feed() {
@@ -12,10 +11,7 @@ function Feed() {
 			<img className="birdImg" src={Touiteur} alt={"Touiteur Logo"} />
 
 			{/* TweetBox */}
-			<TweetBox />    
-
-			{/* Footer */}
-			<Footer />
+			<TweetBox />
 		</div>
 	);
 }
