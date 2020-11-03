@@ -67,8 +67,8 @@ const useStyles = makeStyles((theme) => ({
 		color: "rgba(29,161,242,1.00)",
 	},
 	btn: {
-		border: "1.5px solid rgba(29,161,242,1.00)",
-		color: "rgba(29,161,242,1.00)",
+		backgroundColor: "#1DA2F1!important",
+		color: "#fff",
 		fontWeight: "bold",
 		borderRadius: "0",
 		marginTop: "0.7rem",

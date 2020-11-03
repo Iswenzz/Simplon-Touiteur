@@ -18,3 +18,13 @@
         text-decoration: underline!important;
     }
 }
+
+.MuiButton-containedPrimary {
+    margin-bottom: 5px!important;
+    background-color: #1DA2F1!important;
+    &:hover{
+        color: #fff !important;
+        background-color: #0078ff!important;
+        text-decoration: none!important;
+    }
+}
