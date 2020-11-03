@@ -22,7 +22,7 @@
 {
     margin-left: 2px;
     display: inline-block;
-    background-color: rgb(83, 83, 243);
+    background-color: #1da2f1;
     border-radius: 3px;
     border: black;
 }
@@ -34,7 +34,11 @@
 .btnAdd {
     margin-right: 5px;
     display: inline-block;
-    background-color: rgb(83, 83, 243);
+    background-color: #1da2f1 ;
     border-radius: 3px;
     border: black;
+}
+
+.btnWidth {
+	width: 15em;
 }

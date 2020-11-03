@@ -16,10 +16,8 @@ function TweetBox() {
 				<div className="margin" />
 				<div>
 					<div className="btnAdd">
-						<Button className="btnFont">Add</Button>
+						<Button className="btnFont btnWidth">Add</Button>
 					</div>
-
-					<Input placeholder="Enter url image" type="text" />
 				</div>
 				<div className="margin" />
 
