@@ -5,8 +5,8 @@ import Home from "./containers/Home/Home";
 import {BrowserRouter as Router} from "react-router-dom";
 import {Switch, Route} from "react-router";
 import "./Common.scss";
-import Feed from "./containers/Feed/Feed";
-import SignIn from "./containers/Login/SignIn";
+import Post from "./containers/Home/Post/Post";
+import SignIn from "./containers/SignIn/SignIn";
 import SignUp from "./containers/SignUp/SignUp";
 
 /**
@@ -133,7 +133,6 @@ export const App = () =>
 					<Switch>
 						<Route path="/signup" children={<SignUp />} />
 						<Route path="/signin" children={<SignIn />} />
-						<Route path="/feed" children={<Feed />} />
 						<Route path="/" children={<Home />} />
 					</Switch>
 				</Router>

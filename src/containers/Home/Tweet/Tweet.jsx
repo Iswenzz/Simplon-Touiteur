@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import Link from "../../../components/Link/Link";
 import * as uuid from "uuid";
 import "./Tweet.scss";
+import IconButton from "@material-ui/core/IconButton";
+import {Chat, Favorite, Share} from "@material-ui/icons";
 
 /**
  * Tweet component.
@@ -43,6 +45,32 @@ export const Tweet = (props) =>
 									<li key={uuid.v4()}>{e}</li>
 								))}
 							</ul>
+							<Grid container justify={"space-between"} alignItems={"center"}>
+								<section>
+									<IconButton aria-label="likes">
+										<Favorite />
+									</IconButton>
+									<Typography variant={"subtitle1"} paragraph component={"span"}>
+										0
+									</Typography>
+								</section>
+								<section>
+									<IconButton aria-label="comments">
+										<Chat />
+									</IconButton>
+									<Typography variant={"subtitle1"} paragraph component={"span"}>
+										0
+									</Typography>
+								</section>
+								<section>
+									<IconButton aria-label="share">
+										<Share />
+									</IconButton>
+									<Typography variant={"subtitle1"} paragraph component={"span"}>
+										0
+									</Typography>
+								</section>
+							</Grid>
 						</Grid>
 					</Grid>
 				</Grid>

@@ -1,9 +1,9 @@
 import React from "react";
 import {Avatar, Button, Input} from "@material-ui/core";
-import Background from "../../assets/images/1500x500.jpg";
-import "./Feed.scss";
+import Background from "../../../assets/images/1500x500.jpg";
+import "./Post.scss";
 
-function Feed() {
+function Post() {
 	return (
 		<>
 			<article className="tweetBox">
@@ -38,4 +38,4 @@ function Feed() {
 	);
 }
 
-export default Feed;
+export default Post;
