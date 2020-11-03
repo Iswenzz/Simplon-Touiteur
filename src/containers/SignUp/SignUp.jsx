@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 import React from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
