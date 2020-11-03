@@ -80,7 +80,6 @@ const useStyles = makeStyles((theme) => ({
 		border: "3px solid white",
 		height: "8rem",
 		width: "8rem",
-		marginTop: "7rem",
 	},
 	nameTypo: {
 		color: "black",
