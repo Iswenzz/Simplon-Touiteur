@@ -2,8 +2,11 @@
     margin-top: 1em;
 }
 
-.h5--style{
-    align-self: flex-start;
+.tweets-replies-likes{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
 }
 
 

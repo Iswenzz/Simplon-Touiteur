@@ -5,6 +5,7 @@ import { Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { Tab, Tabs, Button, Paper, Avatar, Box, Hidden, Divider } from "@material-ui/core";
 import { CalendarToday, NavigateBefore, NavigateNext, } from "@material-ui/icons";
+import PhoenixAvatar from "../../assets/images/avatar.png";
 import EditProfile from "./EditProfile";
 
 
@@ -17,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: "0rem",
 		background: "white",
 		color: "gray",
+	},
+	large: {
+		width: theme.spacing(7),
+		height: theme.spacing(7),
 	},
 	tab: {
 		minWidth: "100px",
@@ -132,8 +137,6 @@ const Profil = (props) => {
 
 	return (
 		<Grid container justify="center" spacing={1}>
-
-
 			<main style={{ width: "100%", marginTop: "0px" }}>
 				<Grid item xs={12}>
 					<Grid item xs={12}>
@@ -184,11 +187,11 @@ const Profil = (props) => {
 						<div className={classes.linksDiv}>
 							<Link className={classes.links} to="/following">
 								Following
-				</Link>
+							</Link>
 							<div style={{ width: "2.5rem" }}></div>
 							<Link className={classes.links} to="/followers">
 								Followers
-				</Link>
+							</Link>
 						</div>
 					</Grid>
 				</Grid>
@@ -255,6 +258,20 @@ const Profil = (props) => {
 					closeModal={() => setEditProfile(false)}
 				/>
 			</main>
+
+			<Grid container spacing={3}>
+				<Grid item xs={2}>
+					<div>
+						<Avatar alt="Déb Phoenix" src={PhoenixAvatar} className={classes.large}/>
+					</div>
+				</Grid>
+				<Grid item xs={10}>
+					<div>Deb Phoenix @deb__phoenix - 26/10/2020</div>
+					<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+				</Grid>
+			</Grid>
+
+
 		</Grid>
 	);
 };
