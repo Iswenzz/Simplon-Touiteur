@@ -3,14 +3,17 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -20,32 +23,37 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", unique=true, length=255)
+	 * @Groups("user")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+	 * @Groups("user")
      */
     private $bio;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+	 * @Groups("user")
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", unique=true, length=255)
      */
     private $email;
 
     /**
      * @ORM\OneToOne(targetEntity=Country::class, cascade={"persist", "remove"})
+	 * @Groups("user")
      */
     private $location;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+	 * @Groups("user")
      */
     private $birthdate;
 
@@ -144,7 +152,7 @@ class User
 	 */
 	public function getSalt()
 	{
-		// not needed when using the "bcrypt" algorithm in security.yaml
+		return null;
 	}
 
 	/**
@@ -221,24 +229,24 @@ class User
         return $this;
     }
 
-    public function getBirthdate(): ?\DateTimeInterface
+    public function getBirthdate(): ?DateTimeInterface
     {
         return $this->birthdate;
     }
 
-    public function setBirthdate(?\DateTimeInterface $birthdate): self
+    public function setBirthdate(?DateTimeInterface $birthdate): self
     {
         $this->birthdate = $birthdate;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

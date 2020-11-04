@@ -2,35 +2,68 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use DateTime;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Class SecurityController
+ * @package App\Controller
+ * @Route("/api")
+ */
 class SecurityController extends AbstractController
 {
-    /**
-     * @Route("/login", name="app_login")
-     */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+	/**
+	 * @Route("/register", name="register")
+	 * @param Request $request
+	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 * @return JsonResponse
+	 */
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): JsonResponse
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        $user = new User();
+		$data = json_decode($request->getContent(), true);
 
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+        if (isset($data["firstname"]) && isset($data["lastname"]) && isset($data["username"])
+			&& isset($data["password"]) && isset($data["email"]))
+        {
+            // encode the plain password
+            $user->setPassword($passwordEncoder->encodePassword($user, $data["password"]));
+            $user->setName($data["firstname"] . " " . $data["lastname"]);
+            $user->setBirthdate($data["birthdate"] ?? null);
+            $user->setCreatedAt(new DateTime("NOW"));
+            $user->setEmail($data["email"]);
+            $user->setUsername($data["username"]);
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->json([
+            	"success" => true
+			]);
+        }
+        return $this->json([
+        	"success" => false
+		], 400);
     }
 
-    /**
-     * @Route("/logout", name="app_logout")
-     */
-    public function logout()
-    {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    }
+
+	/**
+	 * @Route("/login", name="login")
+	 * @param User $user
+	 * @param JWTTokenManagerInterface $JWTManager
+	 * @return JsonResponse
+	 */
+	public function login(User $user, JWTTokenManagerInterface $JWTManager): JsonResponse
+	{
+		return $this->json([
+			"token" => $JWTManager->create($user)
+		]);
+	}
 }

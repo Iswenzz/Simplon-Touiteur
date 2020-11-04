@@ -1,0 +1,28 @@
+// Links
+a {
+	text-decoration: none;
+	color: white;
+	cursor: pointer;
+
+	&:hover, &:active, &:visited {
+		color: #1DA2F1 !important;
+		text-decoration: underline !important;
+	}
+}
+
+// Buttons
+.btn {
+	margin-bottom: 5px!important;
+	background-color: #1DA2F1!important;
+
+	&:hover{
+		color: #fff !important;
+		background-color: #0078ff!important;
+		text-decoration: none!important;
+	}
+}
+
+// Headers
+.page-header {
+	margin-bottom: 1em !important;
+}

@@ -1,9 +1,10 @@
 @import "../../Responsive";
 
-.signup {
-	margin-top: 3em;
+.touiteur-logo {
+	margin-top: 1em;
+	cursor: pointer;
 
 	@include media(tablet_mobile, portrait) {
-		margin-top: 1em;
+		margin-top: 0;
 	}
 }

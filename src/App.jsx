@@ -5,11 +5,10 @@ import Home from "./containers/Home/Home";
 import {BrowserRouter as Router} from "react-router-dom";
 import {Switch, Route} from "react-router";
 import "./Common.scss";
-import Feed from "./containers/Feed/Feed";
+import SignIn from "./containers/SignIn/SignIn";
 import SignUp from "./containers/SignUp/SignUp";
-import SignIn from "./containers/Login/SignIn";
-import Profil from "./containers/Profil/Profil";
-
+import Profile from "./containers/Profile/Profile";
+import NotLog from "./containers/NotLog/NotLog";
 
 /**
  * Custom material theme + responsive font.
@@ -17,6 +16,10 @@ import Profil from "./containers/Profil/Profil";
  */
 const theme = responsiveFontSizes(createMuiTheme({
 	palette: {
+		type: "dark",
+		primary: {
+			main: "#1DA2F1"
+		},
 		text: {
 			primary: "#DCDCDC",
 			secondary: "#DCDCDC",
@@ -60,7 +63,7 @@ const theme = responsiveFontSizes(createMuiTheme({
 		MuiCssBaseline: {
 			"@global": {
 				html: {
-					"--scrollbarBG": "#23272a",
+					// "--scrollbarBG": "#23272a",
 					"--thumbBG": "#3a3d41",
 					overflowX: "hidden",
 					overflowY: "visible"
@@ -104,6 +107,14 @@ const theme = responsiveFontSizes(createMuiTheme({
 			root: {
 				backgroundColor: "#282C34"
 			}
+		},
+		MuiOutlinedInput: {
+			root: {
+				borderColor: "whitesmoke !important",
+			},
+			notchedOutline: {
+				borderColor: "whitesmoke !important",
+			}
 		}
 	},
 }));
@@ -123,8 +134,8 @@ export const App = () =>
 					<Switch>
 						<Route path="/signin" children={<SignIn />} />
 						<Route path="/signup" children={<SignUp />} />
-						<Route path="/feed" children={<Feed />} />
-						<Route path="/profil" children={<Profil/>} />
+						<Route path="/profile" children={<Profile/>} />
+						<Route path="/notlog" children={<NotLog />} />
 						<Route path="/" children={<Home />} />
 					</Switch>
 				</Router>

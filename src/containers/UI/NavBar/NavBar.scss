@@ -1,0 +1,47 @@
+.navbar {
+	position: sticky;
+	top: 0;
+
+	button {
+		transition: all ease-in-out .2s;
+		font-size: 1.7em;
+
+		&:hover {
+			color: #1DA2F1;
+		}
+	}
+
+	svg {
+		transition: all ease-in-out .2s;
+		font-size: 1.5em;
+
+		&:hover {
+			fill: #1DA2F1;
+		}
+	}
+}
+
+.navbar-mobile {
+	display: flex;
+	position: fixed;
+	bottom: 0;
+	z-index: 1800;
+	width: 100%;
+
+	section {
+		width: 100%;
+	}
+
+	svg {
+		fill: white;
+	}
+
+	a, span {
+		color: white !important;
+
+		&:focus {
+			color: white !important;
+			text-decoration: none !important;
+		}
+	}
+}
