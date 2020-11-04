@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Button from "@material-ui/core/Button";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
@@ -9,6 +9,9 @@ import Container from "@material-ui/core/Container";
 import Link from "../../components/Link/Link";
 import TouiteurLogo from "../../components/TouiteurLogo/TouiteurLogo";
 import axios from "axios";
+import {checkAuth} from "../../api/auth";
+import {withRouter} from "react-router";
+import PageLoader from "../../components/PageLoader/PageLoader";
 import "./SignIn.scss";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,9 +34,25 @@ export const signInFormInitial = {
 	password: ""
 };
 
-export const SignIn = () =>
+export const SignIn = (props) =>
 {
 	const classes = useStyles();
+	const [isLoading, setLoading] = useState(true);
+
+	useEffect(() =>
+	{
+		checkLog();
+	}, []);
+
+	const checkLog = async () =>
+	{
+		if (!await checkAuth())
+		{
+			setLoading(false);
+			return;
+		}
+		props.history.push("/home");
+	};
 
 	/**
 	 * Log the user.
@@ -58,7 +77,7 @@ export const SignIn = () =>
 		}
 	};
 
-	return (
+	return isLoading ? <PageLoader /> : (
 		<Container className={"signin"} component="main" maxWidth="xs">
 			<div className={classes.paper}>
 				<TouiteurLogo />
@@ -126,4 +145,4 @@ export const SignIn = () =>
 	);
 };
 
-export default SignIn;
+export default withRouter(SignIn);

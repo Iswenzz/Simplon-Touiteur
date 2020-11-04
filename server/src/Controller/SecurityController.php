@@ -19,6 +19,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class SecurityController extends AbstractController
 {
 	/**
+	 * Register a user.
 	 * @Route("/register", name="register")
 	 * @param Request $request
 	 * @param UserPasswordEncoderInterface $passwordEncoder
@@ -53,8 +54,8 @@ class SecurityController extends AbstractController
 		], 400);
     }
 
-
 	/**
+	 * Log in a user.
 	 * @Route("/login", name="login")
 	 * @param User $user
 	 * @param JWTTokenManagerInterface $JWTManager
@@ -64,6 +65,17 @@ class SecurityController extends AbstractController
 	{
 		return $this->json([
 			"token" => $JWTManager->create($user)
+		]);
+	}
+
+	/**
+	 * Check if the user connection is correctly established.
+	 * @Route("/check", name="check")
+	 */
+	public function check()
+	{
+		return $this->json([
+			"success" => true
 		]);
 	}
 }

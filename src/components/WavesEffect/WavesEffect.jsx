@@ -1,9 +1,10 @@
 import React, {memo} from "react";
+import "./WavesEffect.scss";
 
 export const WavesEffect = (props) =>
 {
 	return (
-		<article>
+		<article className={"waveseffect"}>
 			<section>
 				{props.children}
 			</section>

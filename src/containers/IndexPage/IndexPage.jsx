@@ -1,14 +1,35 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TouiteurLogo from "../../components/TouiteurLogo/TouiteurLogo";
 import {Container} from "@material-ui/core";
 import Link from "../../components/Link/Link";
+import {checkAuth} from "../../api/auth";
+import {withRouter} from "react-router";
+import PageLoader from "../../components/PageLoader/PageLoader";
 import "./IndexPage.scss";
 
-export function IndexPage() {
-	return (
+export const IndexPage = (props) =>
+{
+	const [isLoading, setLoading] = useState(true);
+
+	useEffect(() =>
+	{
+		checkLog();
+	}, []);
+
+	const checkLog = async () =>
+	{
+		if (!await checkAuth())
+		{
+			setLoading(false);
+			return;
+		}
+		props.history.push("/home");
+	};
+
+	return isLoading ? <PageLoader /> : (
 		<Grid className={"index"} container direction={"column"} justify={"flex-start"} alignItems={"center"}>
 			<figure>
 				<TouiteurLogo />
@@ -42,6 +63,6 @@ export function IndexPage() {
 			</Container>
 		</Grid>
 	);
-}
+};
 
-export default IndexPage;
+export default withRouter(IndexPage);
