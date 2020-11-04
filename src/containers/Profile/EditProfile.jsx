@@ -240,25 +240,21 @@ const EditProfile = (props) => {
 	const classes = useStyles();
 	const ref = React.createRef();
 	return (
-		<Container className={classes.root} maxWidth="xs">
-			<Grid item>
-				<Modal
-					ref={ref}
-					aria-labelledby="transition-modal-title"
-					aria-describedby="transition-modal-description"
-					className={classes.modal}
-					open={props.open}
-					onClose={props.onClose}
-					closeAfterTransition
-					BackdropComponent={Backdrop}
-					BackdropProps={{
-						timeout: 500,
-					}}
-				>
-					<ModalContent closeModal={props.closeModal} />
-				</Modal>
-			</Grid>
-		</Container>
+		<Modal
+			ref={ref}
+			aria-labelledby="transition-modal-title"
+			aria-describedby="transition-modal-description"
+			className={classes.modal}
+			open={props.open}
+			onClose={props.onClose}
+			closeAfterTransition
+			BackdropComponent={Backdrop}
+			BackdropProps={{
+				timeout: 500,
+			}}
+		>
+			<ModalContent closeModal={props.closeModal} />
+		</Modal>
 	);
 };
 

@@ -7,7 +7,7 @@ import { Tab, Tabs, Button, Paper, Avatar, Box, Hidden, Divider } from "@materia
 import { CalendarToday, NavigateBefore, NavigateNext, } from "@material-ui/icons";
 import PhoenixAvatar from "../../assets/images/avatar.png";
 import EditProfile from "./EditProfile";
-
+import "./Profile.scss";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 	large: {
 		width: theme.spacing(7),
 		height: theme.spacing(7),
+		marginLeft: "1em",
 	},
 	tab: {
 		minWidth: "100px",
@@ -104,6 +105,8 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: "100px",
 		fontSize: "15px",
 	},
+
+
 }));
 
 const Profile = (props) => {
@@ -141,7 +144,6 @@ const Profile = (props) => {
 				<Grid item xs={12}>
 					<Grid item xs={12}>
 						<Paper className={classes.paper}>
-							{" "}
 							<div className={classes.avatarBox}>
 								<Box>
 									<Avatar className={classes.avatar}>B</Avatar>
@@ -154,7 +156,7 @@ const Profile = (props) => {
 							style={{ justifyContent: "space-between" }}
 							className={classes.horizontalDiv}
 						>
-							<div></div>
+							<div/>
 							<Button onClick={openProfileEditor} className={classes.btn}>
 								<span>Edit profile</span>
 							</Button>
@@ -180,7 +182,7 @@ const Profile = (props) => {
 						<div style={{ marginBottom: "1rem" }}>
 							<div className={classes.horizontalDiv}>
 								<CalendarToday fontSize="small" />
-								<div style={{ width: "0.8rem" }}></div>
+								<div style={{width: "0.8rem"}}/>
 								<Typography id="date-joined">Date Joined</Typography>
 							</div>
 						</div>
@@ -188,7 +190,7 @@ const Profile = (props) => {
 							<Link className={classes.links} to="/following">
 								Following
 							</Link>
-							<div style={{ width: "2.5rem" }}></div>
+							<div style={{width: "2.5rem"}}/>
 							<Link className={classes.links} to="/followers">
 								Followers
 							</Link>
@@ -244,13 +246,7 @@ const Profile = (props) => {
 							</Hidden>
 						</div>
 					</Grid>
-					<Grid item xs={12}>
-						{tab === "Likes" && (
-							<Typography style={{ textAlign: "center" }} variant="subtitle1">
-								Likes
-							</Typography>
-						)}
-					</Grid>
+
 				</Grid>
 				<EditProfile
 					open={editProfile}
@@ -259,15 +255,15 @@ const Profile = (props) => {
 				/>
 			</main>
 
-			<Grid container spacing={3}>
-				<Grid item xs={2}>
+			<Grid container spacing={1}>
+				<Grid item xs={2}  className="avatarFeed--style">
 					<div>
 						<Avatar alt="Déb Phoenix" src={PhoenixAvatar} className={classes.large}/>
 					</div>
 				</Grid>
 				<Grid item xs={10}>
 					<div>Deb Phoenix @deb__phoenix - 26/10/2020</div>
-					<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+					<div style={{ marginRight: "1em" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
 				</Grid>
 			</Grid>
 
