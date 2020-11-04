@@ -21,6 +21,7 @@ import Link from "../../components/Link/Link";
 import * as uuid from "uuid";
 import "./TweetPage.scss";
 import axios from "axios";
+import {withRouter} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -233,7 +234,7 @@ export const TweetPage = (props) =>
 	const handleOpen = () => setReplyModalOpen(true);
 
 	return (
-		<Main>
+		<Main {...props}>
 			<Tweet {...state} />
 			<section>
 				{/*Test Reply Button*/}
@@ -269,4 +270,4 @@ export const TweetPage = (props) =>
 	);
 };
 
-export default TweetPage;
+export default withRouter(TweetPage);

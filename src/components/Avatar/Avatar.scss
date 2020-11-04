@@ -1,3 +1,5 @@
+@import "../../Responsive";
+
 .avatar {
 	img {
 		width: 5em;
@@ -8,6 +10,12 @@
 
 		&:hover {
 			filter: brightness(50%);
+		}
+
+		@include media(tablet_mobile, portrait) {
+			width: 3.5em;
+			height: 3.5em;
+			margin-right: 1.4em;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Container, Grid, Typography} from "@material-ui/core";
 import {Search} from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
@@ -10,6 +10,8 @@ import * as uuid from "uuid";
 import {useMediaQuery} from "react-responsive/src";
 import NavBar from "../UI/NavBar/NavBar";
 import "./Main.scss";
+import {checkAuth} from "../../api/auth";
+import {withRouter} from "react-router";
 
 export const trendingPlaceholder = [
 	<Typography variant={"h6"} component={"h6"} align={"center"}>
@@ -33,9 +35,25 @@ export const trendingPlaceholder = [
  */
 export const Main = (props) =>
 {
+	const [isLoading, setLoading] = useState(true);
 	const isLgBp = useMediaQuery({ query: "(max-width: 1280px)" });
 	const isTabletOrMobileDevice = useMediaQuery({ query: "(max-device-width: 1224px)" });
 	const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
+
+	useEffect(() =>
+	{
+		checkLog();
+	}, []);
+
+	const checkLog = async () =>
+	{
+		if (await checkAuth())
+		{
+			setLoading(false);
+			return;
+		}
+		props.history.push("/");
+	};
 
 	return (
 		<>
@@ -100,4 +118,4 @@ export const Main = (props) =>
 	);
 };
 
-export default Main;
+export default withRouter(Main);

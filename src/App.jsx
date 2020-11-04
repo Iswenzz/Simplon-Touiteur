@@ -11,6 +11,7 @@ import Profile from "./containers/Profile/Profile";
 import IndexPage from "./containers/IndexPage/IndexPage";
 import TweetPage from "./containers/TweetPage/TweetPage";
 import WavesEffect from "./components/WavesEffect/WavesEffect";
+import PostPage from "./containers/PostPage/PostPage";
 
 /**
  * Custom material theme + responsive font.
@@ -138,6 +139,7 @@ export const App = () =>
 						<Route path="/signup" children={<WavesEffect children={<SignUp />} />} />
 						<Route path="/profile" children={<Profile/>} />
 						<Route path="/tweet" children={<TweetPage />} />
+						<Route path="/post" children={<PostPage />} />
 						<Route path="/home" children={<Home />} />
 						<Route path="/" children={<WavesEffect children={<IndexPage />} />} />
 					</Switch>

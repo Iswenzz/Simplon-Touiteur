@@ -9,6 +9,7 @@ import PhoenixAvatar from "../../assets/images/avatar.png";
 import EditProfile from "./EditProfile";
 import "./Profile.scss";
 import Main from "../Main/Main";
+import {withRouter} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -140,7 +141,7 @@ const Profile = (props) => {
 	};
 
 	return (
-		<Main>
+		<Main {...props}>
 			<Grid className={"profile"} container justify="center" spacing={1}>
 				<main style={{ width: "100%", marginTop: "0px" }}>
 					<Grid item xs={12}>
@@ -273,4 +274,4 @@ const Profile = (props) => {
 	);
 };
 
-export default Profile;
+export default withRouter(Profile);
