@@ -1,4 +1,3 @@
-/* eslint-disable no-template-curly-in-string */
 import React from "react";
 import Button from "@material-ui/core/Button";
 import { Formik, Field, Form } from "formik";
@@ -9,8 +8,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Link from "../../components/Link/Link";
 import TouiteurLogo from "../../components/TouiteurLogo/TouiteurLogo";
-import "./SignIn.scss";
 import axios from "axios";
+import "./SignIn.scss";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -58,6 +57,7 @@ export const SignIn = () =>
 			}
 		}
 	};
+
 	return (
 		<Container className={"signin"} component="main" maxWidth="xs">
 			<div className={classes.paper}>

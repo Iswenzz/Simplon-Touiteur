@@ -1,9 +1,18 @@
-import React from "react";
+import "date-fns";
+import React, {useRef} from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {Grid, Paper, TextField, Fab, Button,
+import {Grid, Paper, Fab,
 	IconButton, Typography, Modal, Backdrop, Avatar, Box,
 } from "@material-ui/core";
+import { Formik, Field, Form } from "formik";
+import { TextField } from "formik-material-ui";
 import { CameraAlt, Close } from "@material-ui/icons";
+import axios from "axios";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+	MuiPickersUtilsProvider,
+	KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -11,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: "auto",
 		borderBottomLeftRadius: "1rem",
 		borderBottomRightRadius: "1rem",
-		height: "90%",
+		height: "80%",
 		[theme.breakpoints.down("md")]: {
 			width: "100%"
 		},
@@ -104,8 +113,59 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ModalContent = (props) => {
+export const editFormInitial = {
+	banner: "",
+	avatar: "",
+	name: "",
+	bio: "",
+	location: "",
+	birthdate: ""
+};
+
+export const ModalContent = (props) =>
+{
 	const classes = useStyles();
+	const [selectedDate, setSelectedDate] = React.useState(null);
+	const formRef = useRef();
+
+	/**
+	 * Edit the user profile.
+	 */
+	const onEditSubmit = async (values, { setSubmitting }) =>
+	{
+		// if the form as valid information send a post req
+		if (Object.values(values).every(item => item !== undefined && item !== null))
+		{
+			try
+			{
+				// TODO update user profile
+				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/user/id`, {
+					...values
+				});
+				console.log(response);
+			}
+			catch (err)
+			{
+				console.log(err);
+			}
+		}
+		props.closeModal();
+	};
+
+	/**
+	 * Date picker change callback.
+	 * @param date - The selected date.
+	 */
+	const handleDateChange = (date) => setSelectedDate(date);
+
+	/**
+	 * Save profile button click callback.
+	 */
+	const onSaveClick = () =>
+	{
+		if (formRef.current)
+			formRef.current.handleSubmit();
+	};
 
 	return (
 		<>
@@ -124,7 +184,7 @@ const ModalContent = (props) => {
 					className={classes.btn}
 					type="submit"
 				>
-					<div className={classes.btnDiv}>
+					<div className={classes.btnDiv} onClick={onSaveClick}>
 						<span>Save</span>
 					</div>
 				</Fab>
@@ -136,7 +196,7 @@ const ModalContent = (props) => {
 							accept="image/*"
 							className={classes.input}
 							id="contained-button-file"
-							multiple
+							name="banner"
 							type="file"
 						/>
 						<label htmlFor="contained-button-file">
@@ -155,8 +215,8 @@ const ModalContent = (props) => {
 										accept="image/*"
 										className={classes.input}
 										id="contained-button-file"
-										multiple
 										type="file"
+										name="avatar"
 									/>
 									<label htmlFor="contained-button-file">
 										<IconButton aria-label="upload picture" component="span">
@@ -167,75 +227,68 @@ const ModalContent = (props) => {
 							</Box>
 						</div>
 					</Grid>
-					<form className={classes.form} noValidate>
-						<Grid container spacing={2}>
-							<Grid item xs={12}>
-								<TextField
-									className={classes.textField}
-									name="Name"
-									variant="filled"
-									fullWidth
-									id="Name"
-									label="Name"
-									autoFocus
-								/>
+					<Formik innerRef={formRef} initialValues={editFormInitial} onSubmit={onEditSubmit}>
+						<Form className={classes.form} noValidate>
+							<Grid container spacing={2}>
+								<Grid item xs={12}>
+									<Field
+										component={TextField}
+										className={classes.textField}
+										name="name"
+										variant="filled"
+										fullWidth
+										id="Name"
+										label="Name"
+										autoFocus
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<Field
+										component={TextField}
+										className={classes.textField}
+										name="bio"
+										variant="filled"
+										multiline
+										fullWidth
+										id="Bio"
+										label="Bio"
+										autoFocus
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<Field
+										component={TextField}
+										className={classes.textField}
+										name="location"
+										variant="filled"
+										fullWidth
+										placeholder="Add your location"
+										id="location"
+										label="Location"
+										autoFocus
+									/>
+								</Grid>
 							</Grid>
 							<Grid item xs={12}>
-								<TextField
-									className={classes.textField}
-									name="Bio"
-									variant="filled"
-									multiline
-									fullWidth
-									id="Bio"
-									label="Bio"
-									autoFocus
-								/>
+								<MuiPickersUtilsProvider utils={DateFnsUtils}>
+									<KeyboardDatePicker
+										className={classes.textField}
+										margin="normal"
+										id="date-picker-dialog"
+										label="BirthDate"
+										format="MM/dd/yyyy"
+										variant="filled"
+										inputVariant="filled"
+										value={selectedDate}
+										onChange={handleDateChange}
+										KeyboardButtonProps={{
+											"aria-label": "change date",
+										}}
+									/>
+								</MuiPickersUtilsProvider>
 							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									className={classes.textField}
-									name="location"
-									variant="filled"
-									fullWidth
-									placeholder="Add your location"
-									id="location"
-									label="Location"
-									autoFocus
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									className={classes.textField}
-									name="website"
-									variant="filled"
-									placeholder="Add your website"
-									fullWidth
-									id="website"
-									label="Website"
-									autoFocus
-								/>
-							</Grid>
-						</Grid>
-					</form>
-					<Grid item xs={12}>
-						<div style={{ marginLeft: "5%" }}>
-							<Typography>
-								Birth date.{" "}
-								<Button
-									style={{
-										color: "rgba(29,161,242,1.00)",
-										textTransform: "capitalize",
-									}}
-								>
-									Edit
-								</Button>
-							</Typography>
-						</div>
-						<div style={{ marginLeft: "5%" }}>
-							<Typography>Add your date of birth</Typography>
-						</div>
-					</Grid>
+						</Form>
+					</Formik>
 				</Paper>
 			</Grid>
 		</>

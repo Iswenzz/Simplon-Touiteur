@@ -8,10 +8,11 @@ import {
 	IconButton,
 	Modal,
 	Paper,
-	TextField,
 	Typography
 } from "@material-ui/core";
-import {Close} from "@material-ui/icons";
+import { Formik, Field, Form } from "formik";
+import { TextField } from "formik-material-ui";
+import {Chat, Close, Favorite, Share} from "@material-ui/icons";
 import Media from "../../components/Media/Media";
 import TestImage from "../../assets/images/1500x500.jpg";
 import Tweet from "../Home/Tweet/Tweet";
@@ -19,6 +20,7 @@ import Main from "../Main/Main";
 import Link from "../../components/Link/Link";
 import * as uuid from "uuid";
 import "./TweetPage.scss";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -93,8 +95,34 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const ModalContent = (props) => {
+export const replyFormInitial = {
+	message: ""
+};
+
+export const ModalContent = (props) =>
+{
 	const classes = useStyles();
+
+	const onReplySubmit = async (values, { setSubmitting }) =>
+	{
+		// if the form as valid information send a post req
+		if (Object.values(values).every(item => item !== undefined && item !== null))
+		{
+			// TODO comment a tweet
+			try
+			{
+				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/tweet/id/post`, {
+					...values
+				});
+				console.log(response);
+			}
+			catch (err)
+			{
+				console.log(err);
+			}
+		}
+		props.closeModal();
+	};
 
 	return (
 		<>
@@ -143,19 +171,25 @@ const ModalContent = (props) => {
 							</Grid>
 						</Grid>
 						<Grid item xs={10} md={11}>
-							<form className={classes.form} noValidate>
-								<Grid container justify={"center"} alignItems={"center"}>
-									<TextField
-										name="message"
-										variant="filled"
-										fullWidth
-										id="reply"
-										placeholder={"Touit your reply"}
-										autoFocus
-										multiline={6}
-									/>
-								</Grid>
-							</form>
+							<Formik initialValues={replyFormInitial} onSubmit={onReplySubmit}>
+								<Form className={classes.form} noValidate>
+									<Grid container justify={"center"} alignItems={"center"}>
+										<Field
+											component={TextField}
+											name="message"
+											variant="filled"
+											fullWidth
+											id="reply"
+											placeholder={"Touit your reply"}
+											autoFocus
+											multiline
+										/>
+									</Grid>
+									<Button color={"primary"} type={"submit"} variant={"contained"} className={classes.btn}>
+										Touit
+									</Button>
+								</Form>
+							</Formik>
 						</Grid>
 					</Grid>
 				</Paper>
@@ -191,27 +225,30 @@ export const TweetPage = (props) =>
 	/**
 	 * Modal close callback.
 	 */
-	const handleClose = () =>
-	{
-		setReplyModalOpen(false);
-	};
+	const handleClose = () => setReplyModalOpen(false);
 
 	/**
 	 * Modal open callback.
 	 */
-	const handleOpen = () =>
-	{
-		setReplyModalOpen(true);
-	};
+	const handleOpen = () => setReplyModalOpen(true);
 
 	return (
 		<Main>
 			<Tweet {...state} />
 			<section>
 				{/*Test Reply Button*/}
-				<Button onClick={handleOpen}>
-					Reply
-				</Button>
+				<Grid className={"tweetpage-icons"} container justify={"space-around"}
+					  alignItems={"center"}>
+					<IconButton aria-label="comments" onClick={handleOpen}>
+						<Chat />
+					</IconButton>
+					<IconButton aria-label="likes">
+						<Favorite />
+					</IconButton>
+					<IconButton aria-label="share">
+						<Share />
+					</IconButton>
+				</Grid>
 				<Modal
 					ref={ref}
 					aria-labelledby="transition-modal-title"
