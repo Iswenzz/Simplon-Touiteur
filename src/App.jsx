@@ -9,6 +9,7 @@ import SignIn from "./containers/SignIn/SignIn";
 import SignUp from "./containers/SignUp/SignUp";
 import Profile from "./containers/Profile/Profile";
 import NotLog from "./containers/NotLog/NotLog";
+import TweetPage from "./containers/TweetPage/TweetPage";
 
 /**
  * Custom material theme + responsive font.
@@ -136,6 +137,7 @@ export const App = () =>
 						<Route path="/signup" children={<SignUp />} />
 						<Route path="/profile" children={<Profile/>} />
 						<Route path="/notlog" children={<NotLog />} />
+						<Route path="/tweet" children={<TweetPage />} />
 						<Route path="/" children={<Home />} />
 					</Switch>
 				</Router>
