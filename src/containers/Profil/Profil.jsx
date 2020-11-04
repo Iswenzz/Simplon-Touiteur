@@ -7,7 +7,7 @@ import { Tab, Tabs, Button, Paper, Avatar, Box, Hidden, Divider } from "@materia
 import { CalendarToday, NavigateBefore, NavigateNext, } from "@material-ui/icons";
 import PhoenixAvatar from "../../assets/images/avatar.png";
 import EditProfile from "./EditProfile";
-import "./Profil.scss";
+
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 	large: {
 		width: theme.spacing(7),
 		height: theme.spacing(7),
-		marginLeft: "1em",
 	},
 	tab: {
 		minWidth: "100px",
@@ -105,8 +104,6 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: "100px",
 		fontSize: "15px",
 	},
-
-
 }));
 
 const Profil = (props) => {
@@ -247,7 +244,13 @@ const Profil = (props) => {
 							</Hidden>
 						</div>
 					</Grid>
-
+					<Grid item xs={12}>
+						{tab === "Likes" && (
+							<Typography style={{ textAlign: "center" }} variant="subtitle1">
+								Likes
+							</Typography>
+						)}
+					</Grid>
 				</Grid>
 				<EditProfile
 					open={editProfile}
@@ -256,15 +259,15 @@ const Profil = (props) => {
 				/>
 			</main>
 
-			<Grid container spacing={1}>
-				<Grid item xs={2}  className="avatarFeed--style">
+			<Grid container spacing={3}>
+				<Grid item xs={2}>
 					<div>
 						<Avatar alt="Déb Phoenix" src={PhoenixAvatar} className={classes.large}/>
 					</div>
 				</Grid>
 				<Grid item xs={10}>
 					<div>Deb Phoenix @deb__phoenix - 26/10/2020</div>
-					<div style={{ marginRight: "1em" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+					<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
 				</Grid>
 			</Grid>
 
