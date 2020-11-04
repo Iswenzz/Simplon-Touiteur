@@ -28,6 +28,7 @@ export const NavBar = () =>
 {
 	const classes = useStyles();
 	const [value, setValue] = React.useState("tweet");
+	const isLgBp = useMediaQuery({ query: "(max-width: 1280px)" });
 	const isTabletOrMobileDevice = useMediaQuery({ query: "(max-device-width: 1224px)" });
 	const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
 
@@ -74,7 +75,7 @@ export const NavBar = () =>
 		</nav>
 	);
 
-	return isTabletOrMobileDevice || isPortrait ? mobileNavbar : desktopNavbar;
+	return isTabletOrMobileDevice || isPortrait || isLgBp ? mobileNavbar : desktopNavbar;
 };
 
 export default NavBar;

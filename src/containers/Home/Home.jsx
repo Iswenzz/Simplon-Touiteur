@@ -36,6 +36,7 @@ export const trendingPlaceholder = [
  */
 export const Home = () =>
 {
+	const isLgBp = useMediaQuery({ query: "(max-width: 1280px)" });
 	const isTabletOrMobileDevice = useMediaQuery({ query: "(max-device-width: 1224px)" });
 	const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
 
@@ -48,12 +49,12 @@ export const Home = () =>
 		<>
 			<Grid className={"home"} container>
 				{/*Left Section*/}
-				<Grid className={"home-aside"} component={"aside"} item xs={12} md={2}>
+				<Grid className={"home-aside"} component={"aside"} item xs={12} lg={2}>
 					<NavBar />
 				</Grid>
 
 				{/*Tweets*/}
-				<Grid component={"section"} item xs={12} md={8}>
+				<Grid component={"section"} item xs={12} lg={8}>
 					<Tweet user={{ name: "Red", username: "redred", date: "26/10/2020"}}
 						   tweet={{ content: "I love you more than pizza 🍕" }}
 						   medias={[ <Media media={TestImage} /> ]} />
@@ -71,8 +72,8 @@ export const Home = () =>
 				</Grid>
 
 				{/*Right Section*/}
-				<Grid item xs={12} md={2}>
-					{isTabletOrMobileDevice || isPortrait ? null : (
+				<Grid item xs={12} lg={2}>
+					{isTabletOrMobileDevice || isPortrait || isLgBp ? null : (
 						<Grid container justify={"center"} alignItems={"center"}>
 							{/*Search Tweet*/}
 							<form noValidate autoComplete="off">
