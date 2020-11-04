@@ -1,0 +1,13 @@
+.postpage {
+	height: 100vh;
+	border: 1px solid #4b555b;
+	background-color: #282C34;
+
+	article {
+		border: none;
+
+		&:hover {
+			background-color: initial;
+		}
+	}
+}

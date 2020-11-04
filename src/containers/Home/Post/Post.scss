@@ -1,52 +1,27 @@
-.birdImg {
-    width: 40px;
-}
-
-.margin {
-    margin: 1em;
-}
-
 .tweetBox {
-	padding-bottom: 10px;
-	padding-right: 10px;
-}
+	border: 1px solid #4b555b;
+	background-color: #282C34;
+	transition: background-color ease-in-out .2s;
+	padding: 14px !important;
 
-.tweetBox > form {
-	display: flex;
-	flex-direction: column;
-}
+	&:hover {
+		background-color: #2d323b;
+	}
 
-.tweetBox__input {
-	padding: 20px;
-	display: flex;
-}
+	form {
+		width: 100%;
+	}
 
-#row
-{
-	width:100%;
-	text-align: center;
-}
-.col
-{
-	margin-left: 2px;
-	display: inline-block;
-	background-color: #1da2f1;
-	border-radius: 3px;
-	border: black;
-}
+	#{&}__input {
+		padding: 20px;
+		display: flex;
 
-.margin {
-	margin: 1em;
-}
+		input {
+			padding-left: 1em;
+		}
+	}
 
-.btnAdd {
-	margin-right: 5px;
-	display: inline-block;
-	background-color: #1da2f1 ;
-	border-radius: 3px;
-	border: black;
-}
-
-.btnWidth {
-	width: 15em;
+	#{&}__icons {
+		padding-top: 1em;
+	}
 }
