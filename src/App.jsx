@@ -5,13 +5,10 @@ import Home from "./containers/Home/Home";
 import {BrowserRouter as Router} from "react-router-dom";
 import {Switch, Route} from "react-router";
 import "./Common.scss";
-import Feed from "./containers/Feed/Feed";
-import SignIn from "./containers/Login/SignIn";
+import SignIn from "./containers/SignIn/SignIn";
 import SignUp from "./containers/SignUp/SignUp";
-import SignIn from "./containers/Login/SignIn";
-
+import Profile from "./containers/Profile/Profile";
 import NotLog from "./containers/NotLog/NotLog";
-import Profil from "./containers/Profil/Profil";
 
 /**
  * Custom material theme + responsive font.
@@ -135,10 +132,10 @@ export const App = () =>
 				<CssBaseline />
 				<Router>
 					<Switch>
-
 						<Route path="/signin" children={<SignIn />} />
 						<Route path="/signup" children={<SignUp />} />
-						<Route path="/profil" children={<Profil/>} />
+						<Route path="/profile" children={<Profile/>} />
+						<Route path="/notlog" children={<NotLog />} />
 						<Route path="/" children={<Home />} />
 					</Switch>
 				</Router>

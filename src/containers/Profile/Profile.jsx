@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Profil = (props) => {
+const Profile = (props) => {
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
 	const [tab, setTab] = React.useState("Tweets");
@@ -276,4 +276,4 @@ const Profil = (props) => {
 	);
 };
 
-export default Profil;
+export default Profile;
