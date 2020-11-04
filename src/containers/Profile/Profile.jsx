@@ -8,6 +8,7 @@ import { CalendarToday, NavigateBefore, NavigateNext, } from "@material-ui/icons
 import PhoenixAvatar from "../../assets/images/avatar.png";
 import EditProfile from "./EditProfile";
 import "./Profile.scss";
+import Main from "../Main/Main";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -139,136 +140,136 @@ const Profile = (props) => {
 	};
 
 	return (
-		<Grid container justify="center" spacing={1}>
-			<main style={{ width: "100%", marginTop: "0px" }}>
-				<Grid item xs={12}>
+		<Main>
+			<Grid className={"profile"} container justify="center" spacing={1}>
+				<main style={{ width: "100%", marginTop: "0px" }}>
 					<Grid item xs={12}>
-						<Paper className={classes.paper}>
-							<div className={classes.avatarBox}>
-								<Box>
-									<Avatar className={classes.avatar}>B</Avatar>
-								</Box>
-							</div>
-						</Paper>
-					</Grid>
-					<Grid style={{ marginLeft: "1rem" }} item xs={12}>
-						<div
-							style={{ justifyContent: "space-between" }}
-							className={classes.horizontalDiv}
-						>
-							<div/>
-							<Button onClick={openProfileEditor} className={classes.btn}>
-								<span>Edit profile</span>
-							</Button>
-						</div>
-						<div style={{ marginBottom: "1rem" }}>
+						<Grid item xs={12}>
+							<Paper className={classes.paper}>
+								<div className={classes.avatarBox}>
+									<Box>
+										<Avatar className={classes.avatar}>B</Avatar>
+									</Box>
+								</div>
+							</Paper>
+						</Grid>
+						<Grid style={{ marginLeft: "1rem" }} item xs={12}>
 							<div
-								style={{ marginTop: "1rem" }}
+								style={{ justifyContent: "space-between" }}
 								className={classes.horizontalDiv}
 							>
+								<div/>
+								<Button onClick={openProfileEditor} className={classes.btn}>
+									<span>Edit profile</span>
+								</Button>
 							</div>
-							<span>
-								<Typography id="username">
-									<small>@Blueblue</small>
-								</Typography>
-							</span>
-						</div>
-						<div style={{ marginBottom: "1rem" }}>
-							<span>
-								<Typography id="status">"I'm blue & this is
+							<div style={{ marginBottom: "1rem" }}>
+								<div
+									style={{ marginTop: "1rem" }}
+									className={classes.horizontalDiv}
+								>
+								</div>
+								<span>
+									<Typography id="username">
+										<small>@Blueblue</small>
+									</Typography>
+								</span>
+							</div>
+							<div style={{ marginBottom: "1rem" }}>
+								<span>
+									<Typography id="status">"I'm blue & this is
 								my bio"</Typography>
-							</span>
-						</div>
-						<div style={{ marginBottom: "1rem" }}>
-							<div className={classes.horizontalDiv}>
-								<CalendarToday fontSize="small" />
-								<div style={{width: "0.8rem"}}/>
-								<Typography id="date-joined">Date Joined</Typography>
+								</span>
 							</div>
-						</div>
-						<div className={classes.linksDiv}>
-							<Link className={classes.links} to="/following">
-								Following
-							</Link>
-							<div style={{width: "2.5rem"}}/>
-							<Link className={classes.links} to="/followers">
-								Followers
-							</Link>
-						</div>
+							<div style={{ marginBottom: "1rem" }}>
+								<div className={classes.horizontalDiv}>
+									<CalendarToday fontSize="small" />
+									<div style={{width: "0.8rem"}}/>
+									<Typography id="date-joined">Date Joined</Typography>
+								</div>
+							</div>
+							<div className={classes.linksDiv}>
+								<Link className={classes.links} to="/following">
+									Following
+								</Link>
+								<div style={{width: "2.5rem"}}/>
+								<Link className={classes.links} to="/followers">
+									Followers
+								</Link>
+							</div>
+						</Grid>
 					</Grid>
-				</Grid>
-				<Grid item xs={12}>
-					<Grid style={{ flexGrow: 1 }} item xs={12}>
+					<Grid item xs={12}>
+						<Grid style={{ flexGrow: 1 }} item xs={12}>
+							<div>
+								<Hidden smUp>
+									<Button onClick={handleBackTab}>
+										<NavigateBefore className={classes.backArrow} />
+									</Button>
+								</Hidden>
+								<Tabs
+									variant="fullWidth"
+									component="nav"
+									className={classes.tabs}
+									value={value}
+									indicatorColor="primary"
+									onChange={handleChange}
+								>
+									<Tab
+										tabIndex={0}
+										label="Tweets"
+										onClick={() => setTab("Tweets")}
+										className={classes.tab}
+									/>
+									<Tab
+										tabIndex={1}
+										label="Tweets & replies"
+										onClick={() => setTab("Tweets & replies")}
+										className={classes.tab}
+									/>
+									<Tab
+										tabIndex={2}
+										label="Media"
+										onClick={() => setTab("Media")}
+										className={classes.tab}
+									/>
+									<Tab
+										tabIndex={3}
+										label="Likes"
+										onClick={() => setTab("Likes")}
+										className={classes.tab}
+									/>
+								</Tabs>
+								<Divider />
+								<Hidden smUp>
+									<Button onClick={handleNextTab}>
+										<NavigateNext className={classes.backArrow} />
+									</Button>
+								</Hidden>
+							</div>
+						</Grid>
+
+					</Grid>
+					<EditProfile
+						open={editProfile}
+						onClose={() => setEditProfile(false)}
+						closeModal={() => setEditProfile(false)}
+					/>
+				</main>
+
+				<Grid container spacing={1}>
+					<Grid item xs={2}  className="avatarFeed--style">
 						<div>
-							<Hidden smUp>
-								<Button onClick={handleBackTab}>
-									<NavigateBefore className={classes.backArrow} />
-								</Button>
-							</Hidden>
-							<Tabs
-								variant="fullWidth"
-								component="nav"
-								className={classes.tabs}
-								value={value}
-								indicatorColor="primary"
-								onChange={handleChange}
-							>
-								<Tab
-									tabIndex={0}
-									label="Tweets"
-									onClick={() => setTab("Tweets")}
-									className={classes.tab}
-								/>
-								<Tab
-									tabIndex={1}
-									label="Tweets & replies"
-									onClick={() => setTab("Tweets & replies")}
-									className={classes.tab}
-								/>
-								<Tab
-									tabIndex={2}
-									label="Media"
-									onClick={() => setTab("Media")}
-									className={classes.tab}
-								/>
-								<Tab
-									tabIndex={3}
-									label="Likes"
-									onClick={() => setTab("Likes")}
-									className={classes.tab}
-								/>
-							</Tabs>
-							<Divider />
-							<Hidden smUp>
-								<Button onClick={handleNextTab}>
-									<NavigateNext className={classes.backArrow} />
-								</Button>
-							</Hidden>
+							<Avatar alt="Déb Phoenix" src={PhoenixAvatar} className={classes.large}/>
 						</div>
 					</Grid>
-
-				</Grid>
-				<EditProfile
-					open={editProfile}
-					onClose={() => setEditProfile(false)}
-					closeModal={() => setEditProfile(false)}
-				/>
-			</main>
-
-			<Grid container spacing={1}>
-				<Grid item xs={2}  className="avatarFeed--style">
-					<div>
-						<Avatar alt="Déb Phoenix" src={PhoenixAvatar} className={classes.large}/>
-					</div>
-				</Grid>
-				<Grid item xs={10}>
-					<div>Deb Phoenix @deb__phoenix - 26/10/2020</div>
-					<div style={{ marginRight: "1em" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+					<Grid item xs={10}>
+						<div>Deb Phoenix @deb__phoenix - 26/10/2020</div>
+						<div style={{ marginRight: "1em" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+					</Grid>
 				</Grid>
 			</Grid>
-
-
-		</Grid>
+		</Main>
 	);
 };
 

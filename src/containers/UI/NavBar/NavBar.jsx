@@ -9,9 +9,9 @@ import {makeStyles} from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import SettingIcon from "@material-ui/icons/Settings";
-import {Link} from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import "./NavBar.scss";
+import Link from "../../../components/Link/Link";
 
 const useStyles = makeStyles({
 	root: {
@@ -46,21 +46,21 @@ export const NavBar = () =>
 		<Grid className={"navbar"} component={"nav"} container direction={"column"} alignItems={"center"} justify={"center"}>
 			<TouiteurLogo />
 			<Grid container direction={"column"} justify={"center"} alignItems={"center"}>
-				<Button size="large" color="primary" startIcon={<HomeIcon />}>
+				<Link to={"/"} component={Button} size="large" color="primary" startIcon={<HomeIcon />}>
 					Home
-				</Button>
-				<Button size="large" color="primary" startIcon={<Explore />}>
+				</Link>
+				<Link to={"/"} component={Button} size="large" color="primary" startIcon={<Explore />}>
 					Explore
-				</Button>
-				<Button size="large" color="primary" startIcon={<Notifications />}>
+				</Link>
+				<Link to={"/"} component={Button} size="large" color="primary" startIcon={<Notifications />}>
 					Notification
-				</Button>
-				<Button size="large" color="primary" startIcon={<Bookmark />}>
+				</Link>
+				<Link to={"/"} component={Button} size="large" color="primary" startIcon={<Bookmark />}>
 					Bookmarks
-				</Button>
-				<Button size="large" color="primary" startIcon={<Person />}>
+				</Link>
+				<Link to={"/profile"} component={Button} size="large" color="primary" startIcon={<Person />}>
 					Profile
-				</Button>
+				</Link>
 			</Grid>
 		</Grid>
 	);
