@@ -1,0 +1,15 @@
+.avatarFeed--style {
+    display: flex;
+    justify-content:center;
+
+}
+
+
+.link--style {
+    color: #fff!important;
+    text-decoration: none!important;
+    &:hover{
+        color: #1DA2F1 !important;
+        text-decoration: underline!important;
+    }
+}
