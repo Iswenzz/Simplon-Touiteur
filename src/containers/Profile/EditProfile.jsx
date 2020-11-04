@@ -11,20 +11,21 @@ import { CameraAlt, Close } from "@material-ui/icons";
 const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
-		width: "50%",
 		height: "90%",
 		marginTop: "2.5rem",
 		borderRadius: "1rem",
 		font: "inherit",
 		marginLeft: "2.5rem",
-		[theme.breakpoints.up("sm")]: {
+		[theme.breakpoints.down("md")]: {
 			margin: "2.5rem auto",
+			width: "100%"
 		},
-		[theme.breakpoints.up("md")]: {
+		[theme.breakpoints.up("lg")]: {
 			margin: "2.5rem auto",
+			width: "50%"
 		},
-		overflowY: "scroll",
-		overflowX: "Hidden",
+		overflowY: "auto",
+		overflowX: "hidden",
 	},
 	form: {
 		width: "100%",
@@ -101,13 +102,12 @@ const useStyles = makeStyles((theme) => ({
 
 const ModalContent = (props) => {
 	const classes = useStyles();
-	const ref = React.forwardRef();
 	return (
 		<Grid container className={classes.root}>
 			<Paper className={classes.paper}>
 				<Grid component="nav" className={classes.header} item>
 					<div style={{ display: "flex", flexDirection: "row" }}>
-						<IconButton ref={ref} onClick={props.closeModal}>
+						<IconButton onClick={props.closeModal}>
 							<Close className={classes.icon} />{" "}
 						</IconButton>
 						<Typography className={classes.typo} variant="h4">
