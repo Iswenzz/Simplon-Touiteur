@@ -21,13 +21,15 @@ export const Tweet = (props) =>
 	}, []);
 
 	return (
-		<Container className={"tweet"} maxWidth={"sm"}>
+		<Container className={"tweet"}>
 			<Link component={"section"} to={`/tweet/${props.user.id || 0}`}>
 				<Grid className={"tweet-card"} container>
-					<Grid item xs={3}>
-						<Avatar id={props.user.id} />
+					<Grid item xs={1}>
+						<Grid container justify={"center"} alignItems={"center"}>
+							<Avatar id={props.user.id} />
+						</Grid>
 					</Grid>
-					<Grid item xs={9}>
+					<Grid item xs={11}>
 						<Grid container direction={"column"}>
 							<Link to={`/profile/${props.user.id || 0}`}>
 								<Typography className={"tweet-card-name"} variant={"h5"} component={"span"}>
@@ -45,7 +47,7 @@ export const Tweet = (props) =>
 									<li key={uuid.v4()}>{e}</li>
 								))}
 							</ul>
-							<Grid container justify={"space-between"} alignItems={"center"}>
+							<Grid container justify={"flex-end"} alignItems={"center"}>
 								<section>
 									<IconButton aria-label="likes">
 										<Favorite />

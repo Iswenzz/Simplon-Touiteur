@@ -48,12 +48,12 @@ export const Home = () =>
 		<>
 			<Grid className={"home"} container>
 				{/*Left Section*/}
-				<Grid className={"home-aside"} component={"aside"} item xs={12} md={4}>
+				<Grid className={"home-aside"} component={"aside"} item xs={12} md={2}>
 					<NavBar />
 				</Grid>
 
 				{/*Tweets*/}
-				<Grid component={"section"} item xs={12} md={4}>
+				<Grid component={"section"} item xs={12} md={8}>
 					<Tweet user={{ name: "Red", username: "redred", date: "26/10/2020"}}
 						   tweet={{ content: "I love you more than pizza 🍕" }}
 						   medias={[ <Media media={TestImage} /> ]} />
@@ -71,7 +71,7 @@ export const Home = () =>
 				</Grid>
 
 				{/*Right Section*/}
-				<Grid item xs={12} md={4}>
+				<Grid item xs={12} md={2}>
 					{isTabletOrMobileDevice || isPortrait ? null : (
 						<Grid container justify={"center"} alignItems={"center"}>
 							{/*Search Tweet*/}
