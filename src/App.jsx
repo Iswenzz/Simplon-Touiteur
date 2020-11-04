@@ -8,8 +8,9 @@ import "./Common.scss";
 import SignIn from "./containers/SignIn/SignIn";
 import SignUp from "./containers/SignUp/SignUp";
 import Profile from "./containers/Profile/Profile";
-import NotLog from "./containers/NotLog/NotLog";
+import IndexPage from "./containers/IndexPage/IndexPage";
 import TweetPage from "./containers/TweetPage/TweetPage";
+import WavesEffect from "./components/WavesEffect/WavesEffect";
 
 /**
  * Custom material theme + responsive font.
@@ -133,12 +134,12 @@ export const App = () =>
 				<CssBaseline />
 				<Router>
 					<Switch>
-						<Route path="/signin" children={<SignIn />} />
-						<Route path="/signup" children={<SignUp />} />
+						<Route path="/signin" children={<WavesEffect children={<SignIn />} />} />
+						<Route path="/signup" children={<WavesEffect children={<SignUp />} />} />
 						<Route path="/profile" children={<Profile/>} />
-						<Route path="/notlog" children={<NotLog />} />
 						<Route path="/tweet" children={<TweetPage />} />
-						<Route path="/" children={<Home />} />
+						<Route path="/home" children={<Home />} />
+						<Route path="/" children={<WavesEffect children={<IndexPage />} />} />
 					</Switch>
 				</Router>
 			</ThemeProvider>

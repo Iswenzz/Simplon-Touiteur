@@ -209,11 +209,10 @@ const ModalContent = (props) => {
 									className={classes.textField}
 									name="website"
 									variant="filled"
-									required
 									placeholder="Add your website"
 									fullWidth
 									id="website"
-									label="website"
+									label="Website"
 									autoFocus
 								/>
 							</Grid>
