@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class SecurityController
@@ -20,12 +21,14 @@ class SecurityController extends AbstractController
 {
 	/**
 	 * Register a user.
-	 * @Route("/register", name="register")
+	 * @Route("/register", name="register", methods={"POST"})
 	 * @param Request $request
 	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 * @param ValidatorInterface $validator
 	 * @return JsonResponse
 	 */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): JsonResponse
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,
+							 ValidatorInterface $validator): JsonResponse
     {
         $user = new User();
 		$data = json_decode($request->getContent(), true);
@@ -40,6 +43,11 @@ class SecurityController extends AbstractController
             $user->setCreatedAt(new DateTime("NOW"));
             $user->setEmail($data["email"]);
             $user->setUsername($data["username"]);
+
+            // validate
+			$errors = $validator->validate($user);
+			if (count($errors))
+				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -56,7 +64,7 @@ class SecurityController extends AbstractController
 
 	/**
 	 * Log in a user.
-	 * @Route("/login", name="login")
+	 * @Route("/login", name="login", methods={"POST"})
 	 * @param User $user
 	 * @param JWTTokenManagerInterface $JWTManager
 	 * @return JsonResponse
@@ -70,7 +78,7 @@ class SecurityController extends AbstractController
 
 	/**
 	 * Check if the user connection is correctly established.
-	 * @Route("/check", name="check")
+	 * @Route("/check", name="check", methods={"GET"})
 	 */
 	public function check()
 	{

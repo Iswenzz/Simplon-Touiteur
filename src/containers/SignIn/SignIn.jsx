@@ -68,7 +68,10 @@ export const SignIn = (props) =>
 					...values
 				});
 				if (response.status === 200)
+				{
 					localStorage.setItem("auth", response.data.token);
+					props.history.push("/home");
+				}
 			}
 			catch (err)
 			{

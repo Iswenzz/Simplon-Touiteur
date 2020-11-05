@@ -5,6 +5,8 @@ import TestImage from "../../assets/images/1500x500.jpg";
 import Main from "../Main/Main";
 import Post from "./Post/Post";
 import {withRouter} from "react-router";
+import axios from "axios";
+import {getAuthHeader} from "../../api/auth";
 import "./Home.scss";
 
 /**
@@ -17,7 +19,23 @@ export const Home = (props) =>
 	useEffect(() =>
 	{
 		// TODO get user feed
+		test();
 	}, []);
+
+	const test = async () =>
+	{
+		try
+		{
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/1`, {
+				headers: getAuthHeader()
+			});
+			console.log(response);
+		}
+		catch (e)
+		{
+			console.log(e);
+		}
+	};
 
 	return (
 		<Main {...props}>
