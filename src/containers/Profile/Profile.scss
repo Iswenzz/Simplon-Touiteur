@@ -8,11 +8,13 @@
     justify-content:center;
 }
 
-.link--style {
-    color: #fff!important;
-    text-decoration: none!important;
+.btn {
+    margin: 1em!important;
+    color: #fff !important;
+    background-color: #1DA2F1!important;
     &:hover{
-        color: #1DA2F1 !important;
-        text-decoration: underline!important;
+        color: #fff !important;
+        background-color: #0078ff!important;
+        text-decoration: none!important;
     }
 }

@@ -1,15 +1,13 @@
 /* eslint-disable no-template-curly-in-string */
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { Tab, Tabs, Button, Paper, Avatar, Box, Hidden, Divider } from "@material-ui/core";
+import { Grid, Typography, Tab, Tabs, Button, Paper, Avatar, Box, Hidden, Divider } from "@material-ui/core";
 import { CalendarToday, NavigateBefore, NavigateNext, } from "@material-ui/icons";
 import PhoenixAvatar from "../../assets/images/avatar.png";
 import EditProfile from "./EditProfile";
 import "./Profile.scss";
 import Main from "../Main/Main";
-import {withRouter} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -18,8 +16,6 @@ const useStyles = makeStyles((theme) => ({
 		position: "sticky",
 		top: "0rem",
 		marginBottom: "0rem",
-		background: "white",
-		color: "gray",
 	},
 	large: {
 		width: theme.spacing(7),
@@ -31,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
 		textTransform: "capitalize",
 		borderBottomColor: "rgb(29, 161, 242)",
 		"&:hover": {
-			backgroundColor: "rgb(206,233,234)",
-			color: "rgba(29,161,242,1.00)",
+			backgroundColor: "#1DA2F1",
+			color: "#fff",
 		},
 		"&:focus": {
-			backgroundColor: "rgb(206,233,234)",
-			color: "rgba(29,161,242,1.00)",
+			backgroundColor: "#0078ff",
+			color: "#fff",
 		},
 	},
 	tabs: {
@@ -45,14 +41,14 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "15px",
 		width: "100%",
 		"& .MuiTabs-indicator": {
-			backgroundColor: "rgba(29,161,242,1.00)",
+			backgroundColor: "#1DA2F1",
 		},
 		[theme.breakpoints.down("xs")]: {
 			minWidth: "80px",
 		},
 	},
 	paper: {
-		backgroundColor: "rgb(204, 214, 221)",
+		backgroundColor: "#ccc",
 		height: "12rem",
 		top: "0rem",
 		marginTop: "0rem",
@@ -68,15 +64,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	backArrow: {
 		color: "rgba(29,161,242,1.00)",
-	},
-	btn: {
-		backgroundColor: "#1DA2F1!important",
-		color: "#fff",
-		fontWeight: "bold",
-		borderRadius: "0",
-		marginTop: "0.7rem",
-		marginRight: "1rem",
-		textTransform: "capitalize",
 	},
 	avatarBox: {
 		position: "relative",
@@ -141,7 +128,7 @@ const Profile = (props) => {
 	};
 
 	return (
-		<Main {...props}>
+		<Main>
 			<Grid className={"profile"} container justify="center" spacing={1}>
 				<main style={{ width: "100%", marginTop: "0px" }}>
 					<Grid item xs={12}>
@@ -160,7 +147,7 @@ const Profile = (props) => {
 								className={classes.horizontalDiv}
 							>
 								<div/>
-								<Button onClick={openProfileEditor} className={classes.btn}>
+								<Button onClick={openProfileEditor} className="btn">
 									<span>Edit profile</span>
 								</Button>
 							</div>
@@ -178,7 +165,7 @@ const Profile = (props) => {
 							</div>
 							<div style={{ marginBottom: "1rem" }}>
 								<span>
-									<Typography id="status">"I'm blue & this is
+									<Typography variant={"h6"} component={"h6"} id="status">"I'm blue & this is
 								my bio"</Typography>
 								</span>
 							</div>
@@ -203,11 +190,6 @@ const Profile = (props) => {
 					<Grid item xs={12}>
 						<Grid style={{ flexGrow: 1 }} item xs={12}>
 							<div>
-								<Hidden smUp>
-									<Button onClick={handleBackTab}>
-										<NavigateBefore className={classes.backArrow} />
-									</Button>
-								</Hidden>
 								<Tabs
 									variant="fullWidth"
 									component="nav"
@@ -274,4 +256,4 @@ const Profile = (props) => {
 	);
 };
 
-export default withRouter(Profile);
+export default Profile;
