@@ -26,8 +26,11 @@ export const Home = (props) =>
 	{
 		try
 		{
-			const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/1`, {
-				headers: getAuthHeader()
+			let response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/tweet/1`);
+			console.log(response);
+
+			response = await axios.put(`${process.env.REACT_APP_BACKEND}/api/tweet/1`, {
+				content: "lmao"
 			});
 			console.log(response);
 		}
