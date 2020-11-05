@@ -1,4 +1,3 @@
-/* eslint-disable no-template-curly-in-string */
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
@@ -6,8 +5,8 @@ import { Grid, Typography, Tab, Tabs, Button, Paper, Avatar, Box, Hidden, Divide
 import { CalendarToday, NavigateBefore, NavigateNext, } from "@material-ui/icons";
 import PhoenixAvatar from "../../assets/images/avatar.png";
 import EditProfile from "./EditProfile";
-import "./Profile.scss";
 import Main from "../Main/Main";
+import "./Profile.scss";
 
 const useStyles = makeStyles((theme) => ({
 	root: {

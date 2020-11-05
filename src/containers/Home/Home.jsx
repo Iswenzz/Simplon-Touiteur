@@ -4,8 +4,8 @@ import Media from "../../components/Media/Media";
 import TestImage from "../../assets/images/1500x500.jpg";
 import Main from "../Main/Main";
 import Post from "./Post/Post";
-import "./Home.scss";
 import {withRouter} from "react-router";
+import "./Home.scss";
 
 /**
  * Home page feed.
