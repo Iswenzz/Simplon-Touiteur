@@ -1,5 +1,4 @@
-/* eslint-disable no-template-curly-in-string */
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Button from "@material-ui/core/Button";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
@@ -9,8 +8,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Link from "../../components/Link/Link";
 import TouiteurLogo from "../../components/TouiteurLogo/TouiteurLogo";
-import "./SignIn.scss";
 import axios from "axios";
+import {checkAuth} from "../../api/auth";
+import {withRouter} from "react-router";
+import PageLoader from "../../components/PageLoader/PageLoader";
+import "./SignIn.scss";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -32,9 +34,25 @@ export const signInFormInitial = {
 	password: ""
 };
 
-export const SignIn = () =>
+export const SignIn = (props) =>
 {
 	const classes = useStyles();
+	const [isLoading, setLoading] = useState(true);
+
+	useEffect(() =>
+	{
+		checkLog();
+	}, []);
+
+	const checkLog = async () =>
+	{
+		if (!await checkAuth())
+		{
+			setLoading(false);
+			return;
+		}
+		props.history.push("/home");
+	};
 
 	/**
 	 * Log the user.
@@ -50,7 +68,10 @@ export const SignIn = () =>
 					...values
 				});
 				if (response.status === 200)
+				{
 					localStorage.setItem("auth", response.data.token);
+					props.history.push("/home");
+				}
 			}
 			catch (err)
 			{
@@ -58,7 +79,8 @@ export const SignIn = () =>
 			}
 		}
 	};
-	return (
+
+	return isLoading ? <PageLoader /> : (
 		<Container className={"signin"} component="main" maxWidth="xs">
 			<div className={classes.paper}>
 				<TouiteurLogo />
@@ -126,4 +148,4 @@ export const SignIn = () =>
 	);
 };
 
-export default SignIn;
+export default withRouter(SignIn);

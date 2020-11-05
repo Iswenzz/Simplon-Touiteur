@@ -46,16 +46,16 @@ export const NavBar = () =>
 		<Grid className={"navbar"} component={"nav"} container direction={"column"} alignItems={"center"} justify={"center"}>
 			<TouiteurLogo />
 			<Grid container direction={"column"} justify={"center"} alignItems={"center"}>
-				<Link to={"/"} component={Button} size="large" color="primary" startIcon={<HomeIcon />}>
+				<Link to={"/home"} component={Button} size="large" color="primary" startIcon={<HomeIcon />}>
 					Home
 				</Link>
-				<Link to={"/"} component={Button} size="large" color="primary" startIcon={<Explore />}>
+				<Link to={"/home"} component={Button} size="large" color="primary" startIcon={<Explore />}>
 					Explore
 				</Link>
-				<Link to={"/"} component={Button} size="large" color="primary" startIcon={<Notifications />}>
+				<Link to={"/home"} component={Button} size="large" color="primary" startIcon={<Notifications />}>
 					Notification
 				</Link>
-				<Link to={"/"} component={Button} size="large" color="primary" startIcon={<Bookmark />}>
+				<Link to={"/home"} component={Button} size="large" color="primary" startIcon={<Bookmark />}>
 					Bookmarks
 				</Link>
 				<Link to={"/profile"} component={Button} size="large" color="primary" startIcon={<Person />}>
@@ -68,9 +68,9 @@ export const NavBar = () =>
 	const mobileNavbar = (
 		<nav className="navbar-mobile">
 			<BottomNavigation showLabels component={"section"} value={value} onChange={handleChange} className={classes.root}>
-				<BottomNavigationAction label="Settings" value="settings" icon={<SettingIcon />} component={Link} to="/settings" />
-				<BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} component={Link} to="/" />
-				<BottomNavigationAction label="Tweet" value="tweet" icon={<CreateIcon />} component={Link} to="/feed" />
+				<BottomNavigationAction label="Settings" value="settings" icon={<SettingIcon />} component={Link} to="/profile" />
+				<BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} component={Link} to="/home" />
+				<BottomNavigationAction label="Tweet" value="tweet" icon={<CreateIcon />} component={Link} to="/post" />
 			</BottomNavigation>
 		</nav>
 	);

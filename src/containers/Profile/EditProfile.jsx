@@ -1,30 +1,50 @@
-import React from "react";
+import "date-fns";
+import React, {useRef} from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-	Container, Grid, Paper, TextField, Fab, Button,
+import {Grid, Paper, Fab,
 	IconButton, Typography, Modal, Backdrop, Avatar, Box,
-}
-	from "@material-ui/core";
+} from "@material-ui/core";
+import { Formik, Field, Form } from "formik";
+import { TextField } from "formik-material-ui";
 import { CameraAlt, Close } from "@material-ui/icons";
-
+import axios from "axios";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+	MuiPickersUtilsProvider,
+	KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
-		width: "50%",
-		height: "90%",
+		margin: "auto",
+		borderBottomLeftRadius: "1rem",
+		borderBottomRightRadius: "1rem",
+		height: "80%",
+		[theme.breakpoints.down("md")]: {
+			width: "100%"
+		},
+		[theme.breakpoints.up("lg")]: {
+			width: "50%"
+		},
+		overflowY: "auto",
+		overflowX: "hidden",
+	},
+	header: {
 		marginTop: "2.5rem",
-		borderRadius: "1rem",
-		font: "inherit",
-		marginLeft: "2.5rem",
-		[theme.breakpoints.up("sm")]: {
-			margin: "2.5rem auto",
+		display: "flex",
+		margin: "auto",
+		justifyContent: "space-between",
+		flexDirection: "row",
+		backgroundColor: "rgb(40, 40, 40)",
+		borderTopLeftRadius: "1rem",
+		borderTopRightRadius: "1rem",
+		[theme.breakpoints.down("md")]: {
+			width: "100%"
 		},
-		[theme.breakpoints.up("md")]: {
-			margin: "2.5rem auto",
+		[theme.breakpoints.up("lg")]: {
+			width: "50%"
 		},
-		overflowY: "scroll",
-		overflowX: "Hidden",
 	},
 	form: {
 		width: "100%",
@@ -51,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
 	darkArea: {
 		backgroundColor: "rgb(204, 214, 221)",
 		height: "12rem",
-		marginTop: "1rem",
 		opacity: "0.75",
 	},
 	icon: {
@@ -77,16 +96,11 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: "rgba(29,161,242,1.00)",
 		},
 	},
-	header: {
-		display: "flex",
-		justifyContent: "space-between",
-		flexDirection: "row",
-	},
 	typo: {
-		font: "Roboto",
+		font: "inherit",
 		fontSize: "25px",
-		marginTop: "1rem",
 		fontWeight: "bold",
+		alignSelf: "center"
 	},
 	textField: {
 		width: "90%",
@@ -99,146 +113,192 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ModalContent = (props) => {
+export const editFormInitial = {
+	banner: "",
+	avatar: "",
+	name: "",
+	bio: "",
+	location: "",
+	birthdate: ""
+};
+
+export const ModalContent = (props) =>
+{
 	const classes = useStyles();
-	const ref = React.forwardRef();
+	const [selectedDate, setSelectedDate] = React.useState(null);
+	const formRef = useRef();
+
+	/**
+	 * Edit the user profile.
+	 */
+	const onEditSubmit = async (values, { setSubmitting }) =>
+	{
+		// if the form as valid information send a post req
+		if (Object.values(values).every(item => item !== undefined && item !== null))
+		{
+			try
+			{
+				// TODO update user profile
+				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/user/id`, {
+					...values
+				});
+				console.log(response);
+			}
+			catch (err)
+			{
+				console.log(err);
+			}
+		}
+		props.closeModal();
+	};
+
+	/**
+	 * Date picker change callback.
+	 * @param date - The selected date.
+	 */
+	const handleDateChange = (date) => setSelectedDate(date);
+
+	/**
+	 * Save profile button click callback.
+	 */
+	const onSaveClick = () =>
+	{
+		if (formRef.current)
+			formRef.current.handleSubmit();
+	};
+
 	return (
-		<Grid container className={classes.root}>
-			<Paper className={classes.paper}>
-				<Grid component="nav" className={classes.header} item>
-					<div style={{ display: "flex", flexDirection: "row" }}>
-						<IconButton ref={ref} onClick={props.closeModal}>
-							<Close className={classes.icon} />{" "}
-						</IconButton>
-						<Typography className={classes.typo} variant="h4">
-                            Edit profile
-						</Typography>
+		<>
+			<Grid component="nav" className={classes.header} item>
+				<div style={{ display: "flex", flexDirection: "row" }}>
+					<IconButton onClick={props.closeModal}>
+						<Close className={classes.icon} />
+					</IconButton>
+					<Typography className={classes.typo} variant="h4">
+						Edit profile
+					</Typography>
+				</div>
+				<Fab
+					variant="extended"
+					size="small"
+					className={classes.btn}
+					type="submit"
+				>
+					<div className={classes.btnDiv} onClick={onSaveClick}>
+						<span>Save</span>
 					</div>
-					<Fab
-						variant="extended"
-						size="small"
-						className={classes.btn}
-						type="submit"
-					>
-						<div className={classes.btnDiv}>
-							<span>Save</span>
-						</div>
-					</Fab>
-				</Grid>
-				<Grid className={classes.darkArea} item>
-					<input
-						accept="image/*"
-						className={classes.input}
-						id="contained-button-file"
-						multiple
-						type="file"
-					/>
-					<label htmlFor="contained-button-file">
-						<IconButton
-							className={classes.camera}
-							aria-label="upload picture"
-							component="span"
-						>
-							<CameraAlt className={classes.icon} />
-						</IconButton>
-					</label>
-					<div className={classes.avatarBox}>
-						<Box>
-							<Avatar className={classes.avatar}>
-								<input
-									accept="image/*"
-									className={classes.input}
-									id="contained-button-file"
-									multiple
-									type="file"
-								/>
-								<label htmlFor="contained-button-file">
-									<IconButton aria-label="upload picture" component="span">
-										<CameraAlt className={classes.icon} />
-									</IconButton>
-								</label>
-							</Avatar>
-						</Box>
-					</div>
-				</Grid>
-				<form className={classes.form} noValidate>
-					<Grid container spacing={2}>
-						<Grid item xs={12}>
-							<TextField
-								className={classes.textField}
-								name="Name"
-								variant="filled"
-								fullWidth
-								id="Name"
-								label="Name"
-								autoFocus
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								className={classes.textField}
-								name="Bio"
-								variant="filled"
-								multiline
-								fullWidth
-								id="Bio"
-								label="Bio"
-								autoFocus
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								className={classes.textField}
-								name="location"
-								variant="filled"
-								fullWidth
-								placeholder="Add your location"
-								id="location"
-								label="Location"
-								autoFocus
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								className={classes.textField}
-								name="website"
-								variant="filled"
-								required
-								placeholder="Add your website"
-								fullWidth
-								id="website"
-								label="website"
-								autoFocus
-							/>
-						</Grid>
-					</Grid>
-				</form>
-				<Grid item xs={12}>
-					<div style={{ marginLeft: "5%" }}>
-						<Typography>
-                            Birth date.{" "}
-							<Button
-								style={{
-									color: "rgba(29,161,242,1.00)",
-									textTransform: "capitalize",
-								}}
+				</Fab>
+			</Grid>
+			<Grid container className={classes.root}>
+				<Paper className={classes.paper}>
+					<Grid className={classes.darkArea} item>
+						<input
+							accept="image/*"
+							className={classes.input}
+							id="contained-button-file"
+							name="banner"
+							type="file"
+						/>
+						<label htmlFor="contained-button-file">
+							<IconButton
+								className={classes.camera}
+								aria-label="upload picture"
+								component="span"
 							>
-                                Edit
-							</Button>
-						</Typography>
-					</div>
-					<div style={{ marginLeft: "5%" }}>
-						<Typography>Add your date of birth</Typography>
-					</div>
-				</Grid>
-			</Paper>
-		</Grid>
+								<CameraAlt className={classes.icon} />
+							</IconButton>
+						</label>
+						<div className={classes.avatarBox}>
+							<Box>
+								<Avatar className={classes.avatar}>
+									<input
+										accept="image/*"
+										className={classes.input}
+										id="contained-button-file"
+										type="file"
+										name="avatar"
+									/>
+									<label htmlFor="contained-button-file">
+										<IconButton aria-label="upload picture" component="span">
+											<CameraAlt className={classes.icon} />
+										</IconButton>
+									</label>
+								</Avatar>
+							</Box>
+						</div>
+					</Grid>
+					<Formik innerRef={formRef} initialValues={editFormInitial} onSubmit={onEditSubmit}>
+						<Form className={classes.form} noValidate>
+							<Grid container spacing={2}>
+								<Grid item xs={12}>
+									<Field
+										component={TextField}
+										className={classes.textField}
+										name="name"
+										variant="filled"
+										fullWidth
+										id="Name"
+										label="Name"
+										autoFocus
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<Field
+										component={TextField}
+										className={classes.textField}
+										name="bio"
+										variant="filled"
+										multiline
+										fullWidth
+										id="Bio"
+										label="Bio"
+										autoFocus
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<Field
+										component={TextField}
+										className={classes.textField}
+										name="location"
+										variant="filled"
+										fullWidth
+										placeholder="Add your location"
+										id="location"
+										label="Location"
+										autoFocus
+									/>
+								</Grid>
+							</Grid>
+							<Grid item xs={12}>
+								<MuiPickersUtilsProvider utils={DateFnsUtils}>
+									<KeyboardDatePicker
+										className={classes.textField}
+										margin="normal"
+										id="date-picker-dialog"
+										label="BirthDate"
+										format="MM/dd/yyyy"
+										variant="filled"
+										inputVariant="filled"
+										value={selectedDate}
+										onChange={handleDateChange}
+										KeyboardButtonProps={{
+											"aria-label": "change date",
+										}}
+									/>
+								</MuiPickersUtilsProvider>
+							</Grid>
+						</Form>
+					</Formik>
+				</Paper>
+			</Grid>
+		</>
 	);
 };
 
 const EditProfile = (props) => {
 	const classes = useStyles();
 	const ref = React.createRef();
+
 	return (
 		<Modal
 			ref={ref}

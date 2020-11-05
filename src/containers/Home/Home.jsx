@@ -2,28 +2,44 @@ import React, {useEffect} from "react";
 import Tweet from "./Tweet/Tweet";
 import Media from "../../components/Media/Media";
 import TestImage from "../../assets/images/1500x500.jpg";
-import {useMediaQuery} from "react-responsive/src";
-import "./Home.scss";
 import Main from "../Main/Main";
+import Post from "./Post/Post";
+import {withRouter} from "react-router";
+import axios from "axios";
+import {getAuthHeader} from "../../api/auth";
+import "./Home.scss";
 
 /**
  * Home page feed.
  * @returns {JSX.Element}
  * @constructor
  */
-export const Home = () =>
+export const Home = (props) =>
 {
-	const isLgBp = useMediaQuery({ query: "(max-width: 1280px)" });
-	const isTabletOrMobileDevice = useMediaQuery({ query: "(max-device-width: 1224px)" });
-	const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
-
 	useEffect(() =>
 	{
 		// TODO get user feed
+		test();
 	}, []);
 
+	const test = async () =>
+	{
+		try
+		{
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/1`, {
+				headers: getAuthHeader()
+			});
+			console.log(response);
+		}
+		catch (e)
+		{
+			console.log(e);
+		}
+	};
+
 	return (
-		<Main>
+		<Main {...props}>
+			<Post user={{ name: "Red", username: "redred", date: "26/10/2020"}} />
 			<Tweet user={{ name: "Red", username: "redred", date: "26/10/2020"}}
 				   tweet={{ content: "I love you more than pizza 🍕" }}
 				   medias={[ <Media media={TestImage} /> ]} />
@@ -42,4 +58,4 @@ export const Home = () =>
 	);
 };
 
-export default Home;
+export default withRouter(Home);

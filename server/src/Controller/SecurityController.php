@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class SecurityController
@@ -19,12 +20,15 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class SecurityController extends AbstractController
 {
 	/**
-	 * @Route("/register", name="register")
+	 * Register a user.
+	 * @Route("/register", name="register", methods={"POST"})
 	 * @param Request $request
 	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 * @param ValidatorInterface $validator
 	 * @return JsonResponse
 	 */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): JsonResponse
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,
+							 ValidatorInterface $validator): JsonResponse
     {
         $user = new User();
 		$data = json_decode($request->getContent(), true);
@@ -40,6 +44,11 @@ class SecurityController extends AbstractController
             $user->setEmail($data["email"]);
             $user->setUsername($data["username"]);
 
+            // validate
+			$errors = $validator->validate($user);
+			if (count($errors))
+				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -53,9 +62,9 @@ class SecurityController extends AbstractController
 		], 400);
     }
 
-
 	/**
-	 * @Route("/login", name="login")
+	 * Log in a user.
+	 * @Route("/login", name="login", methods={"POST"})
 	 * @param User $user
 	 * @param JWTTokenManagerInterface $JWTManager
 	 * @return JsonResponse
@@ -64,6 +73,17 @@ class SecurityController extends AbstractController
 	{
 		return $this->json([
 			"token" => $JWTManager->create($user)
+		]);
+	}
+
+	/**
+	 * Check if the user connection is correctly established.
+	 * @Route("/check", name="check", methods={"GET"})
+	 */
+	public function check()
+	{
+		return $this->json([
+			"success" => true
 		]);
 	}
 }

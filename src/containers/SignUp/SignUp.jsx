@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -11,6 +11,9 @@ import { TextField } from "formik-material-ui";
 import Link from "../../components/Link/Link";
 import TouiteurLogo from "../../components/TouiteurLogo/TouiteurLogo";
 import axios from "axios";
+import {checkAuth} from "../../api/auth";
+import {withRouter} from "react-router";
+import PageLoader from "../../components/PageLoader/PageLoader";
 import "./SignUp.scss";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,9 +39,25 @@ export const signUpFormInitial = {
 	password: ""
 };
 
-export const SignUp = () =>
+export const SignUp = (props) =>
 {
 	const classes = useStyles();
+	const [isLoading, setLoading] = useState(true);
+
+	useEffect(() =>
+	{
+		checkLog();
+	}, []);
+
+	const checkLog = async () =>
+	{
+		if (!await checkAuth())
+		{
+			setLoading(false);
+			return;
+		}
+		props.history.push("/home");
+	};
 
 	/**
 	 * Register the user on form submit.
@@ -61,7 +80,7 @@ export const SignUp = () =>
 		}
 	};
 
-	return (
+	return isLoading ? <PageLoader /> : (
 		<Container className={"signup"} component="main" maxWidth="xs">
 			<div className={classes.paper}>
 				<TouiteurLogo />
@@ -167,4 +186,4 @@ export const SignUp = () =>
 	);
 };
 
-export default SignUp;
+export default withRouter(SignUp);

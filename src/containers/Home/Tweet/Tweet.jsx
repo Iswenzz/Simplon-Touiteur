@@ -4,9 +4,9 @@ import Avatar from "../../../components/Avatar/Avatar";
 import PropTypes from "prop-types";
 import Link from "../../../components/Link/Link";
 import * as uuid from "uuid";
-import "./Tweet.scss";
 import IconButton from "@material-ui/core/IconButton";
 import {Chat, Favorite, Share} from "@material-ui/icons";
+import "./Tweet.scss";
 
 /**
  * Tweet component.

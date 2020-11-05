@@ -1,0 +1,18 @@
+.reply-card {
+	margin: 1em 0;
+
+	form {
+		width: 91%;
+	}
+}
+
+.tweetpage-icons {
+	padding: 0.5rem 0;
+	border: 1px solid #4b555b;
+	background-color: #282C34;
+	transition: background-color ease-in-out .2s;
+
+	&:hover {
+		background-color: #2d323b;
+	}
+}
