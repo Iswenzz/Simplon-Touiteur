@@ -24,8 +24,8 @@ const theme = responsiveFontSizes(createMuiTheme({
 			main: "#1DA2F1"
 		},
 		text: {
-			primary: "#DCDCDC",
-			secondary: "#DCDCDC",
+			primary: "#fff",
+			secondary: "#fff",
 		}
 	},
 	typography: {

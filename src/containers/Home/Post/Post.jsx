@@ -9,6 +9,7 @@ import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import PropTypes from "prop-types";
 import "./Post.scss";
+import "../../../Common.scss";
 import axios from "axios";
 import {Favorite} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
@@ -63,12 +64,13 @@ export const Post = (props) =>
 								component={TextField}
 								name="message"
 								className="input"
-								placeholder="What's happening"
+								placeholder="What's new?"
 								type="text"
 								multiline
 								fullWidth
 								rows={props.rows || 4}
 							/>
+							<span className="total-words--style">0/140 words</span>
 						</Grid>
 					</Grid>
 					<Grid className={"tweetBox__icons"} container justify={"space-between"} alignItems={"center"}>
@@ -90,7 +92,7 @@ export const Post = (props) =>
 							</Link>
 						</section>
 						<section>
-							<Button color={"primary"} variant={"contained"} type={"submit"} className={"tweetBox__submit"}>Tweet</Button>
+							<Button color={"primary"} variant={"contained"} type={"submit"} className="btn">Tweet</Button>
 						</section>
 					</Grid>
 				</Form>

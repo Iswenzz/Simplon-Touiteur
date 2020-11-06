@@ -1,10 +1,26 @@
 .profile {
 	border: 1px solid #4b555b;
-	min-height: 100vh;
+    min-height: 100vh;
+
 }
 
-.avatarFeed--style {
+
+
+.avatar-feed--style {
     display: flex;
     justify-content:center;
 }
 
+
+.container-feed--style{
+    padding-top: 2em;
+    padding-bottom: 6em;
+}
+
+.like-comment-share{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1.5em;
+}
