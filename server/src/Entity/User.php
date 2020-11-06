@@ -19,25 +19,25 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-	 * @Groups("user")
+	 * @Groups({"user", "tweet", "like", "retweet", "follower", "following", "media"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", unique=true, length=255)
-	 * @Groups("user")
+	 * @Groups({"user", "tweet"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-	 * @Groups("user")
+	 * @Groups({"user"})
      */
     private $bio;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-	 * @Groups("user")
+	 * @Groups({"user", "tweet"})
      */
     private $name;
 
@@ -48,48 +48,55 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity=Country::class, cascade={"persist", "remove"})
-	 * @Groups("user")
+	 * @Groups({"user"})
      */
     private $location;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-	 * @Groups("user")
+	 * @Groups({"user"})
      */
     private $birthdate;
 
     /**
      * @ORM\Column(type="datetime")
+	 * @Groups({"user"})
      */
     private $createdAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Tweet::class, mappedBy="author")
+	 * @Groups({"user"})
      */
     private $tweets;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author")
+	 * @Groups({"user"})
      */
     private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity=Like::class, mappedBy="user")
+	 * @Groups({"user"})
      */
     private $likes;
 
     /**
      * @ORM\OneToMany(targetEntity=Retweet::class, mappedBy="user")
+	 * @Groups({"user"})
      */
     private $retweets;
 
     /**
      * @ORM\OneToMany(targetEntity=Following::class, mappedBy="user")
+	 * @Groups({"user"})
      */
     private $followings;
 
     /**
      * @ORM\OneToMany(targetEntity=Follower::class, mappedBy="user")
+	 * @Groups({"user"})
      */
     private $followers;
 

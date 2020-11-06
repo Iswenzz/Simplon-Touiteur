@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Like;
+use App\Entity\Tweet;
 use App\Entity\User;
+use DateTime;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
@@ -17,59 +19,60 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Class UserController
+ * Class LikeController
  * @package App\Controller
  * @Route("/api")
  */
-class UserController extends AbstractController
+class LikeController extends AbstractController
 {
 	/**
-	 * Delete a user.
-	 * @Route("/user/{id}", methods={"DELETE"})
-	 * @param int $id - User id.
+	 * Delete a like.
+	 * @Route("/like/{id}", methods={"DELETE"})
+	 * @param int $id - like id.
 	 */
 	public function deleteOne(int $id)
 	{
 		/**
-		 * @var User $user
+		 * @var Like $like
 		 */
 		$entityManager = $this->getDoctrine()->getManager();
-		$user = $entityManager->getRepository(User::class)->find($id);
-		$entityManager->remove($user);
+		$like = $entityManager->getRepository(Like::class)->find($id);
+		$entityManager->remove($like);
 		$entityManager->flush();
 	}
 
 	/**
-	 * Update a user.
-	 * @Route("/user/{id}", methods={"PUT"})
-	 * @param int $id - User id.
+	 * Create a like.
+	 * @Route("/like", methods={"POST"})
 	 * @param Request $request
 	 * @param ValidatorInterface $validator
 	 * @return JsonResponse
 	 */
-	public function updateOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+	public function createOne(Request $request, ValidatorInterface $validator): JsonResponse
 	{
-		/**
-		 * @var User $user
-		 */
 		$entityManager = $this->getDoctrine()->getManager();
-		$user = $entityManager->getRepository(User::class)->find($id);
+		$like = new Like();
 		$data = json_decode($request->getContent(), true);
 
-		if ($user && isset($data["firstname"]) && isset($data["lastname"])
-			&& isset($data["location"]) && isset($data["bio"]))
+		if (isset($data["content"]) && isset($data["user"]["id"]) && isset($data["tweet"]["id"]))
 		{
-			$user->setName($data["firstname"] . " " . $data["lastname"]);
-			$user->setBirthdate($data["birthdate"] ?? null);
-			$user->setBio($data["bio"]);
-			$user->setLocation(null); // TODO
+			/**
+			 * @var User $user
+			 * @var Tweet $tweet
+			 */
+			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
+
+			$like->setDate(new DateTime("NOW"));
+			$like->setTweet($tweet);
+			$like->setUser($user);
 
 			// validate
-			$errors = $validator->validate($user);
+			$errors = $validator->validate($like);
 			if (count($errors))
 				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
 
-			$entityManager->persist($user);
+			$entityManager->persist($like);
 			$entityManager->flush();
 
 			return $this->json([
@@ -82,45 +85,45 @@ class UserController extends AbstractController
 	}
 
 	/**
-	 * Get a user.
-	 * @Route("/user/{id}", methods={"GET"})
-	 * @param int $id - User id.
+	 * Get a like.
+	 * @Route("/like/{id}", methods={"GET"})
+	 * @param int $id - like id.
 	 * @return JsonResponse
 	 */
 	public function getOne(int $id)
 	{
 		$classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 		$serializer = new Serializer([new ObjectNormalizer($classMetadataFactory)], [new JsonEncoder()]);
-		$user = $this->getDoctrine()->getRepository(User::class)->find($id);
+		$like = $this->getDoctrine()->getRepository(Like::class)->find($id);
 
-		$json = json_decode($serializer->serialize($user, "json", [
-			"groups" => ["user"]
+		$json = json_decode($serializer->serialize($like, "json", [
+			"groups" => ["like"]
 		]), true);
 
 		return $this->json([
 			"success" => true,
-			"user" => $json
+			"like" => $json
 		]);
 	}
 
 	/**
-	 * Get all users.
-	 * @Route("/users", methods={"GET"})
+	 * Get all likes.
+	 * @Route("/likes", methods={"GET"})
 	 * @return JsonResponse
 	 */
 	public function getAll(): JsonResponse
 	{
 		$classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 		$serializer = new Serializer([new ObjectNormalizer($classMetadataFactory)], [new JsonEncoder()]);
-		$users = $this->getDoctrine()->getRepository(User::class)->findAll();
+		$likes = $this->getDoctrine()->getRepository(Like::class)->findAll();
 
-		$json = json_decode($serializer->serialize($users, "json", [
-			"groups" => ["user"]
+		$json = json_decode($serializer->serialize($likes, "json", [
+			"groups" => ["like"]
 		]), true);
 
 		return $this->json([
 			"success" => true,
-			"users" => $json
+			"likes" => $json
 		]);
 	}
 }

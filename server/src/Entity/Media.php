@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MediaRepository::class)
@@ -14,26 +15,31 @@ class Media
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+	 * @Groups({"media"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+	 * @Groups({"media"})
      */
     private $url;
 
     /**
      * @ORM\Column(type="datetime")
+	 * @Groups({"media"})
      */
     private $date;
 
     /**
      * @ORM\OneToOne(targetEntity=Tweet::class, cascade={"persist", "remove"})
+	 * @Groups({"media"})
      */
     private $tweet;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
+	 * @Groups({"media"})
      */
     private $author;
 

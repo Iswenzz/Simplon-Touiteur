@@ -6,6 +6,7 @@ use App\Repository\TweetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TweetRepository::class)
@@ -16,41 +17,49 @@ class Tweet
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+	 * @Groups({"tweet", "like", "retweet", "media", "hashtag", "comment"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=140)
+	 * @Groups({"tweet"})
      */
     private $content;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tweets")
+	 * @Groups({"tweet"})
      */
     private $author;
 
     /**
      * @ORM\Column(type="datetime")
+	 * @Groups({"tweet"})
      */
     private $createdAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Hashtag::class, mappedBy="tweet")
+	 * @Groups({"tweet"})
      */
     private $hashtags;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="tweet")
+	 * @Groups({"tweet"})
      */
     private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity=Like::class, mappedBy="tweet")
+	 * @Groups({"tweet"})
      */
     private $likes;
 
     /**
      * @ORM\OneToMany(targetEntity=Retweet::class, mappedBy="tweet")
+	 * @Groups({"tweet"})
      */
     private $retweets;
 

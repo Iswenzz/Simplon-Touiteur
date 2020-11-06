@@ -1,25 +1,13 @@
 import axios from "axios";
 
 /**
- * Get the authorization header from a token saved in the localstorage.
- */
-export const getAuthHeader = () =>
-{
-	return {
-		Authorization: `Bearer ${localStorage.getItem("auth") ?? "fail"}`
-	};
-};
-
-/**
  * Check if the user is authenticated.
  */
 export const checkAuth = async () =>
 {
 	try
 	{
-		const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/check`, {
-			headers: getAuthHeader()
-		});
+		const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/check`);
 		return response.status === 200;
 	}
 	catch (err)

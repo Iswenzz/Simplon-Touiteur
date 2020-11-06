@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Retweet;
+use App\Entity\Tweet;
 use App\Entity\User;
+use DateTime;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
@@ -17,59 +19,60 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Class UserController
+ * Class RetweetController
  * @package App\Controller
  * @Route("/api")
  */
-class UserController extends AbstractController
+class RetweetController extends AbstractController
 {
 	/**
-	 * Delete a user.
-	 * @Route("/user/{id}", methods={"DELETE"})
-	 * @param int $id - User id.
+	 * Delete a retweet.
+	 * @Route("/retweet/{id}", methods={"DELETE"})
+	 * @param int $id - retweet id.
 	 */
 	public function deleteOne(int $id)
 	{
 		/**
-		 * @var User $user
+		 * @var Retweet $retweet
 		 */
 		$entityManager = $this->getDoctrine()->getManager();
-		$user = $entityManager->getRepository(User::class)->find($id);
-		$entityManager->remove($user);
+		$retweet = $entityManager->getRepository(Retweet::class)->find($id);
+		$entityManager->remove($retweet);
 		$entityManager->flush();
 	}
 
 	/**
-	 * Update a user.
-	 * @Route("/user/{id}", methods={"PUT"})
-	 * @param int $id - User id.
+	 * Create a retweet.
+	 * @Route("/retweet", methods={"POST"})
 	 * @param Request $request
 	 * @param ValidatorInterface $validator
 	 * @return JsonResponse
 	 */
-	public function updateOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+	public function createOne(Request $request, ValidatorInterface $validator): JsonResponse
 	{
-		/**
-		 * @var User $user
-		 */
 		$entityManager = $this->getDoctrine()->getManager();
-		$user = $entityManager->getRepository(User::class)->find($id);
+		$retweet = new Retweet();
 		$data = json_decode($request->getContent(), true);
 
-		if ($user && isset($data["firstname"]) && isset($data["lastname"])
-			&& isset($data["location"]) && isset($data["bio"]))
+		if (isset($data["content"]) && isset($data["user"]["id"]) && isset($data["tweet"]["id"]))
 		{
-			$user->setName($data["firstname"] . " " . $data["lastname"]);
-			$user->setBirthdate($data["birthdate"] ?? null);
-			$user->setBio($data["bio"]);
-			$user->setLocation(null); // TODO
+			/**
+			 * @var User $user
+			 * @var Tweet $tweet
+			 */
+			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
+
+			$retweet->setDate(new DateTime("NOW"));
+			$retweet->setTweet($tweet);
+			$retweet->setUser($user);
 
 			// validate
-			$errors = $validator->validate($user);
+			$errors = $validator->validate($retweet);
 			if (count($errors))
 				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
 
-			$entityManager->persist($user);
+			$entityManager->persist($retweet);
 			$entityManager->flush();
 
 			return $this->json([
@@ -82,45 +85,45 @@ class UserController extends AbstractController
 	}
 
 	/**
-	 * Get a user.
-	 * @Route("/user/{id}", methods={"GET"})
-	 * @param int $id - User id.
+	 * Get a retweet.
+	 * @Route("/retweet/{id}", methods={"GET"})
+	 * @param int $id - retweet id.
 	 * @return JsonResponse
 	 */
 	public function getOne(int $id)
 	{
 		$classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 		$serializer = new Serializer([new ObjectNormalizer($classMetadataFactory)], [new JsonEncoder()]);
-		$user = $this->getDoctrine()->getRepository(User::class)->find($id);
+		$retweet = $this->getDoctrine()->getRepository(Retweet::class)->find($id);
 
-		$json = json_decode($serializer->serialize($user, "json", [
-			"groups" => ["user"]
+		$json = json_decode($serializer->serialize($retweet, "json", [
+			"groups" => ["retweet"]
 		]), true);
 
 		return $this->json([
 			"success" => true,
-			"user" => $json
+			"retweet" => $json
 		]);
 	}
 
 	/**
-	 * Get all users.
-	 * @Route("/users", methods={"GET"})
+	 * Get all retweets.
+	 * @Route("/retweets", methods={"GET"})
 	 * @return JsonResponse
 	 */
 	public function getAll(): JsonResponse
 	{
 		$classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 		$serializer = new Serializer([new ObjectNormalizer($classMetadataFactory)], [new JsonEncoder()]);
-		$users = $this->getDoctrine()->getRepository(User::class)->findAll();
+		$retweets = $this->getDoctrine()->getRepository(Retweet::class)->findAll();
 
-		$json = json_decode($serializer->serialize($users, "json", [
-			"groups" => ["user"]
+		$json = json_decode($serializer->serialize($retweets, "json", [
+			"groups" => ["retweet"]
 		]), true);
 
 		return $this->json([
 			"success" => true,
-			"users" => $json
+			"retweets" => $json
 		]);
 	}
 }

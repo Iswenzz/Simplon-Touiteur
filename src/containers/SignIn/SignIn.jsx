@@ -69,6 +69,7 @@ export const SignIn = (props) =>
 				});
 				if (response.status === 200)
 				{
+					axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token ?? "fail"}`;
 					localStorage.setItem("auth", response.data.token);
 					props.history.push("/home");
 				}

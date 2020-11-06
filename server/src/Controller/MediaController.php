@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Media;
+use App\Entity\Tweet;
+use App\Entity\User;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,15 +22,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * @package App\Controller
  * @Route("/api")
  */
-
 class MediaController extends AbstractController
 {
-    /**
-     * @Route("/media/{id}", methods={"DELETE"})
+	/**
+	 * @Route("/media/{id}", methods={"DELETE"})
      * @param int $id - Media id.
-     */
-         
-     public function deleteOne(int $id)
+	 */
+	public function deleteOne(int $id)
 	{
 		/**
 		 * @var Media $media
@@ -35,9 +37,9 @@ class MediaController extends AbstractController
 		$media = $entityManager->getRepository(Media::class)->find($id);
 		$entityManager->remove($media);
 		$entityManager->flush();
-    }
-    
-    /**
+	}
+
+	/**
 	 * @Route("/media/{id}", methods={"PUT"})
 	 * @param int $id - Media id.
 	 * @param Request $request
@@ -46,27 +48,27 @@ class MediaController extends AbstractController
 	 */
 	public function updateOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
 	{
-        /**
+		/**
 		 * @var Media $media
 		 */
 		$entityManager = $this->getDoctrine()->getManager();
 		$media = $entityManager->getRepository(Media::class)->find($id);
-        $data = json_decode($request->getContent(), true);
+		$data = json_decode($request->getContent(), true);
 
-        if ($media && isset($data["date"]) && isset($data["tweet"]["id"])
-            && isset($data["author"]))
-            
+		if ($media && isset($data["date"]) && isset($data["tweet"]["id"])
+			&& isset($data["user"]["id"]))
 		{
-		
 			/**
 			 * @var Tweet $tweet
+			 * @var User $user
 			 */
 			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
-            $media->setUrl($data["url"]);
+			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+
+			$media->setUrl($data["url"]);
 			$media->setDate($data["date"]);
-			$media->setAuthor($data["author"]);			
+			$media->setAuthor($user);
 			$media->setTweet($tweet);
-			
 
 			// validate
 			$errors = $validator->validate($media);
@@ -83,17 +85,17 @@ class MediaController extends AbstractController
 		return $this->json([
 			"success" => false
 		], 400);
-    }
-    
-    /**
+	}
+
+	/**
 	 * @Route("/media/{id}", methods={"GET"})
 	 * @param int $id - Media id.
 	 * @return JsonResponse
 	 */
 
-    public function getOne(int $id)
+	public function getOne(int $id)
 	{
-        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
+		$classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 		$serializer = new Serializer([new ObjectNormalizer($classMetadataFactory)], [new JsonEncoder()]);
 		$media = $this->getDoctrine()->getRepository(Media::class)->find($id);
 
@@ -105,13 +107,13 @@ class MediaController extends AbstractController
 			"success" => true,
 			"media" => $json
 		]);
-    }
-    
-    /**
+	}
+
+	/**
 	 * @Route("/medias", methods={"GET"})
 	 * @return JsonResponse
 	 */
-    public function getAll(): JsonResponse
+	public function getAll(): JsonResponse
 	{
 		$classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 		$serializer = new Serializer([new ObjectNormalizer($classMetadataFactory)], [new JsonEncoder()]);
@@ -129,32 +131,32 @@ class MediaController extends AbstractController
 
 
 	/**
-	 * @Route("/media/{id}", methods={"POST"})
-	 * @param int $id - Media id.
+	 * @Route("/media", methods={"POST"})
 	 * @param Request $request
 	 * @param ValidatorInterface $validator
 	 * @return JsonResponse
 	 */
-    public function createOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+	public function createOne(Request $request, ValidatorInterface $validator): JsonResponse
 	{
-        
+
 		$entityManager = $this->getDoctrine()->getManager();
-		$hashtag = new Media ();
-        $data = json_decode($request->getContent(), true);
+		$media = new Media();
+		$data = json_decode($request->getContent(), true);
 
 		if ($media && isset($data["date"]) && isset($data["tweet"]["id"])
-            && isset($data["author"]))		
-		
+			&& isset($data["user"]["id"]))
 		{
 			/**
 			 * @var Tweet $tweet
+			 * @var User $user
 			 */
-			$media = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
-            $media->setUrl($data["url"]);
-			$media->setDate($data["date"]);	
-			$media->setAuthor($data["author"]);			
+			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
+			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+
+			$media->setUrl($data["url"]);
+			$media->setDate($data["date"]);
+			$media->setAuthor($user);
 			$media->setTweet($tweet);
-			
 
 			// validate
 			$errors = $validator->validate($media);
@@ -171,5 +173,5 @@ class MediaController extends AbstractController
 		return $this->json([
 			"success" => false
 		], 400);
-    }
+	}
 }

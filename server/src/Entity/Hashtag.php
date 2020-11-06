@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\HashtagRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=HashtagRepository::class)
@@ -14,21 +15,25 @@ class Hashtag
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+	 * @Groups({"hashtag"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+	 * @Groups({"hashtag"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetime")
+	 * @Groups({"hashtag"})
      */
     private $date;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tweet::class, inversedBy="hashtags")
+	 * @Groups({"hashtag"})
      */
     private $tweet;
 
