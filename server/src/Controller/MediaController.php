@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class MediaController extends AbstractController
 {
 	/**
-	 * @Route("/media/{id}", methods={"DELETE})
+	 * @Route("/media/{id}", methods={"DELETE"})
      * @param int $id - Media id.
 	 */
 	public function deleteOne(int $id)

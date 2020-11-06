@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class HashtagController extends AbstractController
 {
    /**
-     * @Route("/hashtag/{id}", methods={"DELETE})
+     * @Route("/hashtag/{id}", methods={"DELETE"})
      * @param int $id - Hashtag id.
      */
          
