@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\FollowingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=FollowingRepository::class)
@@ -14,21 +15,25 @@ class Following
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+	 * @Groups({"following"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="followings")
+	 * @Groups({"following"})
      */
     private $user;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
+	 * @Groups({"following"})
      */
     private $following;
 
     /**
      * @ORM\Column(type="datetime")
+	 * @Groups({"following"})
      */
     private $date;
 
