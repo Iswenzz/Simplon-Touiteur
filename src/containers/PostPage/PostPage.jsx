@@ -1,8 +1,9 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Main from "../Main/Main";
 import Post from "../Home/Post/Post";
 import {Grid, Typography} from "@material-ui/core";
 import "./PostPage.scss";
+import axios from "axios";
 import {withRouter} from "react-router";
 
 /**
@@ -12,15 +13,33 @@ import {withRouter} from "react-router";
  */
 export const PostPage = (props) =>
 {
+	const [state,setState] = useState({});
+
 	useEffect(() =>
 	{
-		// TODO get own user feed
+		try
+		{
+			const fetchData = async () =>
+			{
+				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/2`);
+				console.log(response);
+				setState({
+					...response.data.user
+				});
+			};
+			fetchData();
+		}
+		catch (e)
+		{
+			console.log(e);
+		}
 	}, []);
+
 
 	return (
 		<Main {...props}>
 			<section className={"postpage"}>
-				<Post rows={20} user={{ name: "Red", username: "redred", date: "26/10/2020"}} />
+				<Post rows={20} user={state} />
 			</section>
 		</Main>
 	);
