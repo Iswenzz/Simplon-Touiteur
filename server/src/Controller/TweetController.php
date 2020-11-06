@@ -98,7 +98,6 @@ class TweetController extends AbstractController
 			 */
 			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
 
-			// encode the plain password
 			$tweet->setContent($data["content"]);
 			$tweet->setCreatedAt(new DateTime("NOW"));
 			$tweet->setAuthor($user);
