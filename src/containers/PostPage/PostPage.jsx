@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Main from "../Main/Main";
 import Post from "../Home/Post/Post";
-import {Grid, Typography} from "@material-ui/core";
 import "./PostPage.scss";
 import axios from "axios";
 import {withRouter} from "react-router";
@@ -21,7 +20,7 @@ export const PostPage = (props) =>
 		{
 			const fetchData = async () =>
 			{
-				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/2`);
+				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/1`);
 				console.log(response);
 				setState({
 					...response.data.user

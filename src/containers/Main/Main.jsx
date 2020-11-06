@@ -12,6 +12,7 @@ import NavBar from "../UI/NavBar/NavBar";
 import "./Main.scss";
 import {checkAuth} from "../../api/auth";
 import {withRouter} from "react-router";
+import PageLoader from "../../components/PageLoader/PageLoader";
 
 export const trendingPlaceholder = [
 	<Typography variant={"h6"} component={"h6"} align={"center"}>
@@ -42,18 +43,17 @@ export const Main = (props) =>
 
 	useEffect(() =>
 	{
-		checkLog();
-	}, []);
-
-	const checkLog = async () =>
-	{
-		if (await checkAuth())
+		const checkLog = async () =>
 		{
-			setLoading(false);
-			return;
-		}
-		props.history.push("/");
-	};
+			if (await checkAuth())
+			{
+				setLoading(false);
+				return;
+			}
+			props.history.push("/");
+		};
+		checkLog();
+	}, [props.history]);
 
 	return (
 		<>
@@ -65,7 +65,7 @@ export const Main = (props) =>
 
 				{/*Tweets*/}
 				<Grid component={"section"} item xs={12} lg={8}>
-					{props.children}
+					{isLoading ? <PageLoader /> : props.children}
 				</Grid>
 
 				{/*Right Section*/}

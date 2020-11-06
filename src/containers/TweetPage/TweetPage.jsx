@@ -104,7 +104,7 @@ export const ModalContent = (props) =>
 {
 	const classes = useStyles();
 
-	const onReplySubmit = async (values, { setSubmitting }) =>
+	const onReplySubmit = async (values) =>
 	{
 		// if the form as valid information send a post req
 		if (Object.values(values).every(item => item !== undefined && item !== null))

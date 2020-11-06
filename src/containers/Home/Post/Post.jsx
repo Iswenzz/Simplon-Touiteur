@@ -8,12 +8,9 @@ import Avatar from "../../../components/Avatar/Avatar";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import PropTypes from "prop-types";
-import "./Post.scss";
-import "../../../Common.scss";
 import axios from "axios";
-import {Favorite} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
-import PostPage from "../../PostPage/PostPage";
+import "./Post.scss";
 
 export const postFormInitial = {
 	content: ""
@@ -71,7 +68,7 @@ export const Post = (props) =>
 								fullWidth
 								rows={props.rows || 4}
 							/>
-							<span className="total-words--style">0/140 words</span>
+							<span className="total-words--style">0/140 characters</span>
 						</Grid>
 					</Grid>
 					<Grid className={"tweetBox__icons"} container justify={"space-between"} alignItems={"center"}>

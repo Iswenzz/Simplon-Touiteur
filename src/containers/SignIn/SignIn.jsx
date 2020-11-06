@@ -41,18 +41,17 @@ export const SignIn = (props) =>
 
 	useEffect(() =>
 	{
-		checkLog();
-	}, []);
-
-	const checkLog = async () =>
-	{
-		if (!await checkAuth())
+		const checkLog = async () =>
 		{
-			setLoading(false);
-			return;
-		}
-		props.history.push("/home");
-	};
+			if (!await checkAuth())
+			{
+				setLoading(false);
+				return;
+			}
+			props.history.push("/home");
+		};
+		checkLog();
+	}, [props.history]);
 
 	/**
 	 * Log the user.
@@ -71,6 +70,7 @@ export const SignIn = (props) =>
 				{
 					axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token ?? "fail"}`;
 					localStorage.setItem("auth", response.data.token);
+					localStorage.setItem("userid", response.data.user.id);
 					props.history.push("/home");
 				}
 			}

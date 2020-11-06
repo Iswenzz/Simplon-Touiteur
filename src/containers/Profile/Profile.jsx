@@ -2,10 +2,7 @@ import React, {useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { Grid, Typography, Tab, Tabs, Button, Paper, Avatar, Box, Hidden, Divider } from "@material-ui/core";
-import { CalendarToday, NavigateBefore, NavigateNext, } from "@material-ui/icons";
-import PhoenixAvatar from "../../assets/images/avatar.png";
-import IconButton from "@material-ui/core/IconButton";
-import {Chat, Favorite, Share} from "@material-ui/icons";
+import { CalendarToday, NavigateNext, } from "@material-ui/icons";
 import EditProfile from "./EditProfile";
 import Main from "../Main/Main";
 import axios from "axios";
@@ -98,10 +95,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Profile = (props) => {
+const Profile = () => {
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
-	const [tab, setTab] = React.useState("Tweets");
+	const [, setTab] = React.useState("Tweets");
 	const [editProfile, setEditProfile] = React.useState(false);
 	const [state, setState] = React.useState({});
 
@@ -126,9 +123,16 @@ const Profile = (props) => {
 		}
 	}, []);
 
+	/**
+	 * On tab change callback.
+	 */
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+
+	/**
+	 * Click on next arrow callback.
+	 */
 	const handleNextTab = () => {
 		let newValue = value;
 		if (newValue !== 3) {
@@ -137,6 +141,10 @@ const Profile = (props) => {
 		}
 	};
 
+	/**
+	 * Click on back arrow callback.
+	 */
+	// eslint-disable-next-line no-unused-vars
 	const handleBackTab = () => {
 		let newValue = value;
 		if (newValue !== 0) {
@@ -145,6 +153,9 @@ const Profile = (props) => {
 		}
 	};
 
+	/**
+	 * Open the profile editor modal.
+	 */
 	const openProfileEditor = () => {
 		setEditProfile(true);
 	};
@@ -169,9 +180,11 @@ const Profile = (props) => {
 								className={classes.horizontalDiv}
 							>
 								<div/>
-								<Button onClick={openProfileEditor} className="btn" style={{ margin: "1em" }}>
-									<span>Edit profile</span>
-								</Button>
+								{state.id === localStorage.getItem("userid") ? (
+									<Button onClick={openProfileEditor} className="btn" style={{ margin: "1em" }}>
+										<span>Edit profile</span>
+									</Button>
+								) : null}
 							</div>
 							<div style={{ marginBottom: "1rem" }}>
 								<div
@@ -183,7 +196,7 @@ const Profile = (props) => {
 									<Typography id="name" variant={"h5"} component={"span"}>
 										{state.name}
 									</Typography>
-									<Typography id="username" variant={"span"} component={"span"}>
+									<Typography id="username" variant={"subtitle1"} component={"span"}>
 										<small>@{state.username}</small>
 									</Typography>
 								</span>
@@ -257,11 +270,13 @@ const Profile = (props) => {
 						</Grid>
 
 					</Grid>
-					<EditProfile
-						open={editProfile}
-						onClose={() => setEditProfile(false)}
-						closeModal={() => setEditProfile(false)}
-					/>
+					{state.id === localStorage.getItem("userid") ? (
+						<EditProfile
+							open={editProfile}
+							onClose={() => setEditProfile(false)}
+							closeModal={() => setEditProfile(false)}
+						/>
+					) : null}
 				</section>
 
 				{/*Tweets Grid*/}

@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Container, Grid, Typography} from "@material-ui/core";
 import Avatar from "../../../components/Avatar/Avatar";
 import Link from "../../../components/Link/Link";
 import * as uuid from "uuid";
 import IconButton from "@material-ui/core/IconButton";
 import {Chat, Favorite, Share} from "@material-ui/icons";
-import axios from "axios";
 import PropTypes from "prop-types";
 import "./Tweet.scss";
 
@@ -64,9 +63,6 @@ export const Tweet = (props) =>
 									<IconButton aria-label="share">
 										<Share />
 									</IconButton>
-									<Typography variant={"subtitle1"} paragraph component={"span"}>
-										0
-									</Typography>
 								</section>
 							</Grid>
 						</Grid>

@@ -46,18 +46,17 @@ export const SignUp = (props) =>
 
 	useEffect(() =>
 	{
-		checkLog();
-	}, []);
-
-	const checkLog = async () =>
-	{
-		if (!await checkAuth())
+		const checkLog = async () =>
 		{
-			setLoading(false);
-			return;
-		}
-		props.history.push("/home");
-	};
+			if (!await checkAuth())
+			{
+				setLoading(false);
+				return;
+			}
+			props.history.push("/home");
+		};
+		checkLog();
+	}, [props.history]);
 
 	/**
 	 * Register the user on form submit.
@@ -72,6 +71,8 @@ export const SignUp = (props) =>
 				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/register`, {
 					...values
 				});
+				if (response.status === 200)
+					props.history.push("/signin");
 			}
 			catch (err)
 			{

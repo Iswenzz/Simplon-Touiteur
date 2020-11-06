@@ -4,7 +4,10 @@ import Main from "../Main/Main";
 import Post from "./Post/Post";
 import {withRouter} from "react-router";
 import axios from "axios";
+import {checkAuth} from "../../api/auth";
+import * as uuid from "uuid";
 import "./Home.scss";
+import PageLoader from "../../components/PageLoader/PageLoader";
 
 /**
  * Home page feed.
@@ -20,31 +23,43 @@ export const Home = (props) =>
 		// TODO get user feed
 		try
 		{
-			const fetchData = async () =>
+			const init = async () =>
 			{
+				if (!await checkAuth())
+				{
+					props.history.push("/");
+					return;
+				}
+
 				const tweets = await axios.get(`${process.env.REACT_APP_BACKEND}/api/tweets`);
-				const user = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/1`);
+				const user = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/${localStorage.getItem("userid")}`);
 				setState({
 					...tweets.data,
 					user: user.data.user
 				});
 			};
-			fetchData();
+			init();
 		}
 		catch (e)
 		{
 			console.log(e);
 		}
-	}, []);
+	}, [props.history]);
 
-	return state.user ? (
+	return (
 		<Main {...props}>
-			<Post user={state.user} />
-			{state.tweets?.map(tweet => (
-				<Tweet user={tweet.author} tweet={tweet} />
-			))}
+			{state.user ? (
+				<Post user={state.user} />
+			) : <PageLoader />}
+			<ul>
+				{state.tweets?.map(tweet => (
+					<li key={uuid.v4()}>
+						<Tweet user={tweet.author} tweet={tweet} />
+					</li>
+				))}
+			</ul>
 		</Main>
-	) : null;
+	);
 };
 
 export default withRouter(Home);
