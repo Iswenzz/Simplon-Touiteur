@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CountryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CountryRepository::class)
@@ -14,16 +15,19 @@ class Country
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+	 * @Groups({"country"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+	 * @Groups({"country"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+	 * @Groups({"country"})
      */
     private $code;
 

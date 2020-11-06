@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Hashtag;
+use App\Entity\Tweet;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,8 +57,6 @@ class HashtagController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
 		if ($hashtag && isset($data["name"]) && isset($data["date"]) && isset($data["tweet"]["id"]))
-		
-		
 		{
 			/**
 			 * @var Tweet $tweet
@@ -141,8 +141,6 @@ class HashtagController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
 		if ($hashtag && isset($data["name"]) && isset($data["date"]) && isset($data["tweet"]["id"]))
-		
-		
 		{
 			/**
 			 * @var Tweet $tweet

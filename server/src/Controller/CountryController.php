@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Country;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -21,8 +23,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CountryController extends AbstractController
 {
-    
-   
     /**
 	 * @Route("/countries", methods={"GET"})
 	 * @return JsonResponse
@@ -45,23 +45,18 @@ class CountryController extends AbstractController
 
 	/**
 	 * @Route("/country", methods={"POST"})
-	 * @param int $id - Country id.
 	 * @param Request $request
 	 * @param ValidatorInterface $validator
 	 * @return JsonResponse
 	 */
-    public function createOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+    public function createOne(Request $request, ValidatorInterface $validator): JsonResponse
 	{
-        
 		$entityManager = $this->getDoctrine()->getManager();
 		$country = new Country ();
         $data = json_decode($request->getContent(), true);
 
 		if ($country && isset($data["name"]) && isset($data["code"]))
-		
-		
 		{
-			
             $country->setName($data["name"]);
 			$country->setCode($data["code"]);			
 			
