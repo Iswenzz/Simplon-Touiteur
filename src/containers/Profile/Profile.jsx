@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { Grid, Typography, Tab, Tabs, Button, Paper, Avatar, Box, Hidden, Divider } from "@material-ui/core";
@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import {Chat, Favorite, Share} from "@material-ui/icons";
 import EditProfile from "./EditProfile";
 import Main from "../Main/Main";
+import axios from "axios";
 import "./Profile.scss";
 
 const useStyles = makeStyles((theme) => ({
@@ -95,8 +96,6 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: "100px",
 		fontSize: "15px",
 	},
-
-
 }));
 
 const Profile = (props) => {
@@ -104,6 +103,28 @@ const Profile = (props) => {
 	const [value, setValue] = React.useState(0);
 	const [tab, setTab] = React.useState("Tweets");
 	const [editProfile, setEditProfile] = React.useState(false);
+	const [state, setState] = React.useState({});
+
+	useEffect(() =>
+	{
+		// @TODO get user profile
+		try
+		{
+			const fetchData = async () =>
+			{
+				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/1`);
+				console.log(response);
+				setState({
+					...response.data.user
+				});
+			};
+			fetchData();
+		}
+		catch (e)
+		{
+			console.log(e);
+		}
+	}, []);
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -131,7 +152,7 @@ const Profile = (props) => {
 	return (
 		<Main>
 			<Grid className={"profile"} container justify="center" spacing={1}>
-				<main style={{ width: "100%", marginTop: "0px" }}>
+				<section style={{ width: "100%", marginTop: "0px" }}>
 					<Grid item xs={12}>
 						<Grid item xs={12}>
 							<Paper className={classes.paper}>
@@ -159,22 +180,24 @@ const Profile = (props) => {
 								>
 								</div>
 								<span>
-									<Typography id="username">
-										<small>@Blueblue</small>
+									<Typography id="name" variant={"h5"} component={"span"}>
+										{state.name}
+									</Typography>
+									<Typography id="username" variant={"span"} component={"span"}>
+										<small>@{state.username}</small>
 									</Typography>
 								</span>
 							</div>
 							<div style={{ marginBottom: "1rem" }}>
 								<span>
-									<Typography variant={"h6"} component={"h6"} id="status">"I'm blue & this is
-								my bio"</Typography>
+									<Typography variant={"h6"} component={"h6"} id="status">{state.bio}</Typography>
 								</span>
 							</div>
 							<div style={{ marginBottom: "1rem" }}>
 								<div className={classes.horizontalDiv}>
 									<CalendarToday fontSize="small" />
 									<div style={{width: "0.8rem"}}/>
-									<Typography id="date-joined">Date Joined</Typography>
+									<Typography id="date-joined">Date Joined {state.createdAt}</Typography>
 								</div>
 							</div>
 							<div className={classes.linksDiv}>
@@ -239,124 +262,11 @@ const Profile = (props) => {
 						onClose={() => setEditProfile(false)}
 						closeModal={() => setEditProfile(false)}
 					/>
-				</main>
+				</section>
 
+				{/*Tweets Grid*/}
 				<Grid container spacing={3} className="container-feed--style">
 
-					{/* TWEET EXEMPLE 1 */}
-					<Grid item xs={2}  className="avatar-feed--style">
-						<div>
-							<Avatar alt="Déb Phoenix" src={PhoenixAvatar} className={classes.large}/>
-						</div>
-					</Grid>
-					<Grid item xs={10}>
-						<div>Deb Phoenix @deb__phoenix - 26/10/2020</div>
-						<div style={{ marginRight: "1em" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-						<div className="like-comment-share">
-							<section>
-								<IconButton aria-label="likes">
-									<Favorite />
-								</IconButton>
-								<Typography variant={"subtitle1"} paragraph component={"span"}>
-										0
-								</Typography>
-							</section>
-							<section>
-								<IconButton aria-label="comments">
-									<Chat />
-								</IconButton>
-								<Typography variant={"subtitle1"} paragraph component={"span"}>
-										0
-								</Typography>
-							</section>
-							<section>
-								<IconButton aria-label="share">
-									<Share />
-								</IconButton>
-								<Typography variant={"subtitle1"} paragraph component={"span"}>
-										0
-								</Typography>
-							</section>
-						</div>
-					</Grid>
-
-					{/* TWEET EXEMPLE 2 */}
-					<Grid item xs={2}  className="avatar-feed--style">
-						<div>
-							<Avatar alt="Déb Phoenix" src={PhoenixAvatar} className={classes.large}/>
-						</div>
-					</Grid>
-					<Grid item xs={10}>
-						<div>Deb Phoenix @deb__phoenix - 26/10/2020</div>
-						<div style={{ marginRight: "1em" }}>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat</div>
-						<div className="like-comment-share">
-							<section>
-								<IconButton aria-label="likes">
-									<Favorite />
-								</IconButton>
-								<Typography variant={"subtitle1"} paragraph component={"span"}>
-										0
-								</Typography>
-							</section>
-							<section>
-								<IconButton aria-label="comments">
-									<Chat />
-								</IconButton>
-								<Typography variant={"subtitle1"} paragraph component={"span"}>
-										0
-								</Typography>
-							</section>
-							<section>
-								<IconButton aria-label="share">
-									<Share />
-								</IconButton>
-								<Typography variant={"subtitle1"} paragraph component={"span"}>
-										0
-								</Typography>
-							</section>
-						</div>
-					</Grid>
-
-					{/* TWEET EXEMPLE 3 */}
-					<Grid item xs={2}  className="avatar-feed--style">
-						<div>
-							<Avatar alt="Déb Phoenix" src={PhoenixAvatar} className={classes.large}/>
-						</div>
-					</Grid>
-					<Grid item xs={10}>
-						<div>Deb Phoenix @deb__phoenix - 26/10/2020</div>
-						<div style={{ marginRight: "1em" }}>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</div>
-						<div className="like-comment-share">
-							<section>
-								<IconButton aria-label="likes">
-									<Favorite />
-								</IconButton>
-								<Typography variant={"subtitle1"} paragraph component={"span"}>
-										0
-								</Typography>
-							</section>
-							<section>
-								<IconButton aria-label="comments">
-									<Chat />
-								</IconButton>
-								<Typography variant={"subtitle1"} paragraph component={"span"}>
-										0
-								</Typography>
-							</section>
-							<section>
-								<IconButton aria-label="share">
-									<Share />
-								</IconButton>
-								<Typography variant={"subtitle1"} paragraph component={"span"}>
-										0
-								</Typography>
-							</section>
-						</div>
-					</Grid>
-
-
-					
-					
 				</Grid>
 			</Grid>
 		</Main>
