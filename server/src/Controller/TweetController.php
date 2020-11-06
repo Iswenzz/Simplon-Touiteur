@@ -91,12 +91,12 @@ class TweetController extends AbstractController
 		$tweet = new Tweet();
 		$data = json_decode($request->getContent(), true);
 
-		if (isset($data["content"]) && isset($data["user"]["id"]))
+		if (isset($data["content"]))
 		{
 			/**
 			 * @var User $user
 			 */
-			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+			$user = $this->getUser();
 
 			$tweet->setContent($data["content"]);
 			$tweet->setCreatedAt(new DateTime("NOW"));

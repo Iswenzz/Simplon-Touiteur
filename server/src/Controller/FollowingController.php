@@ -23,7 +23,6 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
  */
 class FollowingController extends AbstractController
 {
-
 	/**
 	 * Delete a following.
 	 * @Route("/following/{id}", methods={"DELETE"})
@@ -57,14 +56,13 @@ class FollowingController extends AbstractController
 		$following = $entityManager->getRepository(Following::class)->find($id);
 		$data = json_decode($request->getContent(), true);
 
-		if ($following && isset($data["date"]) && isset($data["user"]["id"])
-			&& isset($data["follow"]["id"]))
+		if ($following && isset($data["date"]) && isset($data["follow"]["id"]))
 		{
 			/**
 			 * @var User $user
 			 * @var User $follow
 			 */
-			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+			$user = $this->getUser();
 			$follow = $entityManager->getRepository(User::class)->find($data["follow"]["id"]);
 
 			$following->setDate($data["date"] ?? null);
@@ -104,14 +102,13 @@ class FollowingController extends AbstractController
 		$following = new Following();
 		$data = json_decode($request->getContent(), true);
 
-		if ($following && isset($data["date"]) && isset($data["user"]["id"])
-			&& isset($data["follow"]["id"]))
+		if ($following && isset($data["date"]) && isset($data["follow"]["id"]))
 		{
 			/**
 			 * @var User $user
 			 * @var User $follow
 			 */
-			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+			$user = $this->getUser();
 			$follow = $entityManager->getRepository(User::class)->find($data["follow"]["id"]);
 
 			$following->setDate($data["date"] ?? null);

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Follower;
+use App\Entity\User;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -96,6 +97,12 @@ class CommentController extends AbstractController
 
 		if ($comment && isset($data["date"]) && isset($data["content"]))
 		{
+			/**
+			 * @var User $user
+			 */
+			$user = $this->getUser();
+
+			$comment->setAuthor($user);
 			$comment->setDate($data["date"]);
 			$comment->setContent($data["content"]);
 

@@ -46,13 +46,33 @@ export const Home = (props) =>
 		}
 	}, [props.history]);
 
+	/**
+	 * Refresh the tweets feed.
+	 * @returns {Promise<void>}
+	 */
+	const refreshFeed = async () =>
+	{
+		try
+		{
+			const tweets = await axios.get(`${process.env.REACT_APP_BACKEND}/api/tweets`);
+			setState(prevState => ({
+				...prevState,
+				...tweets.data
+			}));
+		}
+		catch (err)
+		{
+			console.log(err);
+		}
+	};
+
 	return (
 		<Main {...props}>
 			{state.user ? (
-				<Post user={state.user} />
+				<Post user={state.user} onPost={refreshFeed} />
 			) : <PageLoader />}
 			<ul>
-				{state.tweets?.map(tweet => (
+				{state.tweets?.slice(0).reverse().map(tweet => (
 					<li key={uuid.v4()}>
 						<Tweet user={tweet.author} tweet={tweet} />
 					</li>

@@ -57,14 +57,13 @@ class FollowerController extends AbstractController
 		$follower = $entityManager->getRepository(Follower::class)->find($id);
 		$data = json_decode($request->getContent(), true);
 
-		if ($follower && isset($data["date"]) && isset($data["user"]["id"])
-			&& isset($data["follow"]["id"]))
+		if ($follower && isset($data["date"]) && isset($data["follow"]["id"]))
 		{
 			/**
 			 * @var User $user
 			 * @var User $follow
 			 */
-			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+			$user = $this->getUser();
 			$follow = $entityManager->getRepository(User::class)->find($data["follow"]["id"]);
 
 			$follower->setDate($data["date"] ?? null);
@@ -104,14 +103,13 @@ class FollowerController extends AbstractController
 		$follower = new Follower();
 		$data = json_decode($request->getContent(), true);
 
-		if ($follower && isset($data["date"]) && isset($data["user"]["id"])
-			&& isset($data["follow"]["id"]))
+		if ($follower && isset($data["date"]) && isset($data["follow"]["id"]))
 		{
 			/**
 			 * @var User $user
 			 * @var User $follow
 			 */
-			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+			$user = $this->getUser();
 			$follow = $entityManager->getRepository(User::class)->find($data["follow"]["id"]);
 
 			$follower->setDate($data["date"] ?? null);

@@ -55,15 +55,14 @@ class MediaController extends AbstractController
 		$media = $entityManager->getRepository(Media::class)->find($id);
 		$data = json_decode($request->getContent(), true);
 
-		if ($media && isset($data["date"]) && isset($data["tweet"]["id"])
-			&& isset($data["user"]["id"]))
+		if ($media && isset($data["date"]) && isset($data["tweet"]["id"]))
 		{
 			/**
 			 * @var Tweet $tweet
 			 * @var User $user
 			 */
 			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
-			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+			$user = $this->getUser();
 
 			$media->setUrl($data["url"]);
 			$media->setDate($data["date"]);
@@ -143,15 +142,14 @@ class MediaController extends AbstractController
 		$media = new Media();
 		$data = json_decode($request->getContent(), true);
 
-		if ($media && isset($data["date"]) && isset($data["tweet"]["id"])
-			&& isset($data["user"]["id"]))
+		if ($media && isset($data["date"]) && isset($data["tweet"]["id"]))
 		{
 			/**
 			 * @var Tweet $tweet
 			 * @var User $user
 			 */
 			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
-			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+			$user = $this->getUser();
 
 			$media->setUrl($data["url"]);
 			$media->setDate($data["date"]);

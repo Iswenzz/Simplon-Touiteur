@@ -12,6 +12,7 @@ import axios from "axios";
 import IconButton from "@material-ui/core/IconButton";
 import "./Post.scss";
 import Typography from "@material-ui/core/Typography";
+import {useHistory} from "react-router";
 
 export const postFormInitial = {
 	content: ""
@@ -26,6 +27,7 @@ export const postFormInitial = {
 export const Post = (props) =>
 {
 	const [formMessage, setFormMessage] = useState(null);
+	const history = useHistory();
 
 	/**
 	 * Post tweet callback.
@@ -38,8 +40,7 @@ export const Post = (props) =>
 			try
 			{
 				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/tweet`, {
-					...values,
-					user: props.user
+					...values
 				});
 				console.log(response);
 				setFormMessage(null);
@@ -49,6 +50,13 @@ export const Post = (props) =>
 				setFormMessage(err.response.data.message);
 				console.log(err);
 			}
+			// post callback
+			if (props.onPost)
+				props.onPost();
+
+			// redirect if on /post page
+			if (history.location.pathname === "/post")
+				history.push("/home");
 		}
 	};
 
@@ -115,7 +123,8 @@ Post.propTypes = {
 		username: PropTypes.string,
 		avatar: PropTypes.number
 	}),
-	rows: PropTypes.number
+	rows: PropTypes.number,
+	onPost: PropTypes.func
 };
 
 export default Post;
