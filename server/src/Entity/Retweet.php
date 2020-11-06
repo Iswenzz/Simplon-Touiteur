@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RetweetRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=RetweetRepository::class)
@@ -14,21 +15,25 @@ class Retweet
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+	 * @Groups({"retweet"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
+	 * @Groups({"retweet"})
      */
     private $date;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="retweets")
+	 * @Groups({"retweet"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tweet::class, inversedBy="retweets")
+	 * @Groups({"retweet"})
      */
     private $tweet;
 

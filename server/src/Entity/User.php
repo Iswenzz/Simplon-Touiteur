@@ -19,7 +19,7 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-	 * @Groups({"user", "tweet"})
+	 * @Groups({"user", "tweet", "like", "retweet", "follower", "following", "media"})
      */
     private $id;
 

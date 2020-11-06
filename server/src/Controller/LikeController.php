@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Like;
 use App\Entity\Tweet;
 use App\Entity\User;
 use DateTime;
@@ -18,69 +19,31 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Class TweetController
+ * Class LikeController
  * @package App\Controller
  * @Route("/api")
  */
-class TweetController extends AbstractController
+class LikeController extends AbstractController
 {
 	/**
-	 * Delete a tweet.
-	 * @Route("/tweet/{id}", methods={"DELETE"})
-	 * @param int $id - tweet id.
+	 * Delete a like.
+	 * @Route("/like/{id}", methods={"DELETE"})
+	 * @param int $id - like id.
 	 */
 	public function deleteOne(int $id)
 	{
 		/**
-		 * @var Tweet $tweet
+		 * @var Like $like
 		 */
 		$entityManager = $this->getDoctrine()->getManager();
-		$tweet = $entityManager->getRepository(Tweet::class)->find($id);
-		$entityManager->remove($tweet);
+		$like = $entityManager->getRepository(Like::class)->find($id);
+		$entityManager->remove($like);
 		$entityManager->flush();
 	}
 
 	/**
-	 * Update a tweet.
-	 * @Route("/tweet/{id}", methods={"PUT"})
-	 * @param int $id - tweet id.
-	 * @param Request $request
-	 * @param ValidatorInterface $validator
-	 * @return JsonResponse
-	 */
-	public function updateOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
-	{
-		/**
-		 * @var Tweet $tweet
-		 */
-		$entityManager = $this->getDoctrine()->getManager();
-		$tweet = $entityManager->getRepository(Tweet::class)->find($id);
-		$data = json_decode($request->getContent(), true);
-
-		if ($tweet && isset($data["content"]))
-		{
-			$tweet->setContent($data["content"]);
-
-			// validate
-			$errors = $validator->validate($tweet);
-			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
-
-			$entityManager->persist($tweet);
-			$entityManager->flush();
-
-			return $this->json([
-				"success" => true
-			]);
-		}
-		return $this->json([
-			"success" => false
-		], 400);
-	}
-
-	/**
-	 * Create a tweet.
-	 * @Route("/tweet", methods={"POST"})
+	 * Create a like.
+	 * @Route("/like", methods={"POST"})
 	 * @param Request $request
 	 * @param ValidatorInterface $validator
 	 * @return JsonResponse
@@ -88,27 +51,28 @@ class TweetController extends AbstractController
 	public function createOne(Request $request, ValidatorInterface $validator): JsonResponse
 	{
 		$entityManager = $this->getDoctrine()->getManager();
-		$tweet = new Tweet();
+		$like = new Like();
 		$data = json_decode($request->getContent(), true);
 
-		if (isset($data["content"]) && isset($data["user"]["id"]))
+		if (isset($data["content"]) && isset($data["user"]["id"]) && isset($data["tweet"]["id"]))
 		{
 			/**
 			 * @var User $user
+			 * @var Tweet $tweet
 			 */
 			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
 
-			// encode the plain password
-			$tweet->setContent($data["content"]);
-			$tweet->setCreatedAt(new DateTime("NOW"));
-			$tweet->setAuthor($user);
+			$like->setDate(new DateTime("NOW"));
+			$like->setTweet($tweet);
+			$like->setUser($user);
 
 			// validate
-			$errors = $validator->validate($tweet);
+			$errors = $validator->validate($like);
 			if (count($errors))
 				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
 
-			$entityManager->persist($tweet);
+			$entityManager->persist($like);
 			$entityManager->flush();
 
 			return $this->json([
@@ -121,45 +85,45 @@ class TweetController extends AbstractController
 	}
 
 	/**
-	 * Get a tweet.
-	 * @Route("/tweet/{id}", methods={"GET"})
-	 * @param int $id - tweet id.
+	 * Get a like.
+	 * @Route("/like/{id}", methods={"GET"})
+	 * @param int $id - like id.
 	 * @return JsonResponse
 	 */
 	public function getOne(int $id)
 	{
 		$classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 		$serializer = new Serializer([new ObjectNormalizer($classMetadataFactory)], [new JsonEncoder()]);
-		$tweet = $this->getDoctrine()->getRepository(Tweet::class)->find($id);
+		$like = $this->getDoctrine()->getRepository(Like::class)->find($id);
 
-		$json = json_decode($serializer->serialize($tweet, "json", [
-			"groups" => ["tweet"]
+		$json = json_decode($serializer->serialize($like, "json", [
+			"groups" => ["like"]
 		]), true);
 
 		return $this->json([
 			"success" => true,
-			"tweet" => $json
+			"like" => $json
 		]);
 	}
 
 	/**
-	 * Get all tweets.
-	 * @Route("/tweets", methods={"GET"})
+	 * Get all likes.
+	 * @Route("/likes", methods={"GET"})
 	 * @return JsonResponse
 	 */
 	public function getAll(): JsonResponse
 	{
 		$classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 		$serializer = new Serializer([new ObjectNormalizer($classMetadataFactory)], [new JsonEncoder()]);
-		$tweets = $this->getDoctrine()->getRepository(Tweet::class)->findAll();
+		$likes = $this->getDoctrine()->getRepository(Like::class)->findAll();
 
-		$json = json_decode($serializer->serialize($tweets, "json", [
-			"groups" => ["tweet"]
+		$json = json_decode($serializer->serialize($likes, "json", [
+			"groups" => ["like"]
 		]), true);
 
 		return $this->json([
 			"success" => true,
-			"tweets" => $json
+			"likes" => $json
 		]);
 	}
 }

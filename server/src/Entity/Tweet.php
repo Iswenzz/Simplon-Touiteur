@@ -17,7 +17,7 @@ class Tweet
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-	 * @Groups({"tweet"})
+	 * @Groups({"tweet", "like", "retweet"})
      */
     private $id;
 

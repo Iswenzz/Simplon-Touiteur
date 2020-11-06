@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\LikeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=LikeRepository::class)
@@ -15,21 +16,25 @@ class Like
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+	 * @Groups({"like"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
+	 * @Groups({"like"})
      */
     private $date;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tweet::class, inversedBy="likes")
+	 * @Groups({"like"})
      */
     private $tweet;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="likes")
+	 * @Groups({"like"})
      */
     private $user;
 

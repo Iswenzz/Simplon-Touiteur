@@ -59,7 +59,6 @@ class UserController extends AbstractController
 		if ($user && isset($data["firstname"]) && isset($data["lastname"])
 			&& isset($data["location"]) && isset($data["bio"]))
 		{
-			// encode the plain password
 			$user->setName($data["firstname"] . " " . $data["lastname"]);
 			$user->setBirthdate($data["birthdate"] ?? null);
 			$user->setBio($data["bio"]);
