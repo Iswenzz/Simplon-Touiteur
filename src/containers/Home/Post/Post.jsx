@@ -16,7 +16,7 @@ import IconButton from "@material-ui/core/IconButton";
 import PostPage from "../../PostPage/PostPage";
 
 export const postFormInitial = {
-	message: ""
+	content: ""
 };
 
 /**
@@ -37,8 +37,9 @@ export const Post = (props) =>
 		{
 			try
 			{
-				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/tweet/post`, {
-					...values
+				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/tweet`, {
+					...values,
+					user: props.user
 				});
 				console.log(response);
 			}
@@ -62,7 +63,7 @@ export const Post = (props) =>
 						<Grid item xs={10} md={11}>
 							<Field
 								component={TextField}
-								name="message"
+								name="content"
 								className="input"
 								placeholder="What's new?"
 								type="text"
