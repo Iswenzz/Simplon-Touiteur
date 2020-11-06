@@ -17,7 +17,7 @@ export const Tweet = (props) =>
 {
 	return (
 		<Container className={"tweet"}>
-			<Link component={"section"} to={`/tweet/${props.user.id || 1}`}>
+			<Link component={"section"} to={`/tweet/${props.tweet.id || 1}`}>
 				<Grid className={"tweet-card"} container>
 					<Grid item xs={2} md={1}>
 						<Grid container justify={"center"} alignItems={"center"}>

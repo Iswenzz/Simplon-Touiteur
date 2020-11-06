@@ -22,6 +22,7 @@ import * as uuid from "uuid";
 import "./TweetPage.scss";
 import axios from "axios";
 import {withRouter} from "react-router";
+import PageLoader from "../../components/PageLoader/PageLoader";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -202,26 +203,30 @@ export const ModalContent = (props) =>
 export const TweetPage = (props) =>
 {
 	const classes = useStyles();
-	const [state, setState] = useState({
-		user: {
-			name: "Red",
-			username: "redred",
-			date: "26/10/2020"
-		},
-		tweet: {
-			content: "I love you more than pizza 🍕"
-		},
-		medias: [
-			<Media media={TestImage} />
-		]
-	});
+	const [state, setState] = useState({});
 	const [replyModalOpen, setReplyModalOpen] = React.useState(false);
 	const ref = React.createRef();
 
 	useEffect(() =>
 	{
 		// @TODO get the user tweet + comments
-	}, []);
+		try
+		{
+			const fetchData = async () =>
+			{
+				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/tweet/${props.match.params.id}`);
+				setState({
+					user: response.data.tweet.author,
+					tweet: response.data.tweet
+				});
+			};
+			fetchData();
+		}
+		catch (err)
+		{
+			console.log(err);
+		}
+	}, [props.match.params.id]);
 
 	/**
 	 * Modal close callback.
@@ -235,7 +240,7 @@ export const TweetPage = (props) =>
 
 	return (
 		<Main {...props}>
-			<Tweet {...state} />
+			{state.tweet ? <Tweet {...state} /> : <PageLoader />}
 			<section>
 				{/*Test Reply Button*/}
 				<Grid className={"tweetpage-icons"} container justify={"space-around"}

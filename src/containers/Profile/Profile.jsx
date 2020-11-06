@@ -7,6 +7,7 @@ import EditProfile from "./EditProfile";
 import Main from "../Main/Main";
 import axios from "axios";
 import "./Profile.scss";
+import {withRouter} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -95,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Profile = () => {
+const Profile = (props) => {
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
 	const [, setTab] = React.useState("Tweets");
@@ -104,13 +105,12 @@ const Profile = () => {
 
 	useEffect(() =>
 	{
-		// @TODO get user profile
+		// get user profile
 		try
 		{
 			const fetchData = async () =>
 			{
-				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/1`);
-				console.log(response);
+				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/${props.match.params.id}`);
 				setState({
 					...response.data.user
 				});
@@ -121,7 +121,7 @@ const Profile = () => {
 		{
 			console.log(e);
 		}
-	}, []);
+	}, [props.match.params.id]);
 
 	/**
 	 * On tab change callback.
@@ -180,11 +180,10 @@ const Profile = () => {
 								className={classes.horizontalDiv}
 							>
 								<div/>
-								{state.id === localStorage.getItem("userid") ? (
-									<Button onClick={openProfileEditor} className="btn" style={{ margin: "1em" }}>
-										<span>Edit profile</span>
-									</Button>
-								) : null}
+								<Button onClick={openProfileEditor} className="btn"
+									style={{ margin: "1em", visibility: props.match.params.id === localStorage.getItem("userid") ? "shown" : "hidden" }}>
+									<span>Edit profile</span>
+								</Button>
 							</div>
 							<div style={{ marginBottom: "1rem" }}>
 								<div
@@ -270,7 +269,7 @@ const Profile = () => {
 						</Grid>
 
 					</Grid>
-					{state.id === localStorage.getItem("userid") ? (
+					{props.match.params.id === localStorage.getItem("userid") ? (
 						<EditProfile
 							open={editProfile}
 							onClose={() => setEditProfile(false)}
@@ -288,4 +287,4 @@ const Profile = () => {
 	);
 };
 
-export default Profile;
+export default withRouter(Profile);

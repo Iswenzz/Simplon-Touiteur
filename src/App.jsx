@@ -137,8 +137,8 @@ export const App = () =>
 					<Switch>
 						<Route path="/signin" children={<WavesEffect children={<SignIn />} />} />
 						<Route path="/signup" children={<WavesEffect children={<SignUp />} />} />
-						<Route path="/profile" children={<Profile/>} />
-						<Route path="/tweet" children={<TweetPage />} />
+						<Route path="/profile/:id" children={<Profile/>} />
+						<Route path="/tweet/:id" children={<TweetPage />} />
 						<Route path="/post" children={<PostPage />} />
 						<Route path="/home" children={<Home />} />
 						<Route path="/" children={<WavesEffect children={<IndexPage />} />} />
