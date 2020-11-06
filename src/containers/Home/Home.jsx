@@ -1,12 +1,9 @@
 import React, {useEffect, useState} from "react";
 import Tweet from "./Tweet/Tweet";
-import Media from "../../components/Media/Media";
-import TestImage from "../../assets/images/1500x500.jpg";
 import Main from "../Main/Main";
 import Post from "./Post/Post";
 import {withRouter} from "react-router";
 import axios from "axios";
-import {getAuthHeader} from "../../api/auth";
 import "./Home.scss";
 
 /**
@@ -25,9 +22,12 @@ export const Home = (props) =>
 		{
 			const fetchData = async () =>
 			{
-				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/tweets`);
-				console.log(response);
-				setState(response.data);
+				const tweets = await axios.get(`${process.env.REACT_APP_BACKEND}/api/tweets`);
+				const user = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/1`);
+				setState({
+					...tweets.data,
+					user: user.data.user
+				});
 			};
 			fetchData();
 		}
@@ -37,14 +37,14 @@ export const Home = (props) =>
 		}
 	}, []);
 
-	return (
+	return state.user ? (
 		<Main {...props}>
-			<Post user={{ name: "Red", username: "redred", date: "26/10/2020"}} />
+			<Post user={state.user} />
 			{state.tweets?.map(tweet => (
 				<Tweet user={tweet.author} tweet={tweet} />
 			))}
 		</Main>
-	);
+	) : null;
 };
 
 export default withRouter(Home);
