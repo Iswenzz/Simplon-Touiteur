@@ -53,14 +53,20 @@ class MediaController extends AbstractController
 		$media = $entityManager->getRepository(Media::class)->find($id);
         $data = json_decode($request->getContent(), true);
 
-        if ($media && isset($data["date"]) && isset($data["tweet"])
+        if ($media && isset($data["date"]) && isset($data["tweet"]["id"])
             && isset($data["author"]))
             
 		{
+		
+			/**
+			 * @var Tweet $tweet
+			 */
+			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
             $media->setUrl($data["url"]);
-			$media->setDate($data["date"] ?? null);			
-			$media->setBio($data["tweet"]);
-			$media->setAuthor($data["author"] ?? null);
+			$media->setDate($data["date"]);
+			$media->setAuthor($data["author"]);			
+			$media->setTweet($tweet);
+			
 
 			// validate
 			$errors = $validator->validate($media);
@@ -120,4 +126,50 @@ class MediaController extends AbstractController
 			"medias" => $json
 		]);
 	}
+
+
+	/**
+	 * @Route("/media/{id}", methods={"POST"})
+	 * @param int $id - Media id.
+	 * @param Request $request
+	 * @param ValidatorInterface $validator
+	 * @return JsonResponse
+	 */
+    public function createOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+	{
+        
+		$entityManager = $this->getDoctrine()->getManager();
+		$hashtag = new Media ();
+        $data = json_decode($request->getContent(), true);
+
+		if ($media && isset($data["date"]) && isset($data["tweet"]["id"])
+            && isset($data["author"]))		
+		
+		{
+			/**
+			 * @var Tweet $tweet
+			 */
+			$media = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
+            $media->setUrl($data["url"]);
+			$media->setDate($data["date"]);	
+			$media->setAuthor($data["author"]);			
+			$media->setTweet($tweet);
+			
+
+			// validate
+			$errors = $validator->validate($media);
+			if (count($errors))
+				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+
+			$entityManager->persist($media);
+			$entityManager->flush();
+
+			return $this->json([
+				"success" => true
+			]);
+		}
+		return $this->json([
+			"success" => false
+		], 400);
+    }
 }
