@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, Container, Grid} from "@material-ui/core";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import EmojiEmotionsIcon from "@material-ui/icons/EmojiEmotions";
@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import IconButton from "@material-ui/core/IconButton";
 import "./Post.scss";
+import Typography from "@material-ui/core/Typography";
 
 export const postFormInitial = {
 	content: ""
@@ -24,6 +25,8 @@ export const postFormInitial = {
  */
 export const Post = (props) =>
 {
+	const [formMessage, setFormMessage] = useState(null);
+
 	/**
 	 * Post tweet callback.
 	 */
@@ -39,9 +42,11 @@ export const Post = (props) =>
 					user: props.user
 				});
 				console.log(response);
+				setFormMessage(null);
 			}
 			catch (err)
 			{
+				setFormMessage(err.response.data.message);
 				console.log(err);
 			}
 		}
@@ -92,6 +97,11 @@ export const Post = (props) =>
 						<section>
 							<Button color={"primary"} variant={"contained"} type={"submit"} className="btn">Tweet</Button>
 						</section>
+					</Grid>
+					<Grid container>
+						<Typography color={"secondary"} align={"center"} variant={"h6"} component={"h3"}>
+							{formMessage}
+						</Typography>
 					</Grid>
 				</Form>
 			</Formik>

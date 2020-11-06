@@ -38,6 +38,7 @@ export const SignIn = (props) =>
 {
 	const classes = useStyles();
 	const [isLoading, setLoading] = useState(true);
+	const [formMessage, setFormMessage] = useState(null);
 
 	useEffect(() =>
 	{
@@ -56,7 +57,7 @@ export const SignIn = (props) =>
 	/**
 	 * Log the user.
 	 */
-	const onSubmit = async (values, { setSubmitting }) =>
+	const onSubmit = async (values) =>
 	{
 		// if the form as valid information send a post req
 		if (Object.values(values).every(item => item !== undefined && item !== null))
@@ -72,10 +73,12 @@ export const SignIn = (props) =>
 					localStorage.setItem("auth", response.data.token);
 					localStorage.setItem("userid", response.data.user.id);
 					props.history.push("/home");
+					setFormMessage(null);
 				}
 			}
 			catch (err)
 			{
+				setFormMessage(err.response.data.message);
 				console.log(err);
 			}
 		}
@@ -141,6 +144,11 @@ export const SignIn = (props) =>
 									Don't have an account? Sign Up
 								</Link>
 							</Grid>
+						</Grid>
+						<Grid container>
+							<Typography color={"secondary"} align={"center"} variant={"h6"} component={"h3"}>
+								{formMessage}
+							</Typography>
 						</Grid>
 					</Form>
 				</Formik>

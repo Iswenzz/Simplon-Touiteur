@@ -43,6 +43,7 @@ export const SignUp = (props) =>
 {
 	const classes = useStyles();
 	const [isLoading, setLoading] = useState(true);
+	const [formMessage, setFormMessage] = useState(null);
 
 	useEffect(() =>
 	{
@@ -61,7 +62,7 @@ export const SignUp = (props) =>
 	/**
 	 * Register the user on form submit.
 	 */
-	const onSubmit = async (values, { setSubmitting }) =>
+	const onSubmit = async (values) =>
 	{
 		// if the form as valid information send a post req
 		if (Object.values(values).every(item => item !== undefined && item !== null))
@@ -72,10 +73,14 @@ export const SignUp = (props) =>
 					...values
 				});
 				if (response.status === 200)
+				{
 					props.history.push("/signin");
+					setFormMessage(null);
+				}
 			}
 			catch (err)
 			{
+				setFormMessage(err.response.data.message);
 				console.log(err);
 			}
 		}
@@ -179,6 +184,11 @@ export const SignUp = (props) =>
 									Already have an account? Sign in
 								</Link>
 							</Grid>
+						</Grid>
+						<Grid container>
+							<Typography color={"secondary"} align={"center"} variant={"h6"} component={"h3"}>
+								{formMessage}
+							</Typography>
 						</Grid>
 					</Form>
 				</Formik>

@@ -1,5 +1,5 @@
 import "date-fns";
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {Grid, Paper, Fab,
 	IconButton, Typography, Modal, Backdrop, Avatar, Box,
@@ -126,6 +126,7 @@ export const ModalContent = (props) =>
 {
 	const classes = useStyles();
 	const [selectedDate, setSelectedDate] = React.useState(null);
+	const [formMessage, setFormMessage] = useState(null);
 	const formRef = useRef();
 
 	/**
@@ -143,9 +144,11 @@ export const ModalContent = (props) =>
 					...values
 				});
 				console.log(response);
+				setFormMessage(null);
 			}
 			catch (err)
 			{
+				setFormMessage(err.response.data.message);
 				console.log(err);
 			}
 		}
@@ -286,6 +289,11 @@ export const ModalContent = (props) =>
 										}}
 									/>
 								</MuiPickersUtilsProvider>
+							</Grid>
+							<Grid container>
+								<Typography color={"secondary"} align={"center"} variant={"h6"} component={"h3"}>
+									{formMessage}
+								</Typography>
 							</Grid>
 						</Form>
 					</Formik>

@@ -2,7 +2,7 @@ import React from "react";
 import TouiteurLogo from "../../../components/TouiteurLogo/TouiteurLogo";
 import {Grid} from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
-import {Bookmark, Explore, Notifications, Person} from "@material-ui/icons";
+import {Bookmark, ExitToApp, Explore, Notifications, Person} from "@material-ui/icons";
 import { useMediaQuery } from "react-responsive/src";
 import {makeStyles} from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -12,6 +12,8 @@ import CreateIcon from "@material-ui/icons/Create";
 import Link from "../../../components/Link/Link";
 import ButtonLink from "../../../components/ButtonLink/ButtonLink";
 import "./NavBar.scss";
+import {useHistory} from "react-router";
+import axios from "axios";
 
 const useStyles = makeStyles({
 	root: {
@@ -31,6 +33,7 @@ export const NavBar = () =>
 	const isLgBp = useMediaQuery({ query: "(max-width: 1280px)" });
 	const isTabletOrMobileDevice = useMediaQuery({ query: "(max-device-width: 1224px)" });
 	const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
+	const history = useHistory();
 
 	/**
 	 * Handle mobile navbar buttons
@@ -40,6 +43,16 @@ export const NavBar = () =>
 	const handleChange = (event, newValue) => 
 	{
 		setValue(newValue);
+	};
+
+	/**
+	 * Logout click callback.
+	 */
+	const logoutHandler = () =>
+	{
+		localStorage.setItem("auth", null);
+		axios.defaults.headers.common["Authorization"] = "Bearer logout";
+		history.push("/");
 	};
 
 	const desktopNavbar = (
@@ -61,6 +74,9 @@ export const NavBar = () =>
 				<Link to={"/profile"} component={ButtonLink} size="large" color="primary" startIcon={<Person />}>
 					Profile
 				</Link>
+				<ButtonLink size="large" color="primary" startIcon={<ExitToApp />} onClick={logoutHandler}>
+					Logout
+				</ButtonLink>
 			</Grid>
 		</Grid>
 	);
