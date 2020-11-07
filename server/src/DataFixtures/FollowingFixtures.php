@@ -17,18 +17,23 @@ class FollowingFixtures extends Fixture implements DependentFixtureInterface
 	{
 		/**
 		 * @var User $user
+		 * @var User $followingUser
 		 */
 		$faker = Factory::create("en_US");
-		$user = $this->getReference(UserFixtures::USER_REFERENCE);
+		for ($i = 0; $i < 30; $i++)
+		{
+			$user = $this->getReference(UserFixtures::USER_REFERENCE . $i);
+			$followingUser = $this->getReference(UserFixtures::USER_REFERENCE . $i);
 
-		$following = new Following();
-		$following->setDate($faker->dateTime);
-		$following->setUser($user);
-		$following->setFollowing($user);
+			$following = new Following();
+			$following->setFollowing($followingUser);
+			$following->setDate($faker->dateTime);
+			$following->setUser($user);
 
-		$manager->persist($following);
+			$manager->persist($following);
+			$this->addReference(self::FOLLOWING_REFERENCE . $i, $following);
+		}
 		$manager->flush();
-		$this->addReference(self::FOLLOWING_REFERENCE, $following);
 	}
 
 	public function getDependencies(): array

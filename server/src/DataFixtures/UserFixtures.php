@@ -22,21 +22,27 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 		 * @var Country $country
 		 */
 		$faker = Factory::create("en_US");
-        $user = new User();
-        $country = $this->getReference(CountryFixtures::COUNTRY_REFERENCE);
 
-        $user->setLocation($country);
-        $user->setName($faker->name);
-        $user->setBio($faker->text(100));
-        $user->setCreatedAt($faker->dateTime);
-        $user->setBirthdate($faker->dateTime);
-        $user->setEmail($faker->email);
-        $user->setUsername($faker->userName);
-        $user->setPassword($faker->password);
+		for ($i = 0; $i < 30; $i++)
+		{
+			$user = new User();
+			$country = $this->getReference(CountryFixtures::COUNTRY_REFERENCE . $i);
 
-		$manager->persist($user);
-        $manager->flush();
-		$this->addReference(self::USER_REFERENCE, $user);
+			$user->setLocation($country);
+			$user->setName($faker->name);
+			$user->setBio($faker->realText(100));
+			$user->setCreatedAt($faker->dateTime);
+			$user->setBirthdate($faker->dateTime);
+			$user->setEmail($faker->email);
+			$user->setUsername($faker->userName);
+			$user->setPassword($faker->password);
+
+			$manager->persist($user);
+			$manager->flush();
+			if (!$this->hasReference(self::USER_REFERENCE))
+				$this->addReference(self::USER_REFERENCE, $user);
+			$this->addReference(self::USER_REFERENCE . $i, $user);
+		}
     }
 
 	public function getDependencies(): array

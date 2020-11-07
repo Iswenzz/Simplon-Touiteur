@@ -14,12 +14,17 @@ class CountryFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
 		$faker = Factory::create("en_US");
-		$country = new Country();
-		$country->setName($faker->country);
-		$country->setCode($faker->randomDigit);
+		for ($i = 0; $i < 100; $i++)
+		{
+			$country = new Country();
+			$country->setName($faker->country);
+			$country->setCode($faker->randomDigit);
 
-		$manager->persist($country);
-        $manager->flush();
-		$this->addReference(self::COUNTRY_REFERENCE, $country);
+			$manager->persist($country);
+			if (!$this->hasReference(self::COUNTRY_REFERENCE))
+				$this->addReference(self::COUNTRY_REFERENCE, $country);
+			$this->addReference(self::COUNTRY_REFERENCE . $i, $country);
+		}
+		$manager->flush();
     }
 }

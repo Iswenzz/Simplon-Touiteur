@@ -21,17 +21,23 @@ class LikeFixtures extends Fixture implements DependentFixtureInterface
 		 * @var User $user
 		 */
 		$faker = Factory::create("en_US");
-		$tweet = $this->getReference(TweetFixtures::TWEET_REFERENCE);
-		$user = $this->getReference(UserFixtures::USER_REFERENCE);
+		for ($i = 0; $i < 30; $i++)
+		{
+			$tweet = $this->getReference(TweetFixtures::TWEET_REFERENCE . $i);
+			for ($j = 0; $j < 10; $j++)
+			{
+				$user = $this->getReference(UserFixtures::USER_REFERENCE . rand(0, 29));
 
-		$like = new Like();
-		$like->setTweet($tweet);
-		$like->setDate($faker->dateTime);
-		$like->setUser($user);
+				$like = new Like();
+				$like->setTweet($tweet);
+				$like->setDate($faker->dateTime);
+				$like->setUser($user);
 
-		$manager->persist($like);
+				$manager->persist($like);
+				$this->addReference(self::LIKE_REFERENCE . $i . $j, $like);
+			}
+		}
 		$manager->flush();
-		$this->addReference(self::LIKE_REFERENCE, $like);
 	}
 
 	public function getDependencies(): array

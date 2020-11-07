@@ -21,18 +21,24 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
 		 * @var User $user
 		 */
 		$faker = Factory::create("en_US");
-		$tweet = $this->getReference(TweetFixtures::TWEET_REFERENCE);
-		$user = $this->getReference(UserFixtures::USER_REFERENCE);
+		for ($i = 0; $i < 30; $i++)
+		{
+			$tweet = $this->getReference(TweetFixtures::TWEET_REFERENCE . $i);
+			for ($j = 0; $j < 10; $j++)
+			{
+				$user = $this->getReference(UserFixtures::USER_REFERENCE . rand(0, 29));
 
-		$comment = new Comment();
-		$comment->setTweet($tweet);
-		$comment->setDate($faker->dateTime);
-		$comment->setAuthor($user);
-		$comment->setContent($faker->text(100));
+				$comment = new Comment();
+				$comment->setTweet($tweet);
+				$comment->setDate($faker->dateTime);
+				$comment->setAuthor($user);
+				$comment->setContent($faker->realText(100));
 
-		$manager->persist($comment);
+				$manager->persist($comment);
+				$this->addReference(self::COMMENT_REFERENCE . $i . $j, $comment);
+			}
+		}
 		$manager->flush();
-		$this->addReference(self::COMMENT_REFERENCE, $comment);
 	}
 
 	public function getDependencies(): array

@@ -20,17 +20,21 @@ class TweetFixtures extends Fixture implements DependentFixtureInterface
 		 * @var User $user
 		 */
 		$faker = Factory::create("en_US");
-		$user = $this->getReference(UserFixtures::USER_REFERENCE);
+		// Tweet
+		for ($i = 0; $i < 30; $i++)
+		{
+			$user = $this->getReference(UserFixtures::USER_REFERENCE . $i);
+			$tweet = new Tweet();
+			$tweet->setAuthor($user);
+			$tweet->setCreatedAt($faker->dateTime);
+			$tweet->setContent($faker->realText(100));
 
-		// Comment
-		$tweet = new Tweet();
-		$tweet->setAuthor($user);
-		$tweet->setCreatedAt($faker->dateTime);
-		$tweet->setContent($faker->text(100));
-
-		$manager->persist($tweet);
-        $manager->flush();
-        $this->addReference(self::TWEET_REFERENCE, $tweet);
+			$manager->persist($tweet);
+			$manager->flush();
+			if (!$this->hasReference(self::TWEET_REFERENCE))
+				$this->addReference(self::TWEET_REFERENCE, $tweet);
+			$this->addReference(self::TWEET_REFERENCE . $i, $tweet);
+		}
     }
 
 	public function getDependencies(): array
