@@ -67,7 +67,7 @@ class UserController extends AbstractController
 			// validate
 			$errors = $validator->validate($user);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($user);
 			$entityManager->flush();

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Follower;
 use App\Entity\User;
+use DateTime;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +58,7 @@ class FollowerController extends AbstractController
 		$follower = $entityManager->getRepository(Follower::class)->find($id);
 		$data = json_decode($request->getContent(), true);
 
-		if ($follower && isset($data["date"]) && isset($data["follow"]["id"]))
+		if ($follower && isset($data["follow"]["id"]))
 		{
 			/**
 			 * @var User $user
@@ -66,14 +67,13 @@ class FollowerController extends AbstractController
 			$user = $this->getUser();
 			$follow = $entityManager->getRepository(User::class)->find($data["follow"]["id"]);
 
-			$follower->setDate($data["date"] ?? null);
 			$follower->setUser($user);
 			$follower->setFollow($follow);
 
 			// validate
 			$errors = $validator->validate($follower);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($follower);
 			$entityManager->flush();
@@ -103,7 +103,7 @@ class FollowerController extends AbstractController
 		$follower = new Follower();
 		$data = json_decode($request->getContent(), true);
 
-		if ($follower && isset($data["date"]) && isset($data["follow"]["id"]))
+		if ($follower && isset($data["follow"]["id"]))
 		{
 			/**
 			 * @var User $user
@@ -112,14 +112,14 @@ class FollowerController extends AbstractController
 			$user = $this->getUser();
 			$follow = $entityManager->getRepository(User::class)->find($data["follow"]["id"]);
 
-			$follower->setDate($data["date"] ?? null);
+			$follower->setDate(new DateTime("NOW"));
 			$follower->setUser($user);
 			$follower->setFollow($follow);
 
 			// validate
 			$errors = $validator->validate($follower);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($follower);
 			$entityManager->flush();

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Tweet;
 use App\Entity\User;
 use DateTime;
@@ -64,7 +65,7 @@ class TweetController extends AbstractController
 			// validate
 			$errors = $validator->validate($tweet);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($tweet);
 			$entityManager->flush();
@@ -105,7 +106,7 @@ class TweetController extends AbstractController
 			// validate
 			$errors = $validator->validate($tweet);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()], 401);
 
 			$entityManager->persist($tweet);
 			$entityManager->flush();
@@ -127,6 +128,9 @@ class TweetController extends AbstractController
 	 */
 	public function getOne(int $id)
 	{
+		/**
+		 * @var Tweet $tweet
+		 */
 		$classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 		$serializer = new Serializer([new ObjectNormalizer($classMetadataFactory)], [new JsonEncoder()]);
 		$tweet = $this->getDoctrine()->getRepository(Tweet::class)->find($id);

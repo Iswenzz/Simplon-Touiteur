@@ -70,7 +70,7 @@ class RetweetController extends AbstractController
 			// validate
 			$errors = $validator->validate($retweet);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($retweet);
 			$entityManager->flush();

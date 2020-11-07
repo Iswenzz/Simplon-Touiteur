@@ -70,7 +70,7 @@ class LikeController extends AbstractController
 			// validate
 			$errors = $validator->validate($like);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($like);
 			$entityManager->flush();

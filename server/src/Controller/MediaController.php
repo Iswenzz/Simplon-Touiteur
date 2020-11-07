@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Media;
 use App\Entity\Tweet;
 use App\Entity\User;
+use DateTime;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -55,7 +56,7 @@ class MediaController extends AbstractController
 		$media = $entityManager->getRepository(Media::class)->find($id);
 		$data = json_decode($request->getContent(), true);
 
-		if ($media && isset($data["date"]) && isset($data["tweet"]["id"]))
+		if ($media && isset($data["tweet"]["id"]))
 		{
 			/**
 			 * @var Tweet $tweet
@@ -65,14 +66,13 @@ class MediaController extends AbstractController
 			$user = $this->getUser();
 
 			$media->setUrl($data["url"]);
-			$media->setDate($data["date"]);
 			$media->setAuthor($user);
 			$media->setTweet($tweet);
 
 			// validate
 			$errors = $validator->validate($media);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($media);
 			$entityManager->flush();
@@ -142,7 +142,7 @@ class MediaController extends AbstractController
 		$media = new Media();
 		$data = json_decode($request->getContent(), true);
 
-		if ($media && isset($data["date"]) && isset($data["tweet"]["id"]))
+		if ($media && isset($data["tweet"]["id"]))
 		{
 			/**
 			 * @var Tweet $tweet
@@ -152,14 +152,14 @@ class MediaController extends AbstractController
 			$user = $this->getUser();
 
 			$media->setUrl($data["url"]);
-			$media->setDate($data["date"]);
+			$media->setDate(new DateTime("NOW"));
 			$media->setAuthor($user);
 			$media->setTweet($tweet);
 
 			// validate
 			$errors = $validator->validate($media);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($media);
 			$entityManager->flush();

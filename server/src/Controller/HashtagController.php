@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Hashtag;
 use App\Entity\Tweet;
+use DateTime;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,7 +57,7 @@ class HashtagController extends AbstractController
 		$hashtag = $entityManager->getRepository(Hashtag::class)->find($id);
         $data = json_decode($request->getContent(), true);
 
-		if ($hashtag && isset($data["name"]) && isset($data["date"]) && isset($data["tweet"]["id"]))
+		if ($hashtag && isset($data["name"]) && isset($data["tweet"]["id"]))
 		{
 			/**
 			 * @var Tweet $tweet
@@ -64,13 +65,12 @@ class HashtagController extends AbstractController
 			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
 
             $hashtag->setName($data["name"]);
-			$hashtag->setDate($data["date"]);			
 			$hashtag->setTweet($tweet);
 
 			// validate
 			$errors = $validator->validate($hashtag);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($hashtag);
 			$entityManager->flush();
@@ -127,20 +127,19 @@ class HashtagController extends AbstractController
 	}
 
 	/**
-	 * @Route("/hashtag/{id}", methods={"POST"})
-	 * @param int $id - Hashtag id.
+	 * @Route("/hashtag", methods={"POST"})
 	 * @param Request $request
 	 * @param ValidatorInterface $validator
 	 * @return JsonResponse
 	 */
-    public function createOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+    public function createOne(Request $request, ValidatorInterface $validator): JsonResponse
 	{
         
 		$entityManager = $this->getDoctrine()->getManager();
 		$hashtag = new Hashtag ();
         $data = json_decode($request->getContent(), true);
 
-		if ($hashtag && isset($data["name"]) && isset($data["date"]) && isset($data["tweet"]["id"]))
+		if ($hashtag && isset($data["name"]) && isset($data["tweet"]["id"]))
 		{
 			/**
 			 * @var Tweet $tweet
@@ -148,13 +147,13 @@ class HashtagController extends AbstractController
 			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
 
             $hashtag->setName($data["name"]);
-			$hashtag->setDate($data["date"]);			
+			$hashtag->setDate(new DateTime("NOW"));
 			$hashtag->setTweet($tweet);
 
 			// validate
 			$errors = $validator->validate($hashtag);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($hashtag);
 			$entityManager->flush();
