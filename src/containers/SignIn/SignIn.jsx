@@ -71,7 +71,7 @@ export const SignIn = (props) =>
 				{
 					axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token ?? "fail"}`;
 					localStorage.setItem("auth", response.data.token);
-					localStorage.setItem("userid", response.data.user.id);
+					localStorage.setItem("userid", response.data.user.username);
 					props.history.push("/home");
 					setFormMessage(null);
 				}

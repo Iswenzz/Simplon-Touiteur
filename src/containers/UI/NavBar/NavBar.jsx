@@ -71,7 +71,7 @@ export const NavBar = () =>
 				<Link to={"/home"} component={ButtonLink} size="large" color="primary" startIcon={<Bookmark />}>
 					Bookmarks
 				</Link>
-				<Link to={"/profile"} component={ButtonLink} size="large" color="primary" startIcon={<Person />}>
+				<Link to={`/profile/${localStorage.getItem("userid") || 0}`} component={ButtonLink} size="large" color="primary" startIcon={<Person />}>
 					Profile
 				</Link>
 				<ButtonLink size="large" color="primary" startIcon={<ExitToApp />} onClick={logoutHandler}>

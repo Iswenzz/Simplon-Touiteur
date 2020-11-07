@@ -1,5 +1,5 @@
 import {makeStyles} from "@material-ui/core/styles";
-import React, {useEffect, useState} from "react";
+import React, {forwardRef, useEffect, useState} from "react";
 import {
 	Avatar,
 	Backdrop,
@@ -13,16 +13,15 @@ import {
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import {Chat, Close, Favorite, Share} from "@material-ui/icons";
-import Media from "../../components/Media/Media";
-import TestImage from "../../assets/images/1500x500.jpg";
 import Tweet from "../Home/Tweet/Tweet";
 import Main from "../Main/Main";
 import Link from "../../components/Link/Link";
 import * as uuid from "uuid";
-import "./TweetPage.scss";
 import axios from "axios";
 import {withRouter} from "react-router";
 import PageLoader from "../../components/PageLoader/PageLoader";
+import "./TweetPage.scss";
+import Fade from "@material-ui/core/Fade";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -101,7 +100,7 @@ export const replyFormInitial = {
 	message: ""
 };
 
-export const ModalContent = (props) =>
+export const ModalContent = forwardRef((props, ref) =>
 {
 	const classes = useStyles();
 
@@ -127,7 +126,7 @@ export const ModalContent = (props) =>
 	};
 
 	return (
-		<>
+		<article ref={ref}>
 			<Grid component="nav" className={classes.header} item>
 				<div style={{ display: "flex", flexDirection: "row" }}>
 					<IconButton onClick={props.closeModal}>
@@ -141,12 +140,12 @@ export const ModalContent = (props) =>
 					<Grid className={"reply-card"} container>
 						<Grid item xs={2} md={1}>
 							<Grid container justify={"center"} alignItems={"center"}>
-								<Avatar id={props.user.id} />
+								<Avatar id={props.user.username} />
 							</Grid>
 						</Grid>
 						<Grid item xs={9} md={10}>
 							<Grid container direction={"column"}>
-								<Link to={`/profile/${props.user.id || 0}`}>
+								<Link to={`/profile/${props.user.username || 0}`}>
 									<Typography className={"reply-card-name"} variant={"h5"} component={"span"}>
 										{props.user.name}
 									</Typography>
@@ -169,7 +168,7 @@ export const ModalContent = (props) =>
 					<Grid className={"reply-card"} container>
 						<Grid item xs={2} md={1}>
 							<Grid container justify={"center"} alignItems={"center"}>
-								<Avatar id={props.user.id} />
+								<Avatar id={props.user.username} />
 							</Grid>
 						</Grid>
 						<Grid item xs={10} md={11}>
@@ -196,16 +195,15 @@ export const ModalContent = (props) =>
 					</Grid>
 				</Paper>
 			</Grid>
-		</>
+		</article>
 	);
-};
+});
 
 export const TweetPage = (props) =>
 {
 	const classes = useStyles();
 	const [state, setState] = useState({});
 	const [replyModalOpen, setReplyModalOpen] = React.useState(false);
-	const ref = React.createRef();
 
 	useEffect(() =>
 	{
@@ -256,7 +254,6 @@ export const TweetPage = (props) =>
 					</IconButton>
 				</Grid>
 				<Modal
-					ref={ref}
 					aria-labelledby="transition-modal-title"
 					aria-describedby="transition-modal-description"
 					className={classes.modal}
@@ -268,7 +265,9 @@ export const TweetPage = (props) =>
 						timeout: 500,
 					}}
 				>
-					<ModalContent closeModal={handleClose} {...state} />
+					<Fade in={replyModalOpen}>
+						<ModalContent closeModal={handleClose} {...state} />
+					</Fade>
 				</Modal>
 			</section>
 		</Main>

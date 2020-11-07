@@ -67,7 +67,7 @@ export const Post = (props) =>
 					<Grid container>
 						<Grid item xs={2} md={1}>
 							<Grid container justify={"center"} alignItems={"center"}>
-								<Avatar id={props.user.id} />
+								<Avatar id={props.user.username} />
 							</Grid>
 						</Grid>
 						<Grid item xs={10} md={11}>

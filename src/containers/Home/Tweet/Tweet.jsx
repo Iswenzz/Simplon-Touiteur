@@ -21,12 +21,12 @@ export const Tweet = (props) =>
 				<Grid className={"tweet-card"} container>
 					<Grid item xs={2} md={1}>
 						<Grid container justify={"center"} alignItems={"center"}>
-							<Avatar id={props.user.id} />
+							<Avatar id={props.user.username} />
 						</Grid>
 					</Grid>
 					<Grid item xs={10} md={11}>
 						<Grid container direction={"column"}>
-							<Link to={`/profile/${props.user.id || 1}`}>
+							<Link to={`/profile/${props.user.username || 1}`}>
 								<Typography className={"tweet-card-name"} variant={"h5"} component={"span"}>
 									{props.user.name}
 								</Typography>

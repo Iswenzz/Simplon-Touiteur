@@ -1,5 +1,5 @@
 import "date-fns";
-import React, {useRef, useState} from "react";
+import React, {forwardRef, useRef, useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {Grid, Paper, Fab,
 	IconButton, Typography, Modal, Backdrop, Avatar, Box,
@@ -13,6 +13,7 @@ import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker,
 } from "@material-ui/pickers";
+import Fade from "@material-ui/core/Fade";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -122,7 +123,7 @@ export const editFormInitial = {
 	birthdate: ""
 };
 
-export const ModalContent = (props) =>
+export const ModalContent = forwardRef((props, ref) =>
 {
 	const classes = useStyles();
 	const [selectedDate, setSelectedDate] = React.useState(null);
@@ -171,7 +172,7 @@ export const ModalContent = (props) =>
 	};
 
 	return (
-		<>
+		<article ref={ref}>
 			<Grid component="nav" className={classes.header} item>
 				<div style={{ display: "flex", flexDirection: "row" }}>
 					<IconButton onClick={props.closeModal}>
@@ -299,17 +300,15 @@ export const ModalContent = (props) =>
 					</Formik>
 				</Paper>
 			</Grid>
-		</>
+		</article>
 	);
-};
+});
 
 const EditProfile = (props) => {
 	const classes = useStyles();
-	const ref = React.createRef();
 
 	return (
 		<Modal
-			ref={ref}
 			aria-labelledby="transition-modal-title"
 			aria-describedby="transition-modal-description"
 			className={classes.modal}
@@ -321,7 +320,9 @@ const EditProfile = (props) => {
 				timeout: 500,
 			}}
 		>
-			<ModalContent closeModal={props.closeModal} />
+			<Fade in={props.open}>
+				<ModalContent closeModal={props.closeModal} />
+			</Fade>
 		</Modal>
 	);
 };

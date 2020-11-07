@@ -130,22 +130,20 @@ const theme = responsiveFontSizes(createMuiTheme({
 export const App = () =>
 {
 	return (
-		<React.StrictMode>
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				<Router>
-					<Switch>
-						<Route path="/signin" children={<WavesEffect children={<SignIn />} />} />
-						<Route path="/signup" children={<WavesEffect children={<SignUp />} />} />
-						<Route path="/profile/:id" children={<Profile/>} />
-						<Route path="/tweet/:id" children={<TweetPage />} />
-						<Route path="/post" children={<PostPage />} />
-						<Route path="/home" children={<Home />} />
-						<Route path="/" children={<WavesEffect children={<IndexPage />} />} />
-					</Switch>
-				</Router>
-			</ThemeProvider>
-		</React.StrictMode>
+		<ThemeProvider theme={theme}>
+			<CssBaseline />
+			<Router>
+				<Switch>
+					<Route path="/signin" children={<WavesEffect children={<SignIn />} />} />
+					<Route path="/signup" children={<WavesEffect children={<SignUp />} />} />
+					<Route path="/profile/:id" children={<Profile/>} />
+					<Route path="/tweet/:id" children={<TweetPage />} />
+					<Route path="/post" children={<PostPage />} />
+					<Route path="/home" children={<Home />} />
+					<Route path="/" children={<WavesEffect children={<IndexPage />} />} />
+				</Switch>
+			</Router>
+		</ThemeProvider>
 	);
 };
 

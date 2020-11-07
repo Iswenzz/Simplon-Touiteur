@@ -19,7 +19,7 @@ export class Avatar extends PureComponent
 
 Avatar.propTypes = {
 	className: PropTypes.string,
-	id: PropTypes.number
+	id: PropTypes.string
 };
 
 export default Avatar;
