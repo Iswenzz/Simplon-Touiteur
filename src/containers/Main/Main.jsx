@@ -9,11 +9,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import * as uuid from "uuid";
 import {useMediaQuery} from "react-responsive/src";
 import NavBar from "../UI/NavBar/NavBar";
-import "./Main.scss";
 import {checkAuth} from "../../api/auth";
 import {withRouter} from "react-router";
 import PageLoader from "../../components/PageLoader/PageLoader";
 import axios from "axios";
+import "./Main.scss";
 
 export const trendingPlaceholder = [
 	<Typography variant={"h6"} component={"h6"} align={"center"}>

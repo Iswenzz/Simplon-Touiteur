@@ -158,7 +158,7 @@ const Profile = (props) => {
 
 	return (
 		<Main>
-			<Grid className={"profile"} container justify="center" spacing={1}>
+			<Grid className={"profile"} container justify="center">
 				<section style={{ width: "100%", marginTop: "0px" }}>
 					<Grid item xs={12}>
 						<Grid item xs={12}>
