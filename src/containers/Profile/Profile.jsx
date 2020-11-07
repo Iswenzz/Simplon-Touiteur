@@ -236,13 +236,13 @@ const Profile = (props) => {
 								>
 									<Tab
 										tabIndex={0}
-										label="Tweets"
+										label="Touits"
 										onClick={() => setTab("Tweets")}
 										className={classes.tab}
 									/>
 									<Tab
 										tabIndex={1}
-										label="Tweets & replies"
+										label="Retouits"
 										onClick={() => setTab("Tweets & replies")}
 										className={classes.tab}
 									/>

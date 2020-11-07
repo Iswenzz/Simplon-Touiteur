@@ -38,7 +38,7 @@ export const PostPage = (props) =>
 	return (
 		<Main {...props}>
 			<section className={"postpage"}>
-				<Post rows={20} user={state} />
+				<Post rows={20} author={state} />
 			</section>
 		</Main>
 	);

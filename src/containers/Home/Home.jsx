@@ -35,7 +35,7 @@ export const Home = (props) =>
 				const user = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/${localStorage.getItem("userid")}`);
 				setState({
 					...tweets.data,
-					user: user.data.user
+					author: user.data.user
 				});
 			};
 			init();
@@ -68,13 +68,13 @@ export const Home = (props) =>
 
 	return (
 		<Main {...props}>
-			{state.user ? (
-				<Post user={state.user} onPost={refreshFeed} />
+			{state.author ? (
+				<Post author={state.author} onPost={refreshFeed} />
 			) : <PageLoader />}
 			<ul>
 				{state.tweets?.slice(0).reverse().map(tweet => (
 					<li key={uuid.v4()}>
-						<Tweet user={tweet.author} tweet={tweet} />
+						<Tweet author={tweet.author} tweet={tweet} />
 					</li>
 				))}
 			</ul>

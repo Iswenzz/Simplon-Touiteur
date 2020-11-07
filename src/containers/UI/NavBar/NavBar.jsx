@@ -86,7 +86,7 @@ export const NavBar = () =>
 			<BottomNavigation showLabels component={"section"} value={value} onChange={handleChange} className={classes.root}>
 				<BottomNavigationAction label="Settings" value="settings" icon={<SettingIcon />} component={Link} to="/profile" />
 				<BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} component={Link} to="/home" />
-				<BottomNavigationAction label="Tweet" value="tweet" icon={<CreateIcon />} component={Link} to="/post" />
+				<BottomNavigationAction label="Comment" value="tweet" icon={<CreateIcon />} component={Link} to="/post" />
 			</BottomNavigation>
 		</nav>
 	);

@@ -22,7 +22,7 @@ class TweetFixtures extends Fixture implements DependentFixtureInterface
 		$faker = Factory::create("en_US");
 		$user = $this->getReference(UserFixtures::USER_REFERENCE);
 
-		// Tweet
+		// Comment
 		$tweet = new Tweet();
 		$tweet->setAuthor($user);
 		$tweet->setCreatedAt($faker->dateTime);

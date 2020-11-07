@@ -1,5 +1,5 @@
 import {makeStyles} from "@material-ui/core/styles";
-import React, {forwardRef, useEffect, useState} from "react";
+import React, {forwardRef, useCallback, useEffect, useState} from "react";
 import {
 	Avatar,
 	Backdrop,
@@ -8,12 +8,12 @@ import {
 	IconButton,
 	Modal,
 	Paper,
-	Typography
+	Typography, useTheme
 } from "@material-ui/core";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import {Chat, Close, Favorite, Share} from "@material-ui/icons";
-import Tweet from "../Home/Tweet/Tweet";
+import Comment from "../Home/Comment/Comment";
 import Main from "../Main/Main";
 import Link from "../../components/Link/Link";
 import * as uuid from "uuid";
@@ -22,6 +22,8 @@ import {withRouter} from "react-router";
 import PageLoader from "../../components/PageLoader/PageLoader";
 import "./TweetPage.scss";
 import Fade from "@material-ui/core/Fade";
+import Tweet from "../Home/Tweet/Tweet";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -97,32 +99,60 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const replyFormInitial = {
-	message: ""
+	content: ""
 };
 
 export const ModalContent = forwardRef((props, ref) =>
 {
 	const classes = useStyles();
+	const theme = useTheme();
+	const [formMessage, setFormMessage] = useState(null);
+	const [isLoading, setLoading] = useState(false);
+	const [state, setState] = useState({
+		charCount: 0,
+		content: ""
+	});
 
 	const onReplySubmit = async (values) =>
 	{
+		setLoading(true);
 		// if the form as valid information send a post req
 		if (Object.values(values).every(item => item !== undefined && item !== null))
 		{
 			// TODO comment a tweet
 			try
 			{
-				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/tweet/id/post`, {
-					...values
+				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/comment`, {
+					...values,
+					tweet: props.tweet,
+					content: state.content
 				});
-				console.log(response);
+				setFormMessage(null);
 			}
 			catch (err)
 			{
+				setFormMessage(err.response.data.message);
 				console.log(err);
 			}
+			// post callback
+			if (props.onPost)
+				props.onPost();
 		}
 		props.closeModal();
+		setLoading(false);
+	};
+
+	/**
+	 * On input change.
+	 * @param e - The input event.
+	 */
+	const onChange = (e) =>
+	{
+		e.persist();
+		setState({
+			content: e.target.value,
+			charCount: e.target.value.length
+		});
 	};
 
 	return (
@@ -136,21 +166,21 @@ export const ModalContent = forwardRef((props, ref) =>
 			</Grid>
 			<Grid container className={classes.root}>
 				<Paper className={classes.paper}>
-					{/*Tweet*/}
+					{/*Comment*/}
 					<Grid className={"reply-card"} container>
 						<Grid item xs={2} md={1}>
 							<Grid container justify={"center"} alignItems={"center"}>
-								<Avatar id={props.user.username} />
+								<Avatar id={props.author.username} />
 							</Grid>
 						</Grid>
 						<Grid item xs={9} md={10}>
 							<Grid container direction={"column"}>
-								<Link to={`/profile/${props.user.username || 0}`}>
+								<Link to={`/profile/${props.author.username || 0}`}>
 									<Typography className={"reply-card-name"} variant={"h5"} component={"span"}>
-										{props.user.name}
+										{props.author.name}
 									</Typography>
 									<Typography className={"reply-card-username"} variant={"h5"} component={"span"}>
-										@{props.user.username}
+										@{props.author.username}
 									</Typography>
 								</Link>
 								<Typography variant={"subtitle1"} component={"p"} paragraph>
@@ -168,7 +198,7 @@ export const ModalContent = forwardRef((props, ref) =>
 					<Grid className={"reply-card"} container>
 						<Grid item xs={2} md={1}>
 							<Grid container justify={"center"} alignItems={"center"}>
-								<Avatar id={props.user.username} />
+								<Avatar id={props.author.username} />
 							</Grid>
 						</Grid>
 						<Grid item xs={10} md={11}>
@@ -177,18 +207,30 @@ export const ModalContent = forwardRef((props, ref) =>
 									<Grid container justify={"center"} alignItems={"center"}>
 										<Field
 											component={TextField}
-											name="message"
-											variant="filled"
-											fullWidth
-											id="reply"
-											placeholder={"Touit your reply"}
-											autoFocus
+											disabled={isLoading}
+											value={state.content}
+											name="content"
+											className="input"
+											placeholder="Touit your reply."
+											type="text"
 											multiline
+											fullWidth
+											autoFocus
+											onChange={onChange}
+											rows={4}
+											color={state.charCount <= 140 ? "primary" : "secondary"}
 										/>
+										<span style={{color: state.charCount <= 140 ? "white" : theme.palette.secondary.main}}
+											  className="total-words--style">{state.charCount}/140 characters</span>
 									</Grid>
-									<Button color={"primary"} type={"submit"} variant={"contained"} className={classes.btn}>
+									<Button disabled={isLoading} color={"primary"} type={"submit"} variant={"contained"} className={classes.btn}>
 										Touit
 									</Button>
+									<Grid container>
+										<Typography color={"secondary"} align={"center"} variant={"h6"} component={"h3"}>
+											{formMessage}
+										</Typography>
+									</Grid>
 								</Form>
 							</Formik>
 						</Grid>
@@ -205,26 +247,31 @@ export const TweetPage = (props) =>
 	const [state, setState] = useState({});
 	const [replyModalOpen, setReplyModalOpen] = React.useState(false);
 
-	useEffect(() =>
+	/**
+	 * Refresh tweet & comments data.
+	 */
+	const refreshData = useCallback(async () =>
 	{
-		// @TODO get the user tweet + comments
 		try
 		{
-			const fetchData = async () =>
-			{
-				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/tweet/${props.match.params.id}`);
-				setState({
-					user: response.data.tweet.author,
-					tweet: response.data.tweet
-				});
-			};
-			fetchData();
+			const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/tweet/${props.match.params.id}`);
+			setState({
+				author: response.data.tweet.author,
+				tweet: response.data.tweet,
+				comments: response.data.tweet.comments
+			});
+			console.log(response);
 		}
 		catch (err)
 		{
 			console.log(err);
 		}
 	}, [props.match.params.id]);
+
+	useEffect(() =>
+	{
+		refreshData();
+	}, [refreshData]);
 
 	/**
 	 * Modal close callback.
@@ -253,22 +300,31 @@ export const TweetPage = (props) =>
 						<Share />
 					</IconButton>
 				</Grid>
-				<Modal
-					aria-labelledby="transition-modal-title"
-					aria-describedby="transition-modal-description"
-					className={classes.modal}
-					open={replyModalOpen}
-					onClose={handleClose}
-					closeAfterTransition
-					BackdropComponent={Backdrop}
-					BackdropProps={{
-						timeout: 500,
-					}}
-				>
-					<Fade in={replyModalOpen}>
-						<ModalContent closeModal={handleClose} {...state} />
-					</Fade>
-				</Modal>
+				<ul>
+					{state.comments?.slice(0).reverse().map(comment => (
+						<li key={uuid.v4()}>
+							<Comment {...comment} />
+						</li>
+					))}
+				</ul>
+				<div>
+					<Modal
+						aria-labelledby="transition-modal-title"
+						aria-describedby="transition-modal-description"
+						className={classes.modal}
+						open={replyModalOpen}
+						onClose={handleClose}
+						closeAfterTransition
+						BackdropComponent={Backdrop}
+						BackdropProps={{
+							timeout: 500,
+						}}
+					>
+						<Fade in={replyModalOpen}>
+							<ModalContent {...state} closeModal={handleClose} onPost={refreshData} />
+						</Fade>
+					</Modal>
+				</div>
 			</section>
 		</Main>
 	);

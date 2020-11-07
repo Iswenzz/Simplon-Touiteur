@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import {Container, Grid, Typography} from "@material-ui/core";
 import Avatar from "../../../components/Avatar/Avatar";
 import Link from "../../../components/Link/Link";
@@ -7,9 +7,10 @@ import IconButton from "@material-ui/core/IconButton";
 import {Chat, Favorite, Share} from "@material-ui/icons";
 import PropTypes from "prop-types";
 import "./Tweet.scss";
+import Box from "@material-ui/core/Box";
 
 /**
- * Tweet component.
+ * Comment component.
  * @param props
  * @constructor
  */
@@ -21,17 +22,17 @@ export const Tweet = (props) =>
 				<Grid className={"tweet-card"} container>
 					<Grid item xs={2} md={1}>
 						<Grid container justify={"center"} alignItems={"center"}>
-							<Avatar id={props.user.username} />
+							<Avatar id={props.author.username} />
 						</Grid>
 					</Grid>
 					<Grid item xs={10} md={11}>
 						<Grid container direction={"column"}>
-							<Link to={`/profile/${props.user.username || 1}`}>
+							<Link to={`/profile/${props.author.username || 1}`}>
 								<Typography className={"tweet-card-name"} variant={"h5"} component={"span"}>
-									{props.user.name}
+									{props.author.name}
 								</Typography>
 								<Typography className={"tweet-card-username"} variant={"h5"} component={"span"}>
-									@{props.user.username}
+									@{props.author.username}
 								</Typography>
 							</Link>
 							<Typography variant={"subtitle1"} component={"p"} paragraph>
@@ -74,7 +75,7 @@ export const Tweet = (props) =>
 };
 
 Tweet.propTypes = {
-	user: PropTypes.shape({
+	author: PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,
 		username: PropTypes.string,
@@ -87,4 +88,4 @@ Tweet.propTypes = {
 	medias: PropTypes.arrayOf(PropTypes.instanceOf(Object))
 };
 
-export default Tweet;
+export default memo(Tweet);

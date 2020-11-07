@@ -72,9 +72,9 @@ export const Main = (props) =>
 				<Grid item xs={12} lg={2}>
 					{isTabletOrMobileDevice || isPortrait || isLgBp ? null : (
 						<Grid container justify={"center"} alignItems={"center"}>
-							{/*Search Tweet*/}
+							{/*Search Comment*/}
 							<form noValidate autoComplete="off">
-								<TextField fullWidth id="search-tweet" placeholder="Search Tweet" InputProps={{
+								<TextField fullWidth id="search-tweet" placeholder="Search Comment" InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
 											<Search />
