@@ -6,8 +6,9 @@ import {withRouter} from "react-router";
 import axios from "axios";
 import {checkAuth} from "../../api/auth";
 import * as uuid from "uuid";
-import "./Home.scss";
 import PageLoader from "../../components/PageLoader/PageLoader";
+import LazyLoad from "react-lazyload";
+import "./Home.scss";
 
 /**
  * Home page feed.
@@ -72,7 +73,9 @@ export const Home = (props) =>
 			<ul>
 				{state.tweets?.slice(0).reverse().map(tweet => (
 					<li key={uuid.v4()}>
-						<Tweet author={tweet.author} tweet={tweet} />
+						<LazyLoad height={200}>
+							<Tweet author={tweet.author} tweet={tweet} />
+						</LazyLoad>
 					</li>
 				))}
 			</ul>

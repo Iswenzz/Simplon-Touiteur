@@ -51,7 +51,6 @@ export const Post = (props) =>
 					...values,
 					content: state.content
 				});
-				console.log(response);
 				setFormMessage(null);
 			}
 			catch (err)

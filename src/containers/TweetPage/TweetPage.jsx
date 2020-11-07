@@ -24,6 +24,7 @@ import "./TweetPage.scss";
 import Fade from "@material-ui/core/Fade";
 import Tweet from "../Home/Tweet/Tweet";
 import PropTypes from "prop-types";
+import LazyLoad from "react-lazyload";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -260,7 +261,6 @@ export const TweetPage = (props) =>
 				tweet: response.data.tweet,
 				comments: response.data.tweet.comments
 			});
-			console.log(response);
 		}
 		catch (err)
 		{
@@ -303,7 +303,9 @@ export const TweetPage = (props) =>
 				<ul>
 					{state.comments?.slice(0).reverse().map(comment => (
 						<li key={uuid.v4()}>
-							<Comment {...comment} />
+							<LazyLoad height={100}>
+								<Comment {...comment} />
+							</LazyLoad>
 						</li>
 					))}
 				</ul>

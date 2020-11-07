@@ -148,7 +148,6 @@ export const ModalContent = forwardRef((props, ref) =>
 				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/user/id`, {
 					...values
 				});
-				console.log(response);
 				setFormMessage(null);
 			}
 			catch (err)

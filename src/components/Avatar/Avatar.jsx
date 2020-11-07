@@ -11,7 +11,7 @@ export class Avatar extends PureComponent
 	{
 		return (
 			<Link className={this.props.className} to={`/profile/${this.props.id || 0}`}>
-				<Media className={"avatar"} media={randomImage()} />
+				<Media className={"avatar"} media={randomImage()} noredirect />
 			</Link>
 		);
 	}

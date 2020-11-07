@@ -21,7 +21,6 @@ export const PostPage = (props) =>
 			const fetchData = async () =>
 			{
 				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/${localStorage.getItem("userid")}`);
-				console.log(response);
 				setState({
 					...response.data.user
 				});

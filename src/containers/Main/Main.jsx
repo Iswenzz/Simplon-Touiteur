@@ -65,8 +65,6 @@ export const Main = (props) =>
 		checkLog();
 	}, [props.history]);
 
-	console.log(state);
-
 	return (
 		<>
 			<Grid className={"main"} container>
