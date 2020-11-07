@@ -137,7 +137,6 @@ class MediaController extends AbstractController
 	 */
 	public function createOne(Request $request, ValidatorInterface $validator): JsonResponse
 	{
-
 		$entityManager = $this->getDoctrine()->getManager();
 		$media = new Media();
 		$data = json_decode($request->getContent(), true);

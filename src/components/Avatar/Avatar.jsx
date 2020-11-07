@@ -1,9 +1,8 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import Media from "../Media/Media";
-import DefaultAvatar from "../../assets/images/avatar.png";
-import "./Avatar.scss";
 import Link from "../Link/Link";
+import "./Avatar.scss";
 
 export class Avatar extends PureComponent
 {
@@ -11,7 +10,7 @@ export class Avatar extends PureComponent
 	{
 		return (
 			<Link to={`/profile/${this.props.id || 0}`}>
-				<Media className={"avatar"} media={DefaultAvatar} noredirect />
+				<Media className={"avatar"} media={`https://lorempixel.com/640/480/?${Math.floor(Math.random() * Math.floor(40000))}`} />
 			</Link>
 		);
 	}
@@ -19,7 +18,8 @@ export class Avatar extends PureComponent
 
 Avatar.propTypes = {
 	className: PropTypes.string,
-	id: PropTypes.string
+	id: PropTypes.string,
+	avatarId: PropTypes.number
 };
 
 export default Avatar;
