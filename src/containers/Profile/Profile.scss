@@ -1,16 +1,20 @@
 .profile {
 	border: 1px solid #4b555b;
     min-height: 100vh;
-
 }
 
-
+.profile-avatar {
+	img {
+		border: 3px solid white;
+		height: 8rem;
+		width: 8rem;
+	}
+}
 
 .avatar-feed--style {
     display: flex;
     justify-content:center;
 }
-
 
 .container-feed--style{
     padding-top: 2em;

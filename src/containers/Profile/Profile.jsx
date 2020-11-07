@@ -1,13 +1,14 @@
 import React, {useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { Grid, Typography, Tab, Tabs, Button, Paper, Avatar, Box, Hidden, Divider } from "@material-ui/core";
+import { Grid, Typography, Tab, Tabs, Button, Paper, Box, Hidden, Divider } from "@material-ui/core";
 import { CalendarToday, NavigateNext, } from "@material-ui/icons";
 import EditProfile from "./EditProfile";
 import Main from "../Main/Main";
 import axios from "axios";
 import "./Profile.scss";
 import {withRouter} from "react-router";
+import Avatar from "../../components/Avatar/Avatar";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -70,11 +71,6 @@ const useStyles = makeStyles((theme) => ({
 		bottom: "1rem",
 		top: "8rem",
 		marginLeft: "0.7rem",
-	},
-	avatar: {
-		border: "3px solid white",
-		height: "8rem",
-		width: "8rem",
 	},
 	nameTypo: {
 		color: "black",
@@ -169,7 +165,7 @@ const Profile = (props) => {
 							<Paper className={classes.paper}>
 								<div className={classes.avatarBox}>
 									<Box>
-										<Avatar className={classes.avatar}>B</Avatar>
+										<Avatar className={"profile-avatar"} />
 									</Box>
 								</div>
 							</Paper>

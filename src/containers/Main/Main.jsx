@@ -13,6 +13,7 @@ import "./Main.scss";
 import {checkAuth} from "../../api/auth";
 import {withRouter} from "react-router";
 import PageLoader from "../../components/PageLoader/PageLoader";
+import axios from "axios";
 
 export const trendingPlaceholder = [
 	<Typography variant={"h6"} component={"h6"} align={"center"}>
@@ -37,6 +38,7 @@ export const trendingPlaceholder = [
 export const Main = (props) =>
 {
 	const [isLoading, setLoading] = useState(true);
+	const [state, setState] = useState({});
 	const isLgBp = useMediaQuery({ query: "(max-width: 1280px)" });
 	const isTabletOrMobileDevice = useMediaQuery({ query: "(max-device-width: 1224px)" });
 	const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
@@ -45,15 +47,25 @@ export const Main = (props) =>
 	{
 		const checkLog = async () =>
 		{
-			if (await checkAuth())
+			if (!await checkAuth())
 			{
-				setLoading(false);
+				props.history.push("/");
 				return;
 			}
-			props.history.push("/");
+			setLoading(false);
+
+			// TODO actually trending
+			const trendingHashtags = await axios.get(`${process.env.REACT_APP_BACKEND}/api/hashtags`);
+			const trendingUsers = await axios.get(`${process.env.REACT_APP_BACKEND}/api/users`);
+			setState({
+				hashtags: trendingHashtags.data.hashtags.slice(0, 5),
+				users: trendingUsers.data.users.slice(0, 5)
+			});
 		};
 		checkLog();
 	}, [props.history]);
+
+	console.log(state);
 
 	return (
 		<>
@@ -85,25 +97,35 @@ export const Main = (props) =>
 							{/*Trending Hashtags*/}
 							<Container>
 								<Grid container className={"main-recommend"} direction={"column"} justify={"center"} alignItems={"center"}>
+									<Typography variant={"h6"} component={"h2"} align={"center"}>
+										Trending Hashtags
+									</Typography>
 									<List component="nav" aria-label="mailbox folders">
-										{trendingPlaceholder.map(item => (
+										{state.hashtags?.map(item => (
 											<ListItem key={uuid.v4()} button divider>
 												<ListItemText>
-													{item}
+													<Typography className={"wordwrap"} variant={"subtitle1"} component={"h6"} align={"center"}>
+														#{item.name}
+													</Typography>
 												</ListItemText>
 											</ListItem>
 										))}
 									</List>
 								</Grid>
 							</Container>
-							{/*Trending profiles*/}
+							{/*Trending users*/}
 							<Container>
 								<Grid container className={"main-recommend"} direction={"column"} justify={"center"} alignItems={"center"}>
+									<Typography variant={"h6"} component={"h2"} align={"center"}>
+										Trending Users
+									</Typography>
 									<List component="nav" aria-label="mailbox folders">
-										{trendingPlaceholder.map(item => (
+										{state.users?.map(item => (
 											<ListItem key={uuid.v4()} button divider>
 												<ListItemText>
-													{item}
+													<Typography className={"wordwrap"} variant={"subtitle1"} component={"h6"} align={"center"}>
+														@{item.username}
+													</Typography>
 												</ListItemText>
 											</ListItem>
 										))}

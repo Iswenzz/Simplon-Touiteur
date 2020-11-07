@@ -20,7 +20,6 @@ export const Home = (props) =>
 
 	useEffect(() =>
 	{
-		// TODO get user feed
 		try
 		{
 			const init = async () =>
@@ -30,12 +29,11 @@ export const Home = (props) =>
 					props.history.push("/");
 					return;
 				}
-
 				const tweets = await axios.get(`${process.env.REACT_APP_BACKEND}/api/tweets`);
 				const user = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/${localStorage.getItem("userid")}`);
 				setState({
 					...tweets.data,
-					author: user.data.user
+					author: user.data.user,
 				});
 			};
 			init();

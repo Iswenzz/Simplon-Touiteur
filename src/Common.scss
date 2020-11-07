@@ -70,3 +70,8 @@ a {
 		transform: translate3d(0,5px,0);
 	}
 }
+
+// utils
+.wordwrap {
+	word-wrap: anywhere !important;
+}

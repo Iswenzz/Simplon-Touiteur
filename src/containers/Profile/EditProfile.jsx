@@ -14,6 +14,7 @@ import {
 	KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Fade from "@material-ui/core/Fade";
+import {randomImage} from "../../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -21,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 		margin: "auto",
 		borderBottomLeftRadius: "1rem",
 		borderBottomRightRadius: "1rem",
-		height: "80%",
 		[theme.breakpoints.down("md")]: {
 			width: "100%"
 		},
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 			width: "50%"
 		},
 		overflowY: "auto",
-		overflowX: "hidden",
+		overflowX: "hidden"
 	},
 	header: {
 		marginTop: "2.5rem",
@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	paper: {
 		flexGrow: 1,
+		paddingBottom: "2rem"
 	},
 	avatarBox: {
 		position: "relative",
@@ -62,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	avatar: {
 		border: "3px solid white",
+		backgroundSize: "cover !important",
 		height: "8rem",
 		width: "8rem",
 		marginTop: "0rem",
@@ -71,13 +73,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 	darkArea: {
 		backgroundColor: "rgb(204, 214, 221)",
+		backgroundSize: "cover !important",
 		height: "12rem",
 		opacity: "0.75",
 	},
 	icon: {
 		color: "rgba(29,161,242,1.00)",
 		height: "2rem",
-		width: "2rem",
+		width: "2rem"
 	},
 	btnDiv: {
 		width: "5rem",
@@ -111,6 +114,7 @@ const useStyles = makeStyles((theme) => ({
 	camera: {
 		marginLeft: "50%",
 		marginTop: "4rem",
+		zIndex: 3000
 	},
 }));
 
@@ -195,7 +199,7 @@ export const ModalContent = forwardRef((props, ref) =>
 			</Grid>
 			<Grid container className={classes.root}>
 				<Paper className={classes.paper}>
-					<Grid className={classes.darkArea} item>
+					<Grid className={classes.darkArea} item style={{background: `url(${randomImage()})`}}>
 						<input
 							accept="image/*"
 							className={classes.input}
@@ -214,7 +218,7 @@ export const ModalContent = forwardRef((props, ref) =>
 						</label>
 						<div className={classes.avatarBox}>
 							<Box>
-								<Avatar className={classes.avatar}>
+								<Avatar className={classes.avatar} style={{background: `url(${randomImage()})`}}>
 									<input
 										accept="image/*"
 										className={classes.input}
