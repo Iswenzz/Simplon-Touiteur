@@ -67,7 +67,7 @@ class UserController extends AbstractController
 			// validate
 			$errors = $validator->validate($user);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($user);
 			$entityManager->flush();
@@ -83,15 +83,17 @@ class UserController extends AbstractController
 
 	/**
 	 * Get a user.
-	 * @Route("/user/{id}", methods={"GET"})
-	 * @param int $id - User id.
+	 * @Route("/user/{username}", methods={"GET"})
+	 * @param string $username
 	 * @return JsonResponse
 	 */
-	public function getOne(int $id)
+	public function getOne(string $username)
 	{
 		$classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
 		$serializer = new Serializer([new ObjectNormalizer($classMetadataFactory)], [new JsonEncoder()]);
-		$user = $this->getDoctrine()->getRepository(User::class)->find($id);
+		$user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
+			"username" => $username
+		]);
 
 		$json = json_decode($serializer->serialize($user, "json", [
 			"groups" => ["user"]

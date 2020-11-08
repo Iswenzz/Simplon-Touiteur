@@ -2,14 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\Hashtag;
 use App\Entity\User;
 use DateTime;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -47,7 +54,7 @@ class SecurityController extends AbstractController
             // validate
 			$errors = $validator->validate($user);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -71,8 +78,9 @@ class SecurityController extends AbstractController
 	 */
 	public function login(User $user, JWTTokenManagerInterface $JWTManager): JsonResponse
 	{
+		// Handled by JWT Bundle
 		return $this->json([
-			"token" => $JWTManager->create($user)
+			"success" => true
 		]);
 	}
 

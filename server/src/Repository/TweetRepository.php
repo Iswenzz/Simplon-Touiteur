@@ -20,7 +20,7 @@ class TweetRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Tweet[] Returns an array of Tweet objects
+    //  * @return Comment[] Returns an array of Comment objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class TweetRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Tweet
+    public function findOneBySomeField($value): ?Comment
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

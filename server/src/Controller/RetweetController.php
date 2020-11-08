@@ -54,13 +54,13 @@ class RetweetController extends AbstractController
 		$retweet = new Retweet();
 		$data = json_decode($request->getContent(), true);
 
-		if (isset($data["content"]) && isset($data["user"]["id"]) && isset($data["tweet"]["id"]))
+		if (isset($data["content"]) && isset($data["tweet"]["id"]))
 		{
 			/**
 			 * @var User $user
 			 * @var Tweet $tweet
 			 */
-			$user = $entityManager->getRepository(User::class)->find($data["user"]["id"]);
+			$user = $this->getUser();
 			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
 
 			$retweet->setDate(new DateTime("NOW"));
@@ -70,7 +70,7 @@ class RetweetController extends AbstractController
 			// validate
 			$errors = $validator->validate($retweet);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($retweet);
 			$entityManager->flush();

@@ -63,7 +63,7 @@ class CountryController extends AbstractController
 			// validate
 			$errors = $validator->validate($country);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($country);
 			$entityManager->flush();

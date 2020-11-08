@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TweetRepository::class)
@@ -24,6 +25,7 @@ class Tweet
     /**
      * @ORM\Column(type="string", length=140)
 	 * @Groups({"tweet"})
+	 * @Assert\Length(max=140, maxMessage="The message must be less than 140 characters")
      */
     private $content;
 

@@ -19,19 +19,22 @@ class HashtagFixtures extends Fixture implements DependentFixtureInterface
 		 * @var Tweet $tweet
 		 */
 		$faker = Factory::create("en_US");
-		$tweet = $this->getReference(TweetFixtures::TWEET_REFERENCE);
-
-		for ($i = 0; $i < 3; $i++)
+		for ($i = 0; $i < 30; $i++)
 		{
-			$hashtag = new Hashtag();
-			$hashtag->setDate($faker->dateTime);
-			$hashtag->setTweet($tweet);
-			$hashtag->setName($faker->firstName);
-			$manager->persist($hashtag);
-			if (!$this->hasReference(self::HASHTAG_REFERENCE))
-				$this->addReference(self::HASHTAG_REFERENCE, $hashtag);
-		}
+			$tweet = $this->getReference(TweetFixtures::TWEET_REFERENCE . $i);
+			for ($j = 0; $j < 5; $j++)
+			{
+				$hashtag = new Hashtag();
+				$hashtag->setDate($faker->dateTime);
+				$hashtag->setTweet($tweet);
+				$hashtag->setName($faker->firstName);
 
+				$manager->persist($hashtag);
+				if (!$this->hasReference(self::HASHTAG_REFERENCE))
+					$this->addReference(self::HASHTAG_REFERENCE, $hashtag);
+				$this->addReference(self::HASHTAG_REFERENCE . $i . $j, $hashtag);
+			}
+		}
 		$manager->flush();
     }
 

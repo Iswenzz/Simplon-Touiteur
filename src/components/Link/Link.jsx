@@ -25,7 +25,11 @@ export const Link = ({ to, onClick, component: Tag, ...props }) =>
 };
 
 Link.propTypes = {
-	component: PropTypes.instanceOf(Object),
+	component: PropTypes.oneOfType([
+		PropTypes.node,
+		PropTypes.string,
+		PropTypes.any
+	]),
 	to: PropTypes.string.isRequired,
 	children: PropTypes.node,
 	onClick: PropTypes.func

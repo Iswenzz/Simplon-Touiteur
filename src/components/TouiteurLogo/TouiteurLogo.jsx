@@ -11,7 +11,7 @@ export class TouiteurLogo extends PureComponent
 	render()
 	{
 		return (
-			<Link to={"/"} component={"figure"} className={"touiteur-logo"}>
+			<Link to={"/home"} component={"figure"} className={"touiteur-logo"}>
 				<img width={64} height={64} src={Logo} alt={"Touiteur Logo"} />
 			</Link>
 		);

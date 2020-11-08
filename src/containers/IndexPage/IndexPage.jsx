@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TouiteurLogo from "../../components/TouiteurLogo/TouiteurLogo";
@@ -8,6 +7,7 @@ import Link from "../../components/Link/Link";
 import {checkAuth} from "../../api/auth";
 import {withRouter} from "react-router";
 import PageLoader from "../../components/PageLoader/PageLoader";
+import ButtonLink from "../../components/ButtonLink/ButtonLink";
 import "./IndexPage.scss";
 
 export const IndexPage = (props) =>
@@ -16,18 +16,17 @@ export const IndexPage = (props) =>
 
 	useEffect(() =>
 	{
-		checkLog();
-	}, []);
-
-	const checkLog = async () =>
-	{
-		if (!await checkAuth())
+		const checkLog = async () =>
 		{
-			setLoading(false);
-			return;
-		}
-		props.history.push("/home");
-	};
+			if (!await checkAuth())
+			{
+				setLoading(false);
+				return;
+			}
+			props.history.push("/home");
+		};
+		checkLog();
+	}, [props.history]);
 
 	return isLoading ? <PageLoader /> : (
 		<Grid className={"index"} container direction={"column"} justify={"flex-start"} alignItems={"center"}>
@@ -40,7 +39,7 @@ export const IndexPage = (props) =>
 				</Typography>
 				<Link
 					to={"/signup"}
-					component={Button}
+					component={ButtonLink}
 					type="submit"
 					fullWidth
 					variant="contained"
@@ -51,7 +50,7 @@ export const IndexPage = (props) =>
 				</Link>
 				<Link
 					to={"/signin"}
-					component={Button}
+					component={ButtonLink}
 					type="submit"
 					fullWidth
 					variant="contained"

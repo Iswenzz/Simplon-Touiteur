@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Main from "../Main/Main";
 import Post from "../Home/Post/Post";
-import {Grid, Typography} from "@material-ui/core";
 import "./PostPage.scss";
 import axios from "axios";
 import {withRouter} from "react-router";
@@ -21,8 +20,7 @@ export const PostPage = (props) =>
 		{
 			const fetchData = async () =>
 			{
-				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/2`);
-				console.log(response);
+				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/${localStorage.getItem("userid")}`);
 				setState({
 					...response.data.user
 				});
@@ -39,7 +37,7 @@ export const PostPage = (props) =>
 	return (
 		<Main {...props}>
 			<section className={"postpage"}>
-				<Post rows={20} user={state} />
+				<Post rows={20} author={state} />
 			</section>
 		</Main>
 	);

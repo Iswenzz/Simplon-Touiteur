@@ -5,7 +5,7 @@ export const WavesEffect = (props) =>
 {
 	return (
 		<article className={"waveseffect"}>
-			<section>
+			<section className={"waveseffect-wrapper"}>
 				{props.children}
 			</section>
 			<aside className="ocean">

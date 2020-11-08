@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Follower;
+use App\Entity\Tweet;
+use App\Entity\User;
+use DateTime;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,15 +59,14 @@ class CommentController extends AbstractController
 		$comment = $entityManager->getRepository(Comment::class)->find($id);
 		$data = json_decode($request->getContent(), true);
 
-		if ($comment && isset($data["date"]) && isset($data["content"]))
+		if ($comment && isset($data["content"]))
 		{
-			$comment->setDate($data["date"]);
 			$comment->setContent($data["content"]);
 
 			// validate
 			$errors = $validator->validate($comment);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($comment);
 			$entityManager->flush();
@@ -94,15 +96,24 @@ class CommentController extends AbstractController
 		$comment = new Comment();
 		$data = json_decode($request->getContent(), true);
 
-		if ($comment && isset($data["date"]) && isset($data["content"]))
+		if ($comment && isset($data["content"]) && isset($data["tweet"]["id"]))
 		{
-			$comment->setDate($data["date"]);
+			/**
+			 * @var User $user
+			 * @var Tweet $tweet
+			 */
+			$user = $this->getUser();
+			$tweet = $entityManager->getRepository(Tweet::class)->find($data["tweet"]["id"]);
+
+			$comment->setAuthor($user);
+			$comment->setDate(new DateTime("NOW"));
 			$comment->setContent($data["content"]);
+			$comment->setTweet($tweet);
 
 			// validate
 			$errors = $validator->validate($comment);
 			if (count($errors))
-				return $this->json(["success" => false, "error" => $errors->get(0)->getMessage()]);
+				return $this->json(["success" => false, "message" => $errors->get(0)->getMessage()]);
 
 			$entityManager->persist($comment);
 			$entityManager->flush();

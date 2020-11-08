@@ -21,17 +21,23 @@ class RetweetFixtures extends Fixture implements DependentFixtureInterface
 		 * @var User $user
 		 */
 		$faker = Factory::create("en_US");
-		$tweet = $this->getReference(TweetFixtures::TWEET_REFERENCE);
-		$user = $this->getReference(UserFixtures::USER_REFERENCE);
+		for ($i = 0; $i < 30; $i++)
+		{
+			$tweet = $this->getReference(TweetFixtures::TWEET_REFERENCE . $i);
+			for ($j = 0; $j < 10; $j++)
+			{
+				$user = $this->getReference(UserFixtures::USER_REFERENCE . rand(0, 29));
 
-		$retweet = new Retweet();
-		$retweet->setTweet($tweet);
-		$retweet->setDate($faker->dateTime);
-		$retweet->setUser($user);
+				$retweet = new Retweet();
+				$retweet->setTweet($tweet);
+				$retweet->setDate($faker->dateTime);
+				$retweet->setUser($user);
 
-		$manager->persist($retweet);
-		$manager->flush();
-		$this->addReference(self::RETWEET_REFERENCE, $retweet);
+				$manager->persist($retweet);
+				$manager->flush();
+				$this->addReference(self::RETWEET_REFERENCE . $i . $j, $retweet);
+			}
+		}
 	}
 
 	public function getDependencies(): array

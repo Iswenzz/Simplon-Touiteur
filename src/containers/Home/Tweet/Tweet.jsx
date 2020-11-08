@@ -1,42 +1,38 @@
-import React, {useEffect} from "react";
+import React, {memo} from "react";
 import {Container, Grid, Typography} from "@material-ui/core";
 import Avatar from "../../../components/Avatar/Avatar";
-import PropTypes from "prop-types";
 import Link from "../../../components/Link/Link";
 import * as uuid from "uuid";
 import IconButton from "@material-ui/core/IconButton";
 import {Chat, Favorite, Share} from "@material-ui/icons";
+import PropTypes from "prop-types";
 import "./Tweet.scss";
+import Box from "@material-ui/core/Box";
 
 /**
- * Tweet component.
+ * Comment component.
  * @param props
  * @constructor
  */
 export const Tweet = (props) =>
 {
-	useEffect(() =>
-	{
-		// @TODO get the user tweet
-	}, []);
-
 	return (
 		<Container className={"tweet"}>
-			<Link component={"section"} to={`/tweet/${props.user.id || 0}`}>
+			<Link component={"section"} to={`/tweet/${props.tweet.id || 1}`}>
 				<Grid className={"tweet-card"} container>
 					<Grid item xs={2} md={1}>
 						<Grid container justify={"center"} alignItems={"center"}>
-							<Avatar id={props.user.id} />
+							<Avatar id={props.author.username} />
 						</Grid>
 					</Grid>
 					<Grid item xs={10} md={11}>
 						<Grid container direction={"column"}>
-							<Link to={`/profile/${props.user.id || 0}`}>
+							<Link to={`/profile/${props.author.username || 1}`}>
 								<Typography className={"tweet-card-name"} variant={"h5"} component={"span"}>
-									{props.user.name}
+									{props.author.name}
 								</Typography>
 								<Typography className={"tweet-card-username"} variant={"h5"} component={"span"}>
-									@{props.user.username}
+									@{props.author.username}
 								</Typography>
 							</Link>
 							<Typography variant={"subtitle1"} component={"p"} paragraph>
@@ -68,9 +64,6 @@ export const Tweet = (props) =>
 									<IconButton aria-label="share">
 										<Share />
 									</IconButton>
-									<Typography variant={"subtitle1"} paragraph component={"span"}>
-										0
-									</Typography>
 								</section>
 							</Grid>
 						</Grid>
@@ -82,7 +75,7 @@ export const Tweet = (props) =>
 };
 
 Tweet.propTypes = {
-	user: PropTypes.shape({
+	author: PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,
 		username: PropTypes.string,
@@ -95,4 +88,4 @@ Tweet.propTypes = {
 	medias: PropTypes.arrayOf(PropTypes.instanceOf(Object))
 };
 
-export default Tweet;
+export default memo(Tweet);

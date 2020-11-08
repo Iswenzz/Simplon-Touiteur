@@ -21,18 +21,23 @@ class MediaFixtures extends Fixture implements DependentFixtureInterface
 		 * @var User $user
 		 */
 		$faker = Factory::create("en_US");
-		$tweet = $this->getReference(TweetFixtures::TWEET_REFERENCE);
-		$user = $this->getReference(UserFixtures::USER_REFERENCE);
+        for ($i = 0; $i < 30; $i++)
+		{
+			$tweet = $this->getReference(TweetFixtures::TWEET_REFERENCE . $i);
+			$user = $this->getReference(UserFixtures::USER_REFERENCE . $i);
 
-        $media = new Media();
-        $media->setTweet($tweet);
-        $media->setDate($faker->dateTime);
-        $media->setAuthor($user);
-        $media->setUrl($faker->imageUrl());
+			$media = new Media();
+			$media->setTweet($tweet);
+			$media->setDate($faker->dateTime);
+			$media->setAuthor($user);
+			$media->setUrl($faker->imageUrl());
 
-		$manager->persist($media);
+			$manager->persist($media);
+			if ($this->hasReference(self::MEDIA_REFERENCE))
+				$this->addReference(self::MEDIA_REFERENCE, $media);
+			$this->addReference(self::MEDIA_REFERENCE . $i, $media);
+		}
 		$manager->flush();
-		$this->addReference(self::MEDIA_REFERENCE, $media);
     }
 
 	public function getDependencies(): array

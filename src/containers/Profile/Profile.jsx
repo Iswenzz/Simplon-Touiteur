@@ -1,15 +1,14 @@
 import React, {useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { Grid, Typography, Tab, Tabs, Button, Paper, Avatar, Box, Hidden, Divider } from "@material-ui/core";
-import { CalendarToday, NavigateBefore, NavigateNext, } from "@material-ui/icons";
-import PhoenixAvatar from "../../assets/images/avatar.png";
-import IconButton from "@material-ui/core/IconButton";
-import {Chat, Favorite, Share} from "@material-ui/icons";
+import { Grid, Typography, Tab, Tabs, Button, Paper, Box, Hidden, Divider } from "@material-ui/core";
+import { CalendarToday, NavigateNext, } from "@material-ui/icons";
 import EditProfile from "./EditProfile";
 import Main from "../Main/Main";
 import axios from "axios";
 import "./Profile.scss";
+import {withRouter} from "react-router";
+import Avatar from "../../components/Avatar/Avatar";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -73,11 +72,6 @@ const useStyles = makeStyles((theme) => ({
 		top: "8rem",
 		marginLeft: "0.7rem",
 	},
-	avatar: {
-		border: "3px solid white",
-		height: "8rem",
-		width: "8rem",
-	},
 	nameTypo: {
 		color: "black",
 		font: "inherit",
@@ -101,19 +95,18 @@ const useStyles = makeStyles((theme) => ({
 const Profile = (props) => {
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
-	const [tab, setTab] = React.useState("Tweets");
+	const [, setTab] = React.useState("Tweets");
 	const [editProfile, setEditProfile] = React.useState(false);
 	const [state, setState] = React.useState({});
 
 	useEffect(() =>
 	{
-		// @TODO get user profile
+		// get user profile
 		try
 		{
 			const fetchData = async () =>
 			{
-				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/1`);
-				console.log(response);
+				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/${props.match.params.id}`);
 				setState({
 					...response.data.user
 				});
@@ -124,11 +117,18 @@ const Profile = (props) => {
 		{
 			console.log(e);
 		}
-	}, []);
+	}, [props.match.params.id]);
 
+	/**
+	 * On tab change callback.
+	 */
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+
+	/**
+	 * Click on next arrow callback.
+	 */
 	const handleNextTab = () => {
 		let newValue = value;
 		if (newValue !== 3) {
@@ -137,6 +137,10 @@ const Profile = (props) => {
 		}
 	};
 
+	/**
+	 * Click on back arrow callback.
+	 */
+	// eslint-disable-next-line no-unused-vars
 	const handleBackTab = () => {
 		let newValue = value;
 		if (newValue !== 0) {
@@ -145,20 +149,23 @@ const Profile = (props) => {
 		}
 	};
 
+	/**
+	 * Open the profile editor modal.
+	 */
 	const openProfileEditor = () => {
 		setEditProfile(true);
 	};
 
 	return (
 		<Main>
-			<Grid className={"profile"} container justify="center" spacing={1}>
+			<Grid className={"profile"} container justify="center">
 				<section style={{ width: "100%", marginTop: "0px" }}>
 					<Grid item xs={12}>
 						<Grid item xs={12}>
 							<Paper className={classes.paper}>
 								<div className={classes.avatarBox}>
 									<Box>
-										<Avatar className={classes.avatar}>B</Avatar>
+										<Avatar className={"profile-avatar"} />
 									</Box>
 								</div>
 							</Paper>
@@ -169,7 +176,8 @@ const Profile = (props) => {
 								className={classes.horizontalDiv}
 							>
 								<div/>
-								<Button onClick={openProfileEditor} className="btn" style={{ margin: "1em" }}>
+								<Button onClick={openProfileEditor} className="btn"
+									style={{ margin: "1em", visibility: props.match.params.id === localStorage.getItem("userid") ? "shown" : "hidden" }}>
 									<span>Edit profile</span>
 								</Button>
 							</div>
@@ -183,7 +191,7 @@ const Profile = (props) => {
 									<Typography id="name" variant={"h5"} component={"span"}>
 										{state.name}
 									</Typography>
-									<Typography id="username" variant={"span"} component={"span"}>
+									<Typography id="username" variant={"subtitle1"} component={"span"}>
 										<small>@{state.username}</small>
 									</Typography>
 								</span>
@@ -224,13 +232,13 @@ const Profile = (props) => {
 								>
 									<Tab
 										tabIndex={0}
-										label="Tweets"
+										label="Touits"
 										onClick={() => setTab("Tweets")}
 										className={classes.tab}
 									/>
 									<Tab
 										tabIndex={1}
-										label="Tweets & replies"
+										label="Retouits"
 										onClick={() => setTab("Tweets & replies")}
 										className={classes.tab}
 									/>
@@ -257,11 +265,13 @@ const Profile = (props) => {
 						</Grid>
 
 					</Grid>
-					<EditProfile
-						open={editProfile}
-						onClose={() => setEditProfile(false)}
-						closeModal={() => setEditProfile(false)}
-					/>
+					{props.match.params.id === localStorage.getItem("userid") ? (
+						<EditProfile
+							open={editProfile}
+							onClose={() => setEditProfile(false)}
+							closeModal={() => setEditProfile(false)}
+						/>
+					) : null}
 				</section>
 
 				{/*Tweets Grid*/}
@@ -273,4 +283,4 @@ const Profile = (props) => {
 	);
 };
 
-export default Profile;
+export default withRouter(Profile);
