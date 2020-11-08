@@ -4,6 +4,9 @@
 	background-color: transparentize(#282C34, 0.2);
 
 	#{&}-avatar {
+		height: 8rem !important;
+		width: 8rem !important;
+
 		img {
 			border: 3px solid white;
 			height: 8rem;
