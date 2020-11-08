@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RetweetRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass=RetweetRepository::class)

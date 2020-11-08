@@ -98,6 +98,22 @@ class UserController extends AbstractController
 		$json = json_decode($serializer->serialize($user, "json", [
 			"groups" => ["user"]
 		]), true);
+		$jsonRetweets = json_decode($serializer->serialize($user->getRetweets(), "json", [
+			"groups" => ["retweet"]
+		]), true);
+		$json["retweets"] = $jsonRetweets;
+		$jsonLikes = json_decode($serializer->serialize($user->getLikes(), "json", [
+			"groups" => ["like"]
+		]), true);
+		$json["likes"] = $jsonLikes;
+		$jsonFollowings = json_decode($serializer->serialize($user->getFollowings(), "json", [
+			"groups" => ["following"]
+		]), true);
+		$json["followings"] = $jsonFollowings;
+		$jsonFollowers = json_decode($serializer->serialize($user->getFollowers(), "json", [
+			"groups" => ["follower"]
+		]), true);
+		$json["followers"] = $jsonFollowers;
 
 		return $this->json([
 			"success" => true,

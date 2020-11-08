@@ -1,11 +1,11 @@
 .tweetBox {
 	border: 1px solid #4b555b;
-	background-color: #282C34;
+	background-color: transparentize(#282C34, 0.2);
 	transition: background-color ease-in-out .2s;
 	padding: 14px !important;
 
 	&:hover {
-		background-color: #2d323b;
+		background-color: transparentize(#2d323b, 0.2);
 	}
 
 	form {

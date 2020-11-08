@@ -2,13 +2,19 @@
 	border: 1px solid #4b555b;
     height: 100vh;
 	background-color: transparentize(#282C34, 0.2);
-}
 
-.profile-avatar {
-	img {
-		border: 3px solid white;
-		height: 8rem;
-		width: 8rem;
+	#{&}-avatar {
+		img {
+			border: 3px solid white;
+			height: 8rem;
+			width: 8rem;
+		}
+	}
+
+	#{&}-data {
+		ul {
+			width: 100%;
+		}
 	}
 }
 

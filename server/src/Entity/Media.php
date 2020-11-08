@@ -15,19 +15,19 @@ class Media
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-	 * @Groups({"media"})
+	 * @Groups({"media", "user", "tweet", "comment"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-	 * @Groups({"media"})
+	 * @Groups({"media", "user", "tweet", "comment"})
      */
     private $url;
 
     /**
      * @ORM\Column(type="datetime")
-	 * @Groups({"media"})
+	 * @Groups({"media", "user"})
      */
     private $date;
 

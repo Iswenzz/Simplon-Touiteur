@@ -40,12 +40,12 @@ export class Media extends PureComponent
 		return !this.props?.noredirect ? (
 			<Link to={`/media/${this.state.media?.id || 1}`} component={"picture"} className={this.props.className}>
 				<img width={this.props.width || "100%"} height={this.props.height || "auto"}
-					 alt={"Profile"} src={this.state.media?.url || this.props.media} />
+					 alt=" " src={this.state.media?.url || this.props.media} />
 			</Link>
 		) : (
 			<picture className={this.props.className}>
 				<img width={this.props.width || "100%"} height={this.props.height || "auto"}
-					 alt={"Profile"} src={this.props.media} />
+					 alt=" " src={this.props.media} />
 			</picture>
 		);
 	}

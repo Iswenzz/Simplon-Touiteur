@@ -31,7 +31,9 @@ class MediaFixtures extends Fixture implements DependentFixtureInterface
 			$media->setDate($faker->dateTime);
 			$media->setAuthor($user);
 			$media->setUrl($faker->imageUrl());
+			$user->setAvatar($media);
 
+			$manager->persist($user);
 			$manager->persist($media);
 			if ($this->hasReference(self::MEDIA_REFERENCE))
 				$this->addReference(self::MEDIA_REFERENCE, $media);

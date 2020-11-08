@@ -15,7 +15,7 @@ class Follower
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-	 * @Groups({"follower"})
+	 * @Groups({"follower", "user"})
      */
     private $id;
 

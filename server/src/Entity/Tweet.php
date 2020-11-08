@@ -18,26 +18,26 @@ class Tweet
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-	 * @Groups({"tweet", "like", "retweet", "media", "hashtag", "comment"})
+	 * @Groups({"tweet", "user", "like", "retweet", "media", "hashtag", "comment"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=140)
-	 * @Groups({"tweet"})
+	 * @Groups({"tweet", "user", "retweet", "like"})
 	 * @Assert\Length(max=140, maxMessage="The message must be less than 140 characters")
      */
     private $content;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tweets")
-	 * @Groups({"tweet"})
+	 * @Groups({"tweet", "retweet", "like"})
      */
     private $author;
 
     /**
      * @ORM\Column(type="datetime")
-	 * @Groups({"tweet"})
+	 * @Groups({"tweet", "user"})
      */
     private $createdAt;
 

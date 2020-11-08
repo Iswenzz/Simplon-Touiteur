@@ -16,19 +16,19 @@ class Like
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-	 * @Groups({"like"})
+	 * @Groups({"like", "user"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
-	 * @Groups({"like"})
+	 * @Groups({"like", "user"})
      */
     private $date;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tweet::class, inversedBy="likes")
-	 * @Groups({"like"})
+	 * @Groups({"like", "user"})
      */
     private $tweet;
 

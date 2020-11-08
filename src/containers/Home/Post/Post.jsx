@@ -90,7 +90,7 @@ export const Post = (props) =>
 					<Grid container>
 						<Grid item xs={2} md={1}>
 							<Grid container justify={"center"} alignItems={"center"}>
-								<Avatar id={props.author.username} />
+								<Avatar author={props.author} />
 							</Grid>
 						</Grid>
 						<Grid item xs={10} md={11}>
@@ -152,7 +152,10 @@ Post.propTypes = {
 		id: PropTypes.number,
 		name: PropTypes.string,
 		username: PropTypes.string,
-		avatar: PropTypes.number
+		avatar: PropTypes.shape({
+			id: PropTypes.number,
+			url: PropTypes.string
+		})
 	}),
 	rows: PropTypes.number,
 	onPost: PropTypes.func

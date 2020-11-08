@@ -9,6 +9,11 @@ import axios from "axios";
 import "./Profile.scss";
 import {withRouter} from "react-router";
 import Avatar from "../../components/Avatar/Avatar";
+import {randomImage} from "../../utils/utils";
+import * as uuid from "uuid";
+import LazyLoad from "react-lazyload";
+import Tweet from "../Home/Tweet/Tweet";
+import TabPanel from "../../components/TabPanel/TabPanel";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -50,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	paper: {
 		backgroundColor: "#ccc",
+		backgroundSize: "cover !important",
 		height: "12rem",
 		top: "0rem",
 		marginTop: "0rem",
@@ -107,6 +113,7 @@ const Profile = (props) => {
 			const fetchData = async () =>
 			{
 				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/${props.match.params.id}`);
+				console.log(response);
 				setState({
 					...response.data.user
 				});
@@ -162,10 +169,10 @@ const Profile = (props) => {
 				<section style={{ width: "100%", marginTop: "0px" }}>
 					<Grid item xs={12}>
 						<Grid item xs={12}>
-							<Paper className={classes.paper}>
+							<Paper className={classes.paper} style={{background: `url(${randomImage()})`}}>
 								<div className={classes.avatarBox}>
 									<Box>
-										<Avatar className={"profile-avatar"} />
+										<Avatar author={state} className={"profile-avatar"} />
 									</Box>
 								</div>
 							</Paper>
@@ -272,12 +279,59 @@ const Profile = (props) => {
 							closeModal={() => setEditProfile(false)}
 						/>
 					) : null}
+					<TabPanel value={value} index={0}>
+						<Grid className={"profile-data"} container justify={"center"} alignItems={"center"}>
+							<ul>
+								{state.tweets?.slice(0).reverse().map(tweet => (
+									<li key={uuid.v4()}>
+										<LazyLoad height={200}>
+											<Tweet author={state} tweet={tweet} />
+										</LazyLoad>
+									</li>
+								))}
+							</ul>
+						</Grid>
+					</TabPanel>
+					<TabPanel value={value} index={1}>
+						<Grid className={"profile-data"} container justify={"center"} alignItems={"center"}>
+							<ul>
+								{state.retweets?.slice(0).reverse().map(item => (
+									<li key={uuid.v4()}>
+										<LazyLoad height={200}>
+											<Tweet author={item.user} tweet={item.tweet} />
+										</LazyLoad>
+									</li>
+								))}
+							</ul>
+						</Grid>
+					</TabPanel>
+					<TabPanel value={value} index={2}>
+						<Grid className={"profile-data"} container justify={"center"} alignItems={"center"}>
+							<ul>
+								{state.medias?.slice(0).reverse().map(media => (
+									<li key={uuid.v4()}>
+										<LazyLoad height={200}>
+
+										</LazyLoad>
+									</li>
+								))}
+							</ul>
+						</Grid>
+					</TabPanel>
+					<TabPanel value={value} index={3}>
+						<Grid className={"profile-data"} container justify={"center"} alignItems={"center"}>
+							<ul>
+								{state.likes?.slice(0).reverse().map(item => (
+									<li key={uuid.v4()}>
+										<LazyLoad height={200}>
+											<Tweet author={item.user} tweet={item.tweet} />
+										</LazyLoad>
+									</li>
+								))}
+							</ul>
+						</Grid>
+					</TabPanel>
 				</section>
-
-				{/*Tweets Grid*/}
-				<Grid container spacing={3} className="container-feed--style">
-
-				</Grid>
 			</Grid>
 		</Main>
 	);

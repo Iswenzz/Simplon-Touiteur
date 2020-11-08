@@ -3,24 +3,31 @@ import PropTypes from "prop-types";
 import Media from "../Media/Media";
 import Link from "../Link/Link";
 import "./Avatar.scss";
-import {randomImage} from "../../utils/utils";
 
 export class Avatar extends PureComponent
 {
 	render()
 	{
 		return (
-			<Link className={this.props.className} to={`/profile/${this.props.id || 0}`}>
-				<Media className={"avatar"} media={randomImage()} noredirect />
+			<Link className={this.props.className} to={`/profile/${this.props.author?.username || 0}`}>
+				<Media className={"avatar"} media={this.props.author?.avatar?.url || this.props.media} noredirect />
 			</Link>
 		);
 	}
 }
 
 Avatar.propTypes = {
+	author: PropTypes.shape({
+		id: PropTypes.number,
+		name: PropTypes.string,
+		username: PropTypes.string,
+		avatar: PropTypes.shape({
+			id: PropTypes.number,
+			url: PropTypes.string
+		})
+	}),
 	className: PropTypes.string,
-	id: PropTypes.string,
-	avatarId: PropTypes.number
+	media: PropTypes.any
 };
 
 export default Avatar;
