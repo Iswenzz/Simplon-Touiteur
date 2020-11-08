@@ -4,7 +4,6 @@
 ![](https://simplonline-v3-prod.s3.eu-west-3.amazonaws.com/media/image/jpeg/e844e3d2-971a-44e7-930e-ef6422261a2b.jpeg)
 
 ## Contexte du projet
-
 Le site est composé de Membres, qui peuvent s'inscrire et se connecter. Un email valide est nécessaire. 
 
 Les membres ont des followers, qui sont eux mêmes des membres du site. Les membres peuvent poster des messages (< 140 caractères). Un message peut contenir du texte mais aussi une image, une vidéo ou un fichier audio. Chaque message peut être liké par les membres. 
@@ -17,7 +16,6 @@ Cette URL doit être facilement partageable Chaque message peut contenir 1 ou pl
 Les profils des membres sont publics mais les non-membres ne peuvent pas interagir avec le profil. On peut cliquer sur les @mentions, qui nous amène directement à la page du profil de l'utilisateur mentionné. On peut cliquer sur les #Hashtags, qui nous amène sur une page contenant tous les messages avec cet #Hashtag.
 
 ## Contraintes techniques
-
 * Vous devrez réaliser le backend de ce projet avec le Framework Symfony. 
 * Tout le backend devra s’organiser en API de type REST. Aucune obligation pour les technologies front. 
 * Vous avez le choix en terme de framework CSS / JS (jQuery, Bootstrap, etc…). Vous devez créer la maquette de votre site. 
@@ -42,7 +40,6 @@ La deadline finale est fixée au vendredi 6 novembre 2020 à 17h30. Vous aurez t
 **Une présentation complète de ce projet sera fait à l’ensemble de la promo.**
 
 ## Installation
-
 * clone the repo.
 * git clone https://github.com/Iswenzz/Simplon-Touiteur.git .
 * npm install
@@ -50,11 +47,44 @@ La deadline finale est fixée au vendredi 6 novembre 2020 à 17h30. Vous aurez t
 * lancer le serveur de développement de Symfony: symfony serve.
 
 ## Usage
-
 The first step in our app is to register and log in with an active email and password, now you have an account so you can search for friends and do 'add friend' and wait to accept the request, after this step now you can see all your friends tweets and you can like, dislike and share.
 
-## Contributing
+## TODO
+* DB
+	* Counter variables on Tweet -> like, retweet, comments
+	* Counter variables on User -> following, followers
+	* User role (UNTESTED)
+* App
+	* React Framer Animations (OPTIONAL)
+	* Footer
+	* Fix unauth users can still access to the app sometime and cause 401 err
+	* Fix Main container API recalls on page change
+* Profile
+	* Media tab
+	* Update profile infos
+	* Upload/Delete medias
+	* Follow -> container to /following/:id /follower/:id
+* TweetPage
+	* Share modal -> clipboard page link/api link
+	* Like -> container to /like/:id
+	* Retweet -> container to /retweet/:id
+	* User's avatar on the reply modal
+* Tweet
+	* Hashtag
+	* Mention
+* HashtagPage
+	* Fetch all tweet with this hashtag
+* AdminPage
+	* Front/Back check user role == ADMIN
+	* Fetch all data /tweets /comments /users /followings /followers /hashtags /medias /likes /retweets
+	* Data charts
+* Testing
+	* Jest/Enzyme react app tests
+	* PHPUnit Controllers/Misc
+* Fixtures
+	* Fix the duplicates error when trying to get random references
 
+## Contributing
 - Fork the Project
 - Create your Feature Branch (git checkout -b feature/AmazingFeature)
 - Commit your Changes (git commit -m 'Add some AmazingFeature')
@@ -62,7 +92,6 @@ The first step in our app is to register and log in with an active email and pas
 - Open a Pull Request
 
 ## Built With
-
 * PHP7
 * Symfony
 * React
@@ -71,9 +100,7 @@ The first step in our app is to register and log in with an active email and pas
 * SASS
 * MariaDB
 
-
 ## Authors
-
 * Déborrah Brunier
 * Estefania Vila
 * Majdeddine ALHAFEZ
