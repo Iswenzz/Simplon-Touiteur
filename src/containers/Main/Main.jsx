@@ -69,8 +69,13 @@ export const Main = (props) =>
 		<>
 			<Grid className={"main"} container>
 				{/*Left Section*/}
-				<Grid className={"main-aside"} component={"aside"} item xs={12} lg={2}>
-					<NavBar />
+				<Grid component={"aside"} item xs={12} lg={2}>
+					<aside className={"main-left"}>
+						<Grid container className={"main-navbar"} justify={"center"}
+							  alignItems={"center"}>
+							<NavBar />
+						</Grid>
+					</aside>
 				</Grid>
 
 				{/*Tweets*/}
@@ -80,58 +85,60 @@ export const Main = (props) =>
 
 				{/*Right Section*/}
 				<Grid item xs={12} lg={2}>
-					{isTabletOrMobileDevice || isPortrait || isLgBp ? null : (
-						<Grid container justify={"center"} alignItems={"center"}>
-							{/*Search Comment*/}
-							<form noValidate autoComplete="off">
-								<TextField fullWidth id="search-tweet" placeholder="Search Comment" InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<Search />
-										</InputAdornment>
-									),
-								}} />
-							</form>
-							{/*Trending Hashtags*/}
-							<Container>
-								<Grid container className={"main-recommend"} direction={"column"} justify={"center"} alignItems={"center"}>
-									<Typography variant={"h6"} component={"h2"} align={"center"}>
-										Trending Hashtags
-									</Typography>
-									<List component="nav" aria-label="mailbox folders">
-										{state.hashtags?.map(item => (
-											<ListItem key={uuid.v4()} button divider>
-												<ListItemText>
-													<Typography className={"wordwrap"} variant={"subtitle1"} component={"h6"} align={"center"}>
-														#{item.name}
-													</Typography>
-												</ListItemText>
-											</ListItem>
-										))}
-									</List>
-								</Grid>
-							</Container>
-							{/*Trending users*/}
-							<Container>
-								<Grid container className={"main-recommend"} direction={"column"} justify={"center"} alignItems={"center"}>
-									<Typography variant={"h6"} component={"h2"} align={"center"}>
-										Trending Users
-									</Typography>
-									<List component="nav" aria-label="mailbox folders">
-										{state.users?.map(item => (
-											<ListItem key={uuid.v4()} button divider>
-												<ListItemText>
-													<Typography className={"wordwrap"} variant={"subtitle1"} component={"h6"} align={"center"}>
-														@{item.username}
-													</Typography>
-												</ListItemText>
-											</ListItem>
-										))}
-									</List>
-								</Grid>
-							</Container>
-						</Grid>
-					)}
+					<aside className={"main-right"}>
+						{isTabletOrMobileDevice || isPortrait || isLgBp ? null : (
+							<Grid container justify={"center"} alignItems={"center"}>
+								{/*Search Comment*/}
+								<form noValidate autoComplete="off">
+									<TextField fullWidth id="search-tweet" placeholder="Search Comment" InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<Search />
+											</InputAdornment>
+										),
+									}} />
+								</form>
+								{/*Trending Hashtags*/}
+								<Container>
+									<Grid container className={"main-recommend"} direction={"column"} justify={"center"} alignItems={"center"}>
+										<Typography variant={"h6"} component={"h2"} align={"center"}>
+											Trending Hashtags
+										</Typography>
+										<List component="nav" aria-label="mailbox folders">
+											{state.hashtags?.map(item => (
+												<ListItem key={uuid.v4()} button divider>
+													<ListItemText>
+														<Typography className={"wordwrap"} variant={"subtitle1"} component={"h6"} align={"center"}>
+															#{item.name}
+														</Typography>
+													</ListItemText>
+												</ListItem>
+											))}
+										</List>
+									</Grid>
+								</Container>
+								{/*Trending users*/}
+								<Container>
+									<Grid container className={"main-recommend"} direction={"column"} justify={"center"} alignItems={"center"}>
+										<Typography variant={"h6"} component={"h2"} align={"center"}>
+											Trending Users
+										</Typography>
+										<List component="nav" aria-label="mailbox folders">
+											{state.users?.map(item => (
+												<ListItem key={uuid.v4()} button divider>
+													<ListItemText>
+														<Typography className={"wordwrap"} variant={"subtitle1"} component={"h6"} align={"center"}>
+															@{item.username}
+														</Typography>
+													</ListItemText>
+												</ListItem>
+											))}
+										</List>
+									</Grid>
+								</Container>
+							</Grid>
+						)}
+					</aside>
 				</Grid>
 			</Grid>
 		</>

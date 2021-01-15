@@ -23,7 +23,6 @@ import PageLoader from "../../components/PageLoader/PageLoader";
 import "./TweetPage.scss";
 import Fade from "@material-ui/core/Fade";
 import Tweet from "../Home/Tweet/Tweet";
-import PropTypes from "prop-types";
 import LazyLoad from "react-lazyload";
 
 const useStyles = makeStyles((theme) => ({

@@ -10,6 +10,18 @@
 		}
 	}
 
+	#{&}-left {
+		position: fixed;
+		width: 100%;
+		max-width: inherit;
+	}
+
+	#{&}-right {
+		position: fixed;
+		width: 100%;
+		max-width: inherit;
+	}
+
 	form {
 		width: 80%;
 	}

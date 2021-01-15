@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { Grid, Typography, Tab, Tabs, Button, Paper, Box, Hidden, Divider, Avatar as MuiAvatar } from "@material-ui/core";
+import { Grid, Typography, Tab, Tabs, Button, Paper, Box, Hidden, Divider } from "@material-ui/core";
 import { CalendarToday, NavigateNext, } from "@material-ui/icons";
 import EditProfile from "./EditProfile";
 import Main from "../Main/Main";
@@ -113,7 +113,6 @@ const Profile = (props) => {
 			const fetchData = async () =>
 			{
 				const response = await axios.get(`${process.env.REACT_APP_BACKEND}/api/user/${props.match.params.id}`);
-				console.log(response);
 				setState({
 					...response.data.user
 				});

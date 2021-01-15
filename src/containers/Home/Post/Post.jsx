@@ -47,7 +47,7 @@ export const Post = (props) =>
 		{
 			try
 			{
-				const response = await axios.post(`${process.env.REACT_APP_BACKEND}/api/tweet`, {
+				await axios.post(`${process.env.REACT_APP_BACKEND}/api/tweet`, {
 					...values,
 					content: state.content
 				});

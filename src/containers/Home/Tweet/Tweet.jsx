@@ -7,7 +7,6 @@ import IconButton from "@material-ui/core/IconButton";
 import {Chat, Favorite, Share} from "@material-ui/icons";
 import PropTypes from "prop-types";
 import "./Tweet.scss";
-import Box from "@material-ui/core/Box";
 
 /**
  * Comment component.
