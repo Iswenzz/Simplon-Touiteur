@@ -1,7 +1,7 @@
 ![](https://i.imgur.com/XFvRaaO.png)
 
 # Simplon-Touiteur
-![](https://simplonline-v3-prod.s3.eu-west-3.amazonaws.com/media/image/jpeg/e844e3d2-971a-44e7-930e-ef6422261a2b.jpeg)
+![](https://i.imgur.com/ZVvWsR5.png)
 
 ## Contexte du projet
 Le site est composé de Membres, qui peuvent s'inscrire et se connecter. Un email valide est nécessaire. 
