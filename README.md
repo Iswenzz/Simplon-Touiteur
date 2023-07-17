@@ -1,6 +1,4 @@
-![](https://i.imgur.com/XFvRaaO.png)
-
-# Simplon-Touiteur
+# Simplon Touiteur
 ![](https://i.imgur.com/ZVvWsR5.png)
 
 ## Contexte du projet
